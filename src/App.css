@@ -1,10 +1,11 @@
 
 
 .App {
+  height: 100%;
   text-align: center;
 }
 
 .Channel {
-  height: 900px;
-  width: 1440px;
+  height: 100%;
+  width: 100%;
 }
