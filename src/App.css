@@ -6,6 +6,8 @@
 }
 
 .Channel {
-  height: 100%;
-  width: 100%;
+  border: none;
+  height: 95%;
+  width: 95%;
+  padding-top: 20px;
 }
