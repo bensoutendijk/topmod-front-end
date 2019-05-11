@@ -7,7 +7,6 @@ class App extends Component {
     return (
       <div className="App">
         <Button><a href='/api/auth/mixer/login'>Login With Mixer</a></Button>
-        <iframe className="Channel" title="mixer-channel" src="https://mixer.com/embed/player/bgood"></iframe>
       </div>
     );
   }
