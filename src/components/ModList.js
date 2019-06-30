@@ -9,7 +9,7 @@ function ModList(props) {
     if (active) {
       return <tr style={{color: 'green'}}>{mod.username}</tr>
     }
-    return <tr style={{color: 'black'}}>{mod.username}</tr>
+    return <tr>{mod.username}</tr>
   });
 }
 
