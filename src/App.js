@@ -13,6 +13,7 @@ class App extends Component {
       user: null,
       moderators: [],
       chatters: [],
+      chat: [],
     }
   }
 
@@ -25,20 +26,22 @@ class App extends Component {
     if (moderators.status === 200) {
       setTimeout(async () => this.setState({ moderators: moderators.data}));
     }
-    console.log(moderators.data);
     const chatters = await axios.get(`https://mixer.com/api/v2/chats/${user.data.channelid}/users`);
     if (chatters.status === 200) {
       setTimeout(async () => this.setState({ chatters: chatters.data}));
     }
-    console.log(chatters.data);
+    const chat = await axios.get(`/api/chat/mixer/${user.data.userid}`);
+    if (chat.status === 200) {
+      setTimeout(async () => this.setState({ chat: chat.data}));
+    }
   }
 
   render() {
-    const { user, moderators, chatters } = this.state;
+    const { user, moderators, chatters, chat } = this.state;
     return (
       <div className="App">
         <Header user={user} />
-        <Dashboard chatters={chatters} moderators={moderators}/>
+        <Dashboard chatters={chatters} moderators={moderators} chat={chat} />
       </div>
     );
   }
