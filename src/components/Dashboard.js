@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import ModList from './ModList';
+import ChatList from './ChatList';
 
 import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
@@ -22,7 +23,7 @@ function Dashboard(props) {
   console.log(chat);
   return (
     <div className={classes.root}>
-      <Grid container>
+      <Grid container spacing={8}>
         <Grid item md={3}>
           <Table>
             <TableHead>
@@ -34,6 +35,19 @@ function Dashboard(props) {
             </TableHead>
             <TableBody>
               <ModList chatters={chatters} moderators={moderators} chat={chat} />
+            </TableBody>
+          </Table>
+        </Grid>
+        <Grid item md={6}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>User</TableCell>
+                <TableCell>Message</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <ChatList chat={chat} />
             </TableBody>
           </Table>
         </Grid>
