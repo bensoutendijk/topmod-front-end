@@ -2,15 +2,40 @@ import './App.css';
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
+
 import Dashboard from './components/Dashboard';
 import Header from './components/Header';
+import SplashPage from './components/SplashPage';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#28282a',
+      contrastText: '#F2F2F2',
+    },
+    secondary: {
+      light: '#F2E0D0',
+      main: '#F25757',
+      contrastText: '#F2F2F2',
+    },
+    text: {
+      primary: '#F2F2F2'
+    },
+  },
+  
+  status: {
+    danger: 'orange',
+  },
+});
 
 class App extends Component {
 
   constructor() {
     super();
     this.state = {
-      user: null,
+      user: undefined,
       moderators: [],
       chatters: [],
       chat: [],
@@ -39,10 +64,12 @@ class App extends Component {
   render() {
     const { user, moderators, chatters, chat } = this.state;
     return (
-      <div className="App">
-        <Header user={user} />
-        <Dashboard chatters={chatters} moderators={moderators} chat={chat} />
-      </div>
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <Header user={user} />
+          {user ? <Dashboard chatters={chatters} moderators={moderators} chat={chat} /> : <SplashPage />}
+        </div>
+      </ThemeProvider>
     );
   }
 }
