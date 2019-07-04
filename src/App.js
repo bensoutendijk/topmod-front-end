@@ -1,5 +1,6 @@
 import './App.css';
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import axios from 'axios';
 
 import { ThemeProvider } from '@material-ui/styles';
@@ -8,6 +9,9 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import Dashboard from './components/Dashboard';
 import Header from './components/Header';
 import SplashPage from './components/SplashPage';
+import PageNotFound from './components/PageNotFound';
+import LogIn from './components/LogIn';
+import SignUp from './components/SignUp';
 
 const theme = createMuiTheme({
   palette: {
@@ -64,12 +68,23 @@ class App extends Component {
   render() {
     const { user, moderators, chatters, chat } = this.state;
     return (
-      <ThemeProvider theme={theme}>
-        <div className="App">
-          <Header user={user} />
-          {user ? <Dashboard chatters={chatters} moderators={moderators} chat={chat} /> : <SplashPage />}
-        </div>
-      </ThemeProvider>
+      <Router>
+        <ThemeProvider theme={theme}>
+          <div className="App">
+            <Header user={user} />
+            <Switch>
+              {user ? <Route 
+                path="/dashboard"
+                render={props => <Dashboard {...props} chatters={chatters} moderators={moderators} chat={chat} />} 
+              /> : null }
+              <Route exact path="/login" component={LogIn}/>
+              <Route exact path="/signup" component={SignUp}/>
+              <Route exact path="/" component={SplashPage} />
+              <Route component={PageNotFound} />
+            </Switch>
+          </div>
+        </ThemeProvider>
+      </Router>
     );
   }
 }
