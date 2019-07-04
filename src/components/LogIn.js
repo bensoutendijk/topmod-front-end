@@ -21,6 +21,7 @@ const theme = createMuiTheme({
     MuiGrid: {
       item: {
         width: '100%',
+        maxWidth: '400px',
       },
     },
     MuiTextField: {
@@ -42,6 +43,9 @@ const useStyles = makeStyles((theme) => createStyles({
   },
   imageContainer: {
     height: '100%',
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
   },
   image: {
     height: '100%',
@@ -53,6 +57,7 @@ const useStyles = makeStyles((theme) => createStyles({
     maxWidth: '400px'
   },
   loginContainer: {
+    paddingTop: theme.spacing(4),
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
   },
@@ -80,8 +85,8 @@ function LogIn() {
           <Grid className={classes.imageContainer} item xs={6}>
             <img className={classes.image} src="/assets/images/login.jpeg" />
           </Grid>
-          <Grid item xs={6}>
-            <Grid className={classes.loginContainer} container direction="column" spacing={4}>
+          <Grid item xs={12} md={6}>
+            <Grid className={classes.loginContainer} container direction="column" alignContent="center" spacing={4}>
               <Grid item>
                 <Typography variant="h3">Log In</Typography>
               </Grid>
@@ -119,8 +124,8 @@ function LogIn() {
               </Grid>
               <Grid item>
                 <Grid container direction="row" justify="space-between">
-                  <Link>Forgot Password?</Link>
-                  <Link>Don't have an account yet? Sign up!</Link>
+                  <Link to="/forgot-password">Forgot Password?</Link>
+                  <Link to="/signup">No account? Sign up!</Link>
                 </Grid>
               </Grid>
             </Grid>
