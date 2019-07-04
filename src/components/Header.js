@@ -37,7 +37,7 @@ function Header(props) {
         <Toolbar>
           <Grid container className={classes.toolbar}>
             <Grid item>
-              <Typography className={classes.title} variant="h6" >
+              <Typography to="/" component={Link} className={classes.title} variant="h6" >
                 topmod
               </Typography>
             </Grid>
