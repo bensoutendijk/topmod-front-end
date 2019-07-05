@@ -1,6 +1,6 @@
 import './App.css';
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import axios from 'axios';
 
 import { ThemeProvider } from '@material-ui/styles';
@@ -73,13 +73,19 @@ class App extends Component {
           <div className="App">
             <Header user={user} />
             <Switch>
-              {user ? <Route 
+              <Route 
                 path="/dashboard"
                 render={props => <Dashboard {...props} chatters={chatters} moderators={moderators} chat={chat} />} 
-              /> : null }
+              />
               <Route exact path="/login" component={LogIn}/>
               <Route exact path="/signup" component={SignUp}/>
-              <Route exact path="/" component={SplashPage} />
+              <Route exact path="/" render={() => (
+                user ? (
+                  <Redirect to="/dashboard"/>
+                ) : (
+                  <SplashPage/>
+                )
+              )}/>
               <Route component={PageNotFound} />
             </Switch>
           </div>

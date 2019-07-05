@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -66,7 +67,7 @@ function Hero() {
             <Typography className={classes.heroCaption} color="textPrimary" variant="h6">Keep track of your stream's mods</Typography>
           </Grid>
           <Grid item md={12}>
-          <a href='/api/auth/mixer/login'><Button className={classes.heroButton} color="secondary" variant="contained">Create an account</Button></a>
+          <Button className={classes.heroButton} component={Link} to="/signup" color="secondary" variant="contained">Create an account</Button>
           </Grid>
         </Grid>
       </section>

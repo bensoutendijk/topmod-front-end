@@ -55,7 +55,7 @@ function Header(props) {
                     </Button>
                   </Grid> : null
                 }
-                {!user ? 
+                {!user ? (
                   <Grid item>
                     <Button 
                       to="/login" 
@@ -65,7 +65,19 @@ function Header(props) {
                       variant="outlined">
                         Log In
                     </Button>
-                  </Grid> : null
+                  </Grid> 
+                ) : (
+                  <Grid item>
+                    <Button 
+                      to="/logout" 
+                      component={Link} 
+                      className={classes.signupButton} 
+                      color="primary"
+                      variant="outlined">
+                        Log Out
+                    </Button>
+                  </Grid>
+                )
                 }
               </Grid>
             </Grid>
