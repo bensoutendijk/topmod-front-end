@@ -75,7 +75,7 @@ function Hero() {
         <Grid className={classes.featuresList} container justify="space-around" alignContent="center">
           <Grid className={classes.featuresItem} item>
             <Grid container direction="column" spacing={4}>
-              <Grid item><i class="far fa-comments fa-4x"></i></Grid>
+              <Grid item><i className="far fa-comments fa-4x"></i></Grid>
               <Grid item>
                 <Typography variant="h6">Get smart with your mods</Typography>
               </Grid>
@@ -88,7 +88,7 @@ function Hero() {
           </Grid>
           <Grid className={classes.featuresItem} item>
             <Grid container direction="column" spacing={4}>
-              <Grid item><i class="fas fa-hashtag fa-4x"></i></Grid>
+              <Grid item><i className="fas fa-hashtag fa-4x"></i></Grid>
               <Grid item>
                 <Typography variant="h6">Manage Your Social Media</Typography>
               </Grid>
@@ -101,7 +101,7 @@ function Hero() {
           </Grid>
           <Grid className={classes.featuresItem} item>
             <Grid container direction="column" spacing={4}>
-              <Grid item><i class="far fa-chart-bar fa-4x"></i></Grid>
+              <Grid item><i className="far fa-chart-bar fa-4x"></i></Grid>
               <Grid item>
                 <Typography variant="h6">Report. Report. Report.</Typography>
               </Grid>

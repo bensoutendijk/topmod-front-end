@@ -1,6 +1,7 @@
 import './App.css';
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import axios from 'axios';
 
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -33,46 +34,57 @@ const theme = createMuiTheme({
   },
 });
 
-class App extends Component {
+function App() {
+  const [user, setUser] = useState(undefined);
 
-  constructor() {
-    super();
-    this.state = {
-      user: undefined,
-      moderators: [],
-      chatters: [],
-      chat: [],
-    }
-  }
+  useEffect(() => {
+    axios.get('/api/auth/local/current')
+    .then((res) => {
+      const { data } = res;
+      setUser(data);
+    });
+  }, []);
 
-  render() {
-    const { user, moderators, chatters, chat } = this.state;
-    return (
-      <Router>
-        <ThemeProvider theme={theme}>
-          <div className="App">
-            <Header user={user} />
-            <Switch>
-              <Route 
-                path="/dashboard"
-                render={props => <Dashboard {...props} chatters={chatters} moderators={moderators} chat={chat} />} 
-              />
-              <Route exact path="/login" component={LogIn}/>
-              <Route exact path="/signup" component={SignUp}/>
-              <Route exact path="/" render={() => (
-                user ? (
-                  <Redirect to="/dashboard"/>
-                ) : (
-                  <SplashPage/>
-                )
-              )}/>
-              <Route component={PageNotFound} />
-            </Switch>
-          </div>
-        </ThemeProvider>
-      </Router>
-    );
-  }
+  return (
+    <Router>
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <Header user={user} />
+          <Switch>
+            <Route path="/dashboard" render={props => (
+              user ? (
+                <Dashboard {...props} />
+              ) : (
+                <Redirect to="/" />
+              )
+            )} />
+            <Route exact path="/login" render={props => (
+              user ? (
+                <Redirect to="/" />
+              ) : (
+                <LogIn {...props} setUser={setUser} />
+              )
+            )} />
+            <Route exact path="/signup" render={props => (
+              user ? (
+                <Redirect to="/" />
+              ) : (
+                <SignUp {...props} setUser={setUser} />
+              )
+            )} />
+            <Route exact path="/" render={() => (
+              user ? (
+                <Redirect to="/dashboard"/>
+              ) : (
+                <SplashPage/>
+              )
+            )} />
+            <Route component={PageNotFound} />
+          </Switch>
+        </div>
+      </ThemeProvider>
+    </Router>
+  );
 }
 
 export default App;

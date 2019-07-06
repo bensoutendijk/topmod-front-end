@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 
 import { ThemeProvider, makeStyles, createStyles } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -73,10 +74,45 @@ const useStyles = makeStyles((theme) => createStyles({
   textField: {
     paddingTop: '12px'
   },
+  authError: {
+    padding: '0 !important',
+    marginBottom: '-12px',
+    marginTop: '-12px',
+  }
 }));
 
-function LogIn() {
+function LogIn(props) {
   const classes = useStyles();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const { setUser } = props;
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    
+    axios.post('/api/auth/local/login', {
+      user: {
+        email,
+        password,
+        remember,
+      }
+    })
+    .then((res) => {
+      const { data } = res;
+      setUser(data);
+    })
+    .catch((err) => {
+      const { response: { data } } = err;
+      setErrors({
+        ...errors,
+        ...data
+      });
+    });
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -87,41 +123,67 @@ function LogIn() {
           </Grid>
           <Grid item xs={12} md={6}>
             <Grid className={classes.loginContainer} container direction="column" alignContent="center" spacing={4}>
+                {errors.authentication ? (
+                  <Grid className={classes.authError} item>
+                    <Typography color="error" variant="body1">This account does not exist</Typography>
+                  </Grid>    
+                  ) : (
+                    undefined
+                  )
+                }
               <Grid item>
                 <Typography variant="h3">Log In</Typography>
               </Grid>
-              <Grid item>
-                <Grid className={classes.inputContainer} container direction="column" alignItems="flex-start">
-                  <Grid className={classes.textField} item>
-                  <TextField 
-                    variant="outlined" 
-                    label="Email"
-                    type="email"
-                    name="email"
-                    autoComplete="email"
-                  />
-                  </Grid>
-                  <Grid className={classes.textField} item>
-                    <TextField 
+              <form onSubmit={handleSubmit}> 
+                <Grid item>
+                  <Grid className={classes.inputContainer} container direction="column" alignItems="flex-start">
+                    <Grid className={classes.textField} item>
+                    <TextField
+                      autoFocus 
                       variant="outlined" 
-                      label="Password"
-                      type="password"
-                      name="password"
+                      label="Email"
+                      type="email"
+                      name="email"
+                      autoComplete="email"
+                      value={email}
+                      onChange={event => setEmail(event.target.value)}
                     />
-                  </Grid>
-                  <Grid className={classes.checkbox} item>
-                    <FormControlLabel 
-                      control={
-                        <Checkbox />
-                      }
-                      label="Remember Me"
-                    />
+                    </Grid>
+                    <Grid className={classes.textField} item>
+                      <TextField 
+                        variant="outlined" 
+                        label="Password"
+                        type="password"
+                        name="password"
+                        value={password}
+                        onChange={event => setPassword(event.target.value)}
+                      />
+                    </Grid>
+                    <Grid className={classes.checkbox} item>
+                      <FormControlLabel 
+                        control={
+                          <Checkbox 
+                            checked={remember}
+                            value={remember}
+                            onChange={() => setRemember(!remember)}
+                          />
+                        }
+                        label="Remember Me"
+                      />
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid item>
-                <Button className={classes.loginButton} variant="contained" color="secondary">Log In</Button>
-              </Grid>
+                <Grid item>
+                  <Button 
+                    className={classes.loginButton} 
+                    variant="contained" 
+                    color="secondary"
+                    type="submit"
+                  >
+                    Log In
+                  </Button>
+                </Grid>
+              </form>
               <Grid item>
                 <Grid container direction="row" justify="space-between">
                   <Link to="/forgot-password">Forgot Password?</Link>
