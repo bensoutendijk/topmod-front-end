@@ -12,6 +12,7 @@ import SplashPage from './components/SplashPage';
 import PageNotFound from './components/PageNotFound';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
+import LogOut from './components/LogOut';
 
 const theme = createMuiTheme({
   palette: {
@@ -58,14 +59,21 @@ function App() {
                 <Redirect to="/" />
               )
             )} />
-            <Route exact path="/login" render={props => (
+            <Route path="/login" render={props => (
               user ? (
                 <Redirect to="/" />
               ) : (
                 <LogIn {...props} setUser={setUser} />
               )
             )} />
-            <Route exact path="/signup" render={props => (
+            <Route path="/logout" render={props => (
+              user ? (
+                <LogOut {...props} setUser={setUser} />
+              ) : (
+                <Redirect to="/" />
+              )
+            )} />
+            <Route path="/signup" render={props => (
               user ? (
                 <Redirect to="/" />
               ) : (
