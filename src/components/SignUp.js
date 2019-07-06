@@ -154,6 +154,7 @@ function SignUp(props) {
                     </Grid>
                   </Grid>
                 </Grid>
+                <br />
                 <Grid item>
                   <Button
                     className={classes.signupButton} 
