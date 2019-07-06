@@ -119,7 +119,7 @@ function LogIn(props) {
       <div className={classes.root}>
         <Grid className={classes.container} container>
           <Grid className={classes.imageContainer} item xs={6}>
-            <img className={classes.image} src="/assets/images/login.jpeg" />
+            <img className={classes.image} src="/assets/images/login.jpeg" alt=""/>
           </Grid>
           <Grid item xs={12} md={6}>
             <Grid className={classes.loginContainer} container direction="column" alignContent="center" spacing={4}>

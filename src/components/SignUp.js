@@ -111,7 +111,7 @@ function SignUp(props) {
       <div className={classes.root}>
         <Grid className={classes.container} container>
           <Grid className={classes.imageContainer} item xs={6}>
-            <img className={classes.image} src="/assets/images/signup.jpeg" />
+            <img className={classes.image} src="/assets/images/signup.jpeg" alt=""/>
           </Grid>
           <Grid item xs={12} md={6}>
             <Grid className={classes.signupContainer} container direction="column" alignContent="center" spacing={4}>
