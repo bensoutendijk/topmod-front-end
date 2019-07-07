@@ -13,7 +13,7 @@ function LogOut(props) {
 
   useEffect(() => {
     document.cookie = cookie.serialize('token2', null);
-    setUser(undefined);
+    setUser(null);
   }, []);
 
   return (

@@ -25,7 +25,10 @@ const useStyles = makeStyles((theme) => createStyles({
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
-  }
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
 }));
 
 function Header(props) {
@@ -33,7 +36,7 @@ function Header(props) {
   const classes = useStyles();
   return (
     <section className={classes.root}>
-      <AppBar position="static">
+      <AppBar className={classes.appBar} position="fixed">
         <Toolbar>
           <Grid container className={classes.toolbar}>
             <Grid item>

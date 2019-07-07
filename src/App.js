@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import axios from 'axios';
 
-import { ThemeProvider } from '@material-ui/styles';
+import { ThemeProvider, makeStyles, createStyles } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 
 import Dashboard from './components/dashboard/Dashboard';
@@ -29,14 +29,32 @@ const theme = createMuiTheme({
       primary: '#F2F2F2'
     },
   },
-  
+  overrides: {
+    MuiPaper: {
+      root: {
+        color: '#020202'
+      }
+    },
+    MuiButton: {
+      root: {
+        color: '#020202'
+      }
+    }
+  },
   status: {
     danger: 'orange',
   },
 });
 
+const useStyles = makeStyles((theme) => createStyles({
+  content: {
+    marginTop: '64px',
+  },
+}));
+
 function App() {
-  const [user, setUser] = useState(undefined);
+  const classes = useStyles();
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     axios.get('/api/auth/local/current')
@@ -51,44 +69,46 @@ function App() {
       <ThemeProvider theme={theme}>
         <div className="App">
           <Header user={user} />
-          <Switch>
-            <Route path="/dashboard" render={props => (
-              user ? (
-                <Dashboard {...props} />
-              ) : (
-                <Redirect to="/" />
-              )
-            )} />
-            <Route path="/login" render={props => (
-              user ? (
-                <Redirect to="/" />
-              ) : (
-                <LogIn {...props} setUser={setUser} />
-              )
-            )} />
-            <Route path="/logout" render={props => (
-              user ? (
-                <LogOut {...props} setUser={setUser} />
-              ) : (
-                <Redirect to="/" />
-              )
-            )} />
-            <Route path="/signup" render={props => (
-              user ? (
-                <Redirect to="/" />
-              ) : (
-                <SignUp {...props} setUser={setUser} />
-              )
-            )} />
-            <Route exact path="/" render={() => (
-              user ? (
-                <Redirect to="/dashboard"/>
-              ) : (
-                <SplashPage/>
-              )
-            )} />
-            <Route component={PageNotFound} />
-          </Switch>
+          <div className={classes.content}>
+            <Switch>
+              <Route path="/dashboard" render={props => (
+                user ? (
+                  <Dashboard {...props} />
+                ) : (
+                  <Redirect to="/" />
+                )
+              )} />
+              <Route exact path="/login" render={props => (
+                user ? (
+                  <Redirect to="/" />
+                ) : (
+                  <LogIn {...props} setUser={setUser} />
+                )
+              )} />
+              <Route exact path="/logout" render={props => (
+                user ? (
+                  <LogOut {...props} setUser={setUser} />
+                ) : (
+                  <Redirect to="/" />
+                )
+              )} />
+              <Route exact path="/signup" render={props => (
+                user ? (
+                  <Redirect to="/" />
+                ) : (
+                  <SignUp {...props} setUser={setUser} />
+                )
+              )} />
+              <Route exact path="/" render={() => (
+                user ? (
+                  <Redirect to="/dashboard"/>
+                ) : (
+                  <SplashPage/>
+                )
+              )} />
+              <Route component={PageNotFound} />
+            </Switch>
+          </div>
         </div>
       </ThemeProvider>
     </Router>
