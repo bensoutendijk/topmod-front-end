@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import { makeStyles, createStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
@@ -17,13 +18,29 @@ const useStyles = makeStyles((theme) => createStyles({
   },
   nextMonthDate: {
     color: '#828282',
+  },
+  streamDate: {
+    color: 'red'
   }
 }));
 
 function CalendarPage() {
   const classes = useStyles();
 
-  const renderCalendar = (day, month, year) => {
+  const [date, setDate] = useState(new Date().getDate());
+  const [month, setMonth] = useState(new Date().getMonth());
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [streams, setStreams] = useState([]);
+
+  useEffect(() => {
+    axios.get('/api/analytics/mixer/streams')
+    .then((res) => {
+      const { data } = res;
+      setStreams(data);
+    });
+  }, []);
+
+  const renderCalendar = (date, month, year) => {
     const firstDay = new Date(year, month, 1).getDay();
     const numDays = new Date(year, month + 1, 0).getDate();
     let currentMonthDate = 1;
@@ -35,6 +52,14 @@ function CalendarPage() {
       calendarCells.push([]);
       for (let innerIndex = 0; innerIndex < 7; innerIndex++) {
         const cellNumber = index * 7 + innerIndex;
+        const stream = streams.filter((stream) => {
+          const streamDate = new Date(stream.time);
+          return (
+            streamDate.getDate() === currentMonthDate 
+            && streamDate.getMonth() === month 
+            && streamDate.getFullYear() === year
+          );
+        });
         if (cellNumber < firstDay) {
           calendarCells[index].push(
             <td>
@@ -48,7 +73,7 @@ function CalendarPage() {
         if (cellNumber >= firstDay && cellNumber < numDays + firstDay) {
           calendarCells[index].push(
             <td>
-              <Paper>
+              <Paper className={stream.length ? classes.streamDate : null}>
                 {currentMonthDate}
               </Paper>
             </td>
@@ -76,7 +101,7 @@ function CalendarPage() {
   }
 
   const previousMonth = () => {
-    setDay(1);
+    setDate(1);
     if (month === 0) {
       setMonth(11);
       setYear(year - 1);
@@ -86,7 +111,7 @@ function CalendarPage() {
   }
 
   const nextMonth = () => {
-    setDay(1);
+    setDate(1);
     if (month === 11) {
       setMonth(0);
       setYear(year + 1);
@@ -95,13 +120,8 @@ function CalendarPage() {
     }
   }
 
-  const [day, setDay] = useState(new Date().getDate());
-  const [month, setMonth] = useState(new Date().getMonth());
-  const [year, setYear] = useState(new Date().getFullYear());
-
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  
 
   return (
     <div className={classes.root}>
@@ -119,7 +139,7 @@ function CalendarPage() {
                 <th>{dayOfWeek}</th>
               ))}
             </tr>
-            {renderCalendar(day, month, year)}
+            {renderCalendar(date, month, year)}
           </tbody>
         </table>
       </div>
