@@ -46,7 +46,9 @@ function Header(props) {
             </Grid>
             <Grid item>
               <Grid container spacing={2}>
-                {!user ? 
+                { user ? (
+                  null
+                ) : (
                   <Grid item>
                     <Button 
                       to="/signup" 
@@ -56,20 +58,9 @@ function Header(props) {
                       variant="contained">
                         Create an account
                     </Button>
-                  </Grid> : null
-                }
-                {!user ? (
-                  <Grid item>
-                    <Button 
-                      to="/login" 
-                      component={Link} 
-                      className={classes.signupButton} 
-                      color="secondary" 
-                      variant="outlined">
-                        Log In
-                    </Button>
-                  </Grid> 
-                ) : (
+                  </Grid>
+                )}
+                {user ? (
                   <Grid item>
                     <Button 
                       to="/logout" 
@@ -80,8 +71,19 @@ function Header(props) {
                         Log Out
                     </Button>
                   </Grid>
-                )
-                }
+                ) : (
+                  <Grid item>
+                    <Button 
+                      to="/login" 
+                      component={Link} 
+                      className={classes.signupButton} 
+                      color="secondary" 
+                      variant="outlined">
+                        Log In
+                    </Button>
+                  </Grid> 
+                  
+                )}
               </Grid>
             </Grid>
           </Grid>

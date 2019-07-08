@@ -41,7 +41,8 @@ function Dashboard() {
       const { data } = res;
       setMixer(data);
     })
-  });
+  }, []);
+
   return (
     <div className={classes.root}>
       <Drawer 
