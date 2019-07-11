@@ -3,24 +3,48 @@ import axios from 'axios';
 
 import { makeStyles, createStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => createStyles({
   root: {
+    height: '100%',
     flexGrow: 1,
   },
   calendarTable: {
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
+  calendarRow: {
+    width: '100%',
+  },
+  calendarCell: {
+    flexGrow: 1,
+  },
+  cellPaper: {
+
+  },
+  calendarData: {
+    margin: 'auto',
+    width: '10vh',
+    height: '100%',
+  },
+  calendarHeader: {
+    margin: 'auto',
+    width: '10vh',
+    height: '24px',
+  },
   prevMonthDate: {
-    color: '#828282',
+    backgroundColor: '#E2E2E2',
+    color: '#A2A2A2',
   },
   nextMonthDate: {
-    color: '#828282',
+    backgroundColor: '#E2E2E2',
+    color: '#A2A2A2',
   },
-  streamDate: {
-    color: 'red'
+  streamCell: {
+    backgroundColor: theme.palette.secondary.light,
   }
 }));
 
@@ -36,7 +60,9 @@ function CalendarPage() {
     axios.get('/api/analytics/mixer/streams')
     .then((res) => {
       const { data } = res;
-      setStreams(data);
+      if (data.statusCode === 403) {
+        setStreams(data);
+      }
     });
   }, []);
 
@@ -47,46 +73,57 @@ function CalendarPage() {
     let previousMonthDate = new Date(year, month, -firstDay + 1).getDate();
     let nextMonthDate = new Date(year, month + 1, 1).getDate();
 
+    const getStreamsByDate = (stream) => {
+      const streamDate = new Date(stream.time);
+      return (
+        streamDate.getDate() === currentMonthDate 
+        && streamDate.getMonth() === month 
+        && streamDate.getFullYear() === year
+      );
+    }
+
     const calendarCells = [];
     for (let index = 0; index < 6; index++) {
       calendarCells.push([]);
       for (let innerIndex = 0; innerIndex < 7; innerIndex++) {
         const cellNumber = index * 7 + innerIndex;
-        const stream = streams.filter((stream) => {
-          const streamDate = new Date(stream.time);
-          return (
-            streamDate.getDate() === currentMonthDate 
-            && streamDate.getMonth() === month 
-            && streamDate.getFullYear() === year
-          );
-        });
+        console.log(streams);
+        const stream = streams.filter(getStreamsByDate);
         if (cellNumber < firstDay) {
           calendarCells[index].push(
-            <td>
-              <Paper className={classes.prevMonthDate}>
-                {previousMonthDate}
+            <Grid item className={classes.calendarCell}>
+              <Paper square className={classes.prevMonthDate}>
+                <div className={classes.calendarData}>
+                  {previousMonthDate}
+                </div>
               </Paper>
-            </td>
+            </Grid>
           );
           previousMonthDate++;
         } 
         if (cellNumber >= firstDay && cellNumber < numDays + firstDay) {
           calendarCells[index].push(
-            <td>
-              <Paper className={stream.length ? classes.streamDate : null}>
-                {currentMonthDate}
-              </Paper>
-            </td>
+            <Grid item className={classes.calendarCell}>
+              <div className={stream.length ? classes.streamCell : null}>
+                <Paper square className={classes.cellPaper}>
+                  <div className={classes.calendarData}>
+                    {currentMonthDate}
+                  </div>
+                </Paper>
+              </div>
+            </Grid>
           );
           currentMonthDate++;
         }
         if (cellNumber >= numDays + firstDay) {
           calendarCells[index].push(
-            <td>
-              <Paper className={classes.nextMonthDate}>
-                {nextMonthDate}
+            <Grid item className={classes.calendarCell}>
+              <Paper square className={classes.nextMonthDate}>
+                <div className={classes.calendarData}>
+                  {nextMonthDate}
+                </div>
               </Paper>
-            </td>
+            </Grid>
           );
           nextMonthDate++;
         }
@@ -95,7 +132,11 @@ function CalendarPage() {
 
     return (
       calendarCells.map((row) => (
-        <tr>{row.map((cell) => (cell))}</tr>
+        <Grid item className={classes.calendarRow}>
+          <Grid container justify="space-evenly">
+            {row.map((cell) => (cell))}
+          </Grid>
+        </Grid>
       ))
     )
   }
@@ -125,24 +166,27 @@ function CalendarPage() {
 
   return (
     <div className={classes.root}>
-      <h1>Calendar</h1>
       <h4>{`${months[month]} ${year}`}</h4>
       <div>
         <button onClick={previousMonth}>Prev</button>
         <button onClick={nextMonth}>Next</button>
       </div>
-      <div className={classes.calendarTable}>
-        <table>
-          <tbody>
-            <tr>
-              {daysOfWeek.map((dayOfWeek) => (
-                <th>{dayOfWeek}</th>
-              ))}
-            </tr>
-            {renderCalendar(date, month, year)}
-          </tbody>
-        </table>
-      </div>
+      <Grid container className={classes.calendarTable} direction="column">
+        <Grid item className={classes.calendarRow}>
+          <Grid container justify="space-evenly">
+            {daysOfWeek.map((dayOfWeek) => (
+              <Grid item className={classes.calendarCell}>
+                <Paper square>
+                  <div className={classes.calendarHeader}>
+                    {dayOfWeek}
+                  </div>
+                </Paper>
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+        {renderCalendar(date, month, year)}
+      </Grid>
     </div>
   )
 }

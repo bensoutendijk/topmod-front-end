@@ -20,6 +20,73 @@
     <div id="root" style="height: 100%"></div>
     <!-- Start Mouseflow Tracking Snippet -->
     <script type="text/javascript">
+      var mouseflowAutoStart = false;
+
+      var mfPageRecordingRates = [
+        ['contains', '/dashboard/', 100]
+      ];
+      var mfBaseRecordingRate = 50;
+
+      function mfGetRandomNumber(max) {
+        return Math.floor(Math.random() * max);
+      }
+
+      var mfCookie = {
+        get: function(name) {
+          var nameEQ = name + "=";
+          var ca = document.cookie.split(';');
+          for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+              c = c.substring(1, c.length);
+            }
+
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+          }
+          return null;
+        }
+      };
+
+      function mfShouldStartRecording(pageRecordingRates, baseRecordingRate) {
+
+        for (var i = 0; i < pageRecordingRates.length; i++) {
+          var matchRule = pageRecordingRates[i][0];
+          var pagePathname = pageRecordingRates[i][1];
+          var pageRecordingRate = pageRecordingRates[i][2];
+
+          switch (matchRule) {
+            case 'contains':
+              if (document.location.pathname.toLowerCase().indexOf(pagePathname.toLowerCase()) > -1 || document.location.search.indexOf('mf_force=1') > -1) {
+                if (mfGetRandomNumber(100) < pageRecordingRate || pageRecordingRate === 100) {
+                  return true;
+                }
+              }    
+              break;
+            case 'equals':
+              if (document.location.pathname.toLowerCase() === pagePathname.toLowerCase() || document.location.search.indexOf('mf_force=1') > -1) {
+                if (mfGetRandomNumber(100) < pageRecordingRate || pageRecordingRate === 100) {
+                  return true;
+                }
+              }
+              break;
+            default:
+              break;
+          }
+        }
+
+        if (mfGetRandomNumber(100) < baseRecordingRate || baseRecordingRate === 100) {
+          return true;
+        }
+
+        return false;
+      }
+
+      mouseflowAutoStart = mfShouldStartRecording(mfPageRecordingRates, mfBaseRecordingRate);
+
+      if (mfCookie.get('mf_user')) {
+        mouseflowAutoStart = true;
+      }
+
       window._mfq = window._mfq || [];
       (function() {
           var mf = document.createElement("script");
@@ -27,6 +94,10 @@
           mf.src = "//cdn.mouseflow.com/projects/1b08ef8f-532e-4beb-8ea2-7b3ac50bd8d1.js";
           document.getElementsByTagName("head")[0].appendChild(mf);
       })();
+
+      document.addEventListener('unload', function() {
+        mouseflow.stopSession();
+      });
     </script>
     <!-- End Mouseflow Tracking Snippet -->
   </body>

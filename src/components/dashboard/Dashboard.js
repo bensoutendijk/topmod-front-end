@@ -13,10 +13,12 @@ import CalendarPage from './CalendarPage';
 
 const useStyles = makeStyles((theme) => createStyles({
   root: {
+    height: '100%',
     display: 'flex',
   },
   content: {
     width: '100%',
+    height: '100%',
     padding: theme.spacing(4),
   },
   drawer: {

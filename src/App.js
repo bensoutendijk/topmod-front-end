@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import { ThemeProvider, makeStyles, createStyles } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Dashboard from './components/dashboard/Dashboard';
 import Header from './components/Header';
@@ -26,7 +27,8 @@ const theme = createMuiTheme({
       contrastText: '#F2F2F2',
     },
     text: {
-      primary: '#F2F2F2'
+      primary: '#020202',
+      secondary: '#F2F2F2',
     },
   },
   overrides: {
@@ -75,6 +77,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <div className={classes.root}>
           {isLoaded ? (
             <div className="App">
