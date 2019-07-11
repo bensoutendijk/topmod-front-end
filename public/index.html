@@ -73,7 +73,7 @@
               break;
           }
         }
-
+        console.log('page rules do not match, going to base rate');
         if (mfGetRandomNumber(100) < baseRecordingRate || baseRecordingRate === 100) {
           return true;
         }
