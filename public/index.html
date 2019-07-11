@@ -74,7 +74,10 @@
           }
         }
         console.log('page rules do not match, going to base rate');
-        if (mfGetRandomNumber(100) < baseRecordingRate || baseRecordingRate === 100) {
+        const randomNumber = mfGetRandomNumber(100);
+        console.log(`${randomNumber} < ${baseRecordingRate}?`)
+        console.log(randomNumber < baseRecordingRate);
+        if (randomNumber < baseRecordingRate || baseRecordingRate === 100) {
           return true;
         }
 
