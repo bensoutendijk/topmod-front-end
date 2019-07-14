@@ -60,9 +60,7 @@ function CalendarPage() {
     axios.get('/api/analytics/mixer/streams')
     .then((res) => {
       const { data } = res;
-      if (data.statusCode === 403) {
-        setStreams(data);
-      }
+      setStreams(data);
     });
   }, []);
 
@@ -87,11 +85,10 @@ function CalendarPage() {
       calendarCells.push([]);
       for (let innerIndex = 0; innerIndex < 7; innerIndex++) {
         const cellNumber = index * 7 + innerIndex;
-        console.log(streams);
         const stream = streams.filter(getStreamsByDate);
         if (cellNumber < firstDay) {
           calendarCells[index].push(
-            <Grid item className={classes.calendarCell}>
+            <Grid key={cellNumber} item className={classes.calendarCell}>
               <Paper square className={classes.prevMonthDate}>
                 <div className={classes.calendarData}>
                   {previousMonthDate}
@@ -103,21 +100,21 @@ function CalendarPage() {
         } 
         if (cellNumber >= firstDay && cellNumber < numDays + firstDay) {
           calendarCells[index].push(
-            <Grid item className={classes.calendarCell}>
-              <div className={stream.length ? classes.streamCell : null}>
+            <Grid key={cellNumber} item className={classes.calendarCell}>
                 <Paper square className={classes.cellPaper}>
-                  <div className={classes.calendarData}>
-                    {currentMonthDate}
+                  <div className={stream.length ? classes.streamCell : null}>
+                    <div className={classes.calendarData}>
+                      {currentMonthDate}
+                    </div>
                   </div>
                 </Paper>
-              </div>
             </Grid>
           );
           currentMonthDate++;
         }
         if (cellNumber >= numDays + firstDay) {
           calendarCells[index].push(
-            <Grid item className={classes.calendarCell}>
+            <Grid key={cellNumber} item className={classes.calendarCell}>
               <Paper square className={classes.nextMonthDate}>
                 <div className={classes.calendarData}>
                   {nextMonthDate}
@@ -131,10 +128,10 @@ function CalendarPage() {
     }
 
     return (
-      calendarCells.map((row) => (
-        <Grid item className={classes.calendarRow}>
+      calendarCells.map((row, index) => (
+        <Grid key={`calendar-row-${index}`} item className={classes.calendarRow}>
           <Grid container justify="space-evenly">
-            {row.map((cell) => (cell))}
+            {row}
           </Grid>
         </Grid>
       ))
@@ -175,7 +172,7 @@ function CalendarPage() {
         <Grid item className={classes.calendarRow}>
           <Grid container justify="space-evenly">
             {daysOfWeek.map((dayOfWeek) => (
-              <Grid item className={classes.calendarCell}>
+              <Grid item key={dayOfWeek} className={classes.calendarCell}>
                 <Paper square>
                   <div className={classes.calendarHeader}>
                     {dayOfWeek}
