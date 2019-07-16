@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import { makeStyles, createStyles } from '@material-ui/styles';
@@ -8,18 +8,12 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import ServicesPage from './ServicesPage';
-import CalendarPage from './CalendarPage';
+import Content from './Content';
 
 const useStyles = makeStyles((theme) => createStyles({
   root: {
     height: '100%',
     display: 'flex',
-  },
-  content: {
-    width: '100%',
-    height: '100%',
-    padding: theme.spacing(4),
   },
   drawer: {
     width: '210px',
@@ -32,7 +26,7 @@ const useStyles = makeStyles((theme) => createStyles({
   toolbar: theme.mixins.toolbar,
 }));
 
-function Dashboard() {
+function SideMenu() {
   const classes = useStyles();
 
   const [mixer, setMixer] = useState(null);
@@ -77,19 +71,9 @@ function Dashboard() {
           </ListItem>
         </List>
       </Drawer>
-      <div className={classes.content}>
-        <Route exact path="/dashboard" render={props => (
-          <h1>Dashboard</h1>
-        )} />
-        <Route path="/dashboard/services" render={props => (
-          <ServicesPage {...props} mixer={mixer} />
-        )} />
-        <Route path="/dashboard/calendar" render={props => (
-          <CalendarPage {...props} mixer={mixer} />
-        )} />
-      </div>
+      <Content mixer={mixer} />
     </div>
   )
 }
 
-export default Dashboard;
+export default SideMenu;

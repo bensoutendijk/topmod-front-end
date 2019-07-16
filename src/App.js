@@ -7,7 +7,7 @@ import { ThemeProvider, makeStyles, createStyles } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import Dashboard from './components/dashboard/Dashboard';
+import SideMenu from './components/dashboard/SideMenu';
 import Header from './components/Header';
 import SplashPage from './components/SplashPage';
 import PageNotFound from './components/PageNotFound';
@@ -86,7 +86,7 @@ function App() {
                 <Switch>
                   <Route path="/dashboard" render={props => (
                     user ? (
-                      <Dashboard {...props} />
+                      <SideMenu {...props} />
                     ) : (
                       <Redirect to="/" />
                     )
