@@ -14,6 +14,7 @@ import PageNotFound from './components/PageNotFound';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
 import LogOut from './components/LogOut';
+import Content from './components/dashboard/Content';
 
 const theme = createMuiTheme({
   palette: {
@@ -86,7 +87,10 @@ function App() {
                 <Switch>
                   <Route path="/dashboard" render={props => (
                     user ? (
-                      <SideMenu {...props} />
+                      <React.Fragment>
+                        <SideMenu {...props} />
+                        <Content mixer={mixer} />
+                      </React.Fragment>
                     ) : (
                       <Redirect to="/" />
                     )

@@ -29,16 +29,6 @@ const useStyles = makeStyles((theme) => createStyles({
 function SideMenu() {
   const classes = useStyles();
 
-  const [mixer, setMixer] = useState(null);
-
-  useEffect(() => {
-    axios.get('/api/auth/mixer/current')
-    .then((res) => {
-      const { data } = res;
-      setMixer(data);
-    })
-  }, []);
-
   return (
     <div className={classes.root}>
       <Drawer 
@@ -71,7 +61,7 @@ function SideMenu() {
           </ListItem>
         </List>
       </Drawer>
-      <Content mixer={mixer} />
+      
     </div>
   )
 }
