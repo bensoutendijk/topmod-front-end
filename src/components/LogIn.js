@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { loginUser } from '../actions/index';
+import { useDispatch } from 'react-redux';
 
 import { ThemeProvider, makeStyles, createStyles } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -81,37 +82,22 @@ const useStyles = makeStyles((theme) => createStyles({
   }
 }));
 
-function LogIn(props) {
+function LogIn() {
   const classes = useStyles();
-
+  const dispatch = useDispatch();
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
-  const [errors, setErrors] = useState({});
-
-  const { setUser } = props;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    axios.post('/api/auth/local/login', {
-      user: {
-        email,
-        password,
-        remember,
-      }
-    })
-    .then((res) => {
-      const { data } = res;
-      setUser(data);
-    })
-    .catch((err) => {
-      const { response: { data } } = err;
-      setErrors({
-        ...errors,
-        ...data
-      });
-    });
+    const user = {
+      email,
+      password,
+      remember,
+    }
+    dispatch(loginUser(user));
   }
 
   return (
@@ -123,14 +109,6 @@ function LogIn(props) {
           </Grid>
           <Grid item xs={12} md={6}>
             <Grid className={classes.loginContainer} container direction="column" alignContent="center" spacing={4}>
-                {errors.authentication ? (
-                  <Grid className={classes.authError} item>
-                    <Typography color="error" variant="body1">This account does not exist</Typography>
-                  </Grid>    
-                  ) : (
-                    undefined
-                  )
-                }
               <Grid item>
                 <Typography variant="h3">Log In</Typography>
               </Grid>

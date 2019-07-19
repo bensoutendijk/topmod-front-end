@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import { logoutUser } from '../actions/index';
+import { useDispatch } from 'react-redux'
 import cookie from 'cookie';
 
 import { makeStyles, createStyles } from '@material-ui/styles';
@@ -7,14 +9,14 @@ const useStyles = makeStyles((theme) => createStyles({
 
 }));
 
-function LogOut(props) {
+function LogOut() {
   const classes = useStyles();
-  const { setUser } = props;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     document.cookie = cookie.serialize('token2', null);
-    setUser(null);
-  }, []);
+    dispatch(logoutUser());
+  }, [dispatch]);
 
   return (
     <div className={classes.root}>

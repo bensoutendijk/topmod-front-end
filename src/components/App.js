@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { getUser } from '../actions/index';
 import { Route, Switch, Redirect } from "react-router-dom";
-import axios from 'axios';
-
 import { ThemeProvider, makeStyles, createStyles } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -59,21 +60,14 @@ const useStyles = makeStyles((theme) => createStyles({
 
 function App() {
   const classes = useStyles();
-  const [user, setUser] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.get('/api/auth/local/current')
-    .then(async (res) => {
-      const { data } = res;
-      await setUser(data);
-      setIsLoaded(true);
-    })
-    .catch(() => {
-      setIsLoaded(true);
-    });
-  }, []);
+    dispatch(getUser());
+  }, [dispatch]);
 
+  const user = useSelector(state => state.auth.user);
+  const isLoaded = true;
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -94,12 +88,12 @@ function App() {
                     user ? (
                       <Redirect to="/" />
                     ) : (
-                      <LogIn {...props} setUser={setUser} />
+                      <LogIn {...props} />
                     )
                   )} />
                   <Route exact path="/logout" render={props => (
                     user ? (
-                      <LogOut {...props} setUser={setUser} />
+                      <LogOut {...props} />
                     ) : (
                       <Redirect to="/" />
                     )
@@ -108,7 +102,7 @@ function App() {
                     user ? (
                       <Redirect to="/" />
                     ) : (
-                      <SignUp {...props} setUser={setUser} />
+                      <SignUp {...props} />
                     )
                   )} />
                   <Route exact path="/" render={() => (
