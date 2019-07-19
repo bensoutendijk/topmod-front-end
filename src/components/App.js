@@ -1,4 +1,3 @@
-import './App.css';
 import React, { useState, useEffect } from 'react';
 import { Route, Switch, Redirect } from "react-router-dom";
 import axios from 'axios';
@@ -7,13 +6,13 @@ import { ThemeProvider, makeStyles, createStyles } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import SideMenu from './components/dashboard/SideMenu';
-import Header from './components/Header';
-import SplashPage from './components/SplashPage';
-import PageNotFound from './components/PageNotFound';
-import LogIn from './components/LogIn';
-import SignUp from './components/SignUp';
-import LogOut from './components/LogOut';
+import SideMenu from './dashboard/SideMenu';
+import Header from './Header';
+import SplashPage from './SplashPage';
+import PageNotFound from './PageNotFound';
+import LogIn from './LogIn';
+import SignUp from './SignUp';
+import LogOut from './LogOut';
 
 const theme = createMuiTheme({
   palette: {
