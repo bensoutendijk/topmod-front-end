@@ -17,7 +17,15 @@ const useStyles = makeStyles((theme) => createStyles({
 
 function Content(props) {
   const classes = useStyles();
-  const { mixer } = props;
+  const [mixer, setMixer] = useState(null);
+
+  useEffect(() => {
+    axios.get('/api/auth/mixer/current')
+    .then((res) => {
+      const { data } = res;
+      setMixer(data);
+    })
+  }, []);
 
   return (
     <div className={classes.root}>

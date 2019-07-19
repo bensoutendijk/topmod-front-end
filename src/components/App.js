@@ -7,13 +7,14 @@ import { ThemeProvider, makeStyles, createStyles } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import SideMenu from './dashboard/SideMenu';
-import Header from './Header';
-import SplashPage from './SplashPage';
-import PageNotFound from './PageNotFound';
-import LogIn from './LogIn';
-import SignUp from './SignUp';
-import LogOut from './LogOut';
+import SideMenu from './components/dashboard/SideMenu';
+import Header from './components/Header';
+import SplashPage from './components/SplashPage';
+import PageNotFound from './components/PageNotFound';
+import LogIn from './components/LogIn';
+import SignUp from './components/SignUp';
+import LogOut from './components/LogOut';
+import Content from './components/dashboard/Content';
 
 const theme = createMuiTheme({
   palette: {
@@ -79,7 +80,10 @@ function App() {
                 <Switch>
                   <Route path="/dashboard" render={props => (
                     user ? (
-                      <SideMenu {...props} />
+                      <React.Fragment>
+                        <SideMenu {...props} />
+                        <Content mixer={mixer} />
+                      </React.Fragment>
                     ) : (
                       <Redirect to="/" />
                     )
