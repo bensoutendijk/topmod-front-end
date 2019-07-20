@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => createStyles({
     flexDirection: 'column',
   },
   hero: {
+    textAlign: 'center',
     flexGrow: 1,
     backgroundImage: 'url(/assets/images/hero.jpeg)',
     backgroundPosition: '100% 0',
@@ -23,9 +24,11 @@ const useStyles = makeStyles((theme) => createStyles({
     height: '540px',
   },
   heroHeadline: {
+    color: theme.palette.primary.contrastText,
     marginTop: theme.spacing(12),
   },
   heroCaption: {
+    color: theme.palette.primary.contrastText,
     marginTop: theme.spacing(8),
     fontWeight: 300,
     [theme.breakpoints.down('sm')]: {
@@ -36,6 +39,7 @@ const useStyles = makeStyles((theme) => createStyles({
     marginTop: theme.spacing(4),
   },
   features: {
+    textAlign: 'center',
     flexGrow: 1,
     backgroundImage: 'url(/assets/images/CurvyLines.png)',
     backgroundColor: '#F2E0D0',
