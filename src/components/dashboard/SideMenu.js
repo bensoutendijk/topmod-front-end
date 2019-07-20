@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
 import { makeStyles, createStyles } from '@material-ui/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -8,7 +7,6 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Content from './Content';
 
 const useStyles = makeStyles((theme) => createStyles({
   root: {

@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux'
 import { Route } from 'react-router-dom';
+
+import { getMixerChatHistory } from '../../actions';
 
 import { makeStyles, createStyles } from '@material-ui/styles';
 import DashboardPage from './DashboardPage'
@@ -9,34 +12,35 @@ import CalendarPage from './CalendarPage';
 
 const useStyles = makeStyles((theme) => createStyles({
   root: {
+    marginLeft: '210px',
     width: '100%',
     height: '100%',
     padding: theme.spacing(4),
   },
 }));
 
-function Content(props) {
+function Content() {
   const classes = useStyles();
-  const [mixer, setMixer] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.get('/api/auth/mixer/current')
-    .then((res) => {
-      const { data } = res;
-      setMixer(data);
-    })
-  }, []);
+    const fetchMixerChat = async () => {
+      await dispatch(getMixerChatHistory());
+    }
+
+    fetchMixerChat();
+  }, [dispatch]);
 
   return (
     <div className={classes.root}>
       <Route exact path="/dashboard" render={props => (
-        <DashboardPage {...props} mixer={mixer} />
+        <DashboardPage {...props} />
       )} />
       <Route path="/dashboard/services" render={props => (
-        <ServicesPage {...props} mixer={mixer} />
+        <ServicesPage {...props} />
       )} />
       <Route path="/dashboard/calendar" render={props => (
-        <CalendarPage {...props} mixer={mixer} />
+        <CalendarPage {...props} />
       )} />
     </div>
   )

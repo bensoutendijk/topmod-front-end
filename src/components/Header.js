@@ -14,6 +14,8 @@ const useStyles = makeStyles((theme) => createStyles({
   },
   title: {
     paddingLeft: theme.spacing(2),
+    textDecoration: 'none',
+    color: theme.palette.primary.contrastText,
   },
   toolbar: {
     justifyContent: 'space-between',
@@ -40,7 +42,7 @@ function Header(props) {
         <Toolbar>
           <Grid container className={classes.toolbar}>
             <Grid item>
-              <Typography to="/" component={Link} className={classes.title} variant="h6" >
+              <Typography to="/" component={Link} className={classes.title} variant="h6">
                 topmod
               </Typography>
             </Grid>
