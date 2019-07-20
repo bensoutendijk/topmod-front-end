@@ -57,6 +57,10 @@ function DashboardPage() {
           dispatch(updateMixerChat(data));
         }
       });
+
+      return () => {
+        socket.close();
+      };
     }
   }, [chatClient.fetched]);
 
