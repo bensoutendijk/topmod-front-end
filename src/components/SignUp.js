@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => createStyles({
     maxWidth: '400px'
   },
   signupContainer: {
+    textAlign: 'center',
     paddingTop: theme.spacing(4),
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
@@ -123,6 +124,7 @@ function SignUp(props) {
                   <Grid className={classes.inputContainer} container direction="column" alignItems="flex-start">
                     <Grid className={classes.textField} item>
                       <TextField 
+                        autoFocus
                         variant="outlined" 
                         label="Email"
                         type="email"

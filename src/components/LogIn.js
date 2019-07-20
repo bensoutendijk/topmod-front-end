@@ -59,6 +59,7 @@ const useStyles = makeStyles((theme) => createStyles({
     maxWidth: '400px'
   },
   loginContainer: {
+    textAlign: 'center',
     paddingTop: theme.spacing(4),
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
