@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux'
 import { Route } from 'react-router-dom';
 
-import { getMixerChatHistory } from '../../actions';
+import { getMixerChatHistory, getMixerStreams, getMixerChat, getMixerUser } from '../../actions';
 
 import { makeStyles, createStyles } from '@material-ui/styles';
 import DashboardPage from './DashboardPage'
@@ -24,11 +24,23 @@ function Content() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchMixerChat = async () => {
+    const fetchMixer = async () => {
+      await dispatch(getMixerUser());
+    }
+    const fetchMixerChatHistory = async () => {
       await dispatch(getMixerChatHistory());
     }
+    const fetchMixerChat = async () => {
+      await dispatch(getMixerChat());
+    }
+    const fetchStreams = async () => {
+      await dispatch(getMixerStreams());
+    }
 
+    fetchMixer();
+    fetchMixerChatHistory();
     fetchMixerChat();
+    fetchStreams();
   }, [dispatch]);
 
   return (

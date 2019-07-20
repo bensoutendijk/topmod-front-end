@@ -1,5 +1,8 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { updateMixerChat } from '../../actions';
+
 import { selectMixerChatMessages } from '../../selectors';
 
 import { makeStyles, createStyles } from '@material-ui/styles';
@@ -10,7 +13,11 @@ const useStyles = makeStyles((theme) => createStyles({
 
 function DashboardPage() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
   const mixerChat = useSelector(selectMixerChatMessages);
+  const mixerUser = useSelector(state => state.mixer.user);
+  const chatClient = useSelector(state => state.mixer.chatClient);
 
   const renderChatMessage = (chatEvent) => {
     let message = '';
@@ -28,33 +35,28 @@ function DashboardPage() {
     );
   }
 
-  // useEffect(() => {
-  //   axios.get('/api/chat/mixer/')
-  //     .then((res) => {
-  //       const { data } = res;
-  //       const socket = new MixerClient.Socket(ws, data.endpoints).boot();
-  //       socket.auth(channelid, userid, chat.authkey);
-  //       socket.on('error', (error) => {
-  //         console.error('Socket error');
-  //         console.error(error);
-  //       });
-  //       const events = [
-  //         'ChatMessage',
-  //         'DeleteMessage',
-  //         'UserJoin',
-  //         'UserLeave',
-  //         'SkillAttribution',
-  //       ];
-  //       events.forEach((event) => {
-  //         socket.on(event, (data) => {
-  //           console.log('event: ' + event)  ,
-  //           console.log('data: ' + JSON.stringify(data));  
-  //           console.log('createdAt: ' + Date.now());
-  //           console.log('updatedAt: ' + Date.now());
-  //         });
-  //       });
-  //     })
-  // }, [])
+  useEffect(() => {
+    if (chatClient.fetched) {
+      const socket = new WebSocket(chatClient.data.endpoints);
+      
+      socket.addEventListener('open', function (event) {
+        const auth = {
+          type: "method",
+          method: "auth",
+          arguments: [mixerUser.data.channelid, mixerUser.data.userid, chatClient.data.authkey]
+        }
+        socket.send(JSON.stringify(auth));
+      });
+
+      
+      socket.addEventListener('message', function ({ data: json }) {
+        const data = JSON.parse(json);
+        if (data.event === 'ChatMessage') {
+          dispatch(updateMixerChat(data));
+        }
+      });
+    }
+  }, [chatClient.fetched]);
 
   return (
     <div className={classes.root}>

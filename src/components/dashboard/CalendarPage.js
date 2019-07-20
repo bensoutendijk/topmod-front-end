@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { makeStyles, createStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
@@ -54,15 +54,7 @@ function CalendarPage() {
   const [date, setDate] = useState(new Date().getDate());
   const [month, setMonth] = useState(new Date().getMonth());
   const [year, setYear] = useState(new Date().getFullYear());
-  const [streams, setStreams] = useState([]);
-
-  useEffect(() => {
-    axios.get('/api/analytics/mixer/streams')
-    .then((res) => {
-      const { data } = res;
-      setStreams(data);
-    });
-  }, []);
+  const mixerStreams = useSelector(state => state.mixer.streams);
 
   const renderCalendar = (date, month, year) => {
     const firstDay = new Date(year, month, 1).getDay();
@@ -85,7 +77,7 @@ function CalendarPage() {
       calendarCells.push([]);
       for (let innerIndex = 0; innerIndex < 7; innerIndex++) {
         const cellNumber = index * 7 + innerIndex;
-        const stream = streams.filter(getStreamsByDate);
+        const mixerStream = mixerStreams.data.filter(getStreamsByDate);
         if (cellNumber < firstDay) {
           calendarCells[index].push(
             <Grid key={cellNumber} item className={classes.calendarCell}>
@@ -102,7 +94,7 @@ function CalendarPage() {
           calendarCells[index].push(
             <Grid key={cellNumber} item className={classes.calendarCell}>
                 <Paper square className={classes.cellPaper}>
-                  <div className={stream.length ? classes.streamCell : null}>
+                  <div className={mixerStream.length ? classes.streamCell : null}>
                     <div className={classes.calendarData}>
                       {currentMonthDate}
                     </div>
