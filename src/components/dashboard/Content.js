@@ -13,7 +13,7 @@ import CalendarPage from './CalendarPage';
 const useStyles = makeStyles((theme) => createStyles({
   root: {
     marginLeft: '210px',
-    width: '100%',
+    width: 'calc(100% - 210px)',
     height: '100%',
     padding: theme.spacing(4),
   },

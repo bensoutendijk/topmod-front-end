@@ -10,7 +10,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 const useStyles = makeStyles((theme) => createStyles({
   root: {
-    height: '100%',
     display: 'flex',
   },
   drawer: {
