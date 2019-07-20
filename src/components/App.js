@@ -76,52 +76,50 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className={classes.root}>
-        {<div className="App">
-          <Header user={user} />
-          <div className={classes.content}>
-            <Switch>
-              <Route path="/dashboard" render={props => (
-                user ? (
-                  <React.Fragment>
-                    <SideMenu {...props} />
-                    <Content />
-                  </React.Fragment>
-                ) : (
-                  <Redirect to="/" />
-                )
-              )} />
-              <Route exact path="/login" render={props => (
-                user ? (
-                  <Redirect to="/" />
-                ) : (
-                  <LogIn {...props} />
-                )
-              )} />
-              <Route exact path="/logout" render={props => (
-                user ? (
-                  <LogOut {...props} />
-                ) : (
-                  <Redirect to="/" />
-                )
-              )} />
-              <Route exact path="/signup" render={props => (
-                user ? (
-                  <Redirect to="/" />
-                ) : (
-                  <SignUp {...props} />
-                )
-              )} />
-              <Route exact path="/" render={() => (
-                user ? (
-                  <Redirect to="/dashboard"/>
-                ) : (
-                  <SplashPage/>
-                )
-              )} />
-              <Route component={PageNotFound} />
-            </Switch>
-          </div>
-        </div>}
+        <Header user={user} />
+        <div className={classes.content}>
+          <Switch>
+            <Route path="/dashboard" render={props => (
+              user ? (
+                <React.Fragment>
+                  <SideMenu {...props} />
+                  <Content />
+                </React.Fragment>
+              ) : (
+                <Redirect to="/" />
+              )
+            )} />
+            <Route exact path="/login" render={props => (
+              user ? (
+                <Redirect to="/" />
+              ) : (
+                <LogIn {...props} />
+              )
+            )} />
+            <Route exact path="/logout" render={props => (
+              user ? (
+                <LogOut {...props} />
+              ) : (
+                <Redirect to="/" />
+              )
+            )} />
+            <Route exact path="/signup" render={props => (
+              user ? (
+                <Redirect to="/" />
+              ) : (
+                <SignUp {...props} />
+              )
+            )} />
+            <Route exact path="/" render={() => (
+              user ? (
+                <Redirect to="/dashboard"/>
+              ) : (
+                <SplashPage/>
+              )
+            )} />
+            <Route component={PageNotFound} />
+          </Switch>
+        </div>
       </div>
     </ThemeProvider>
   );
