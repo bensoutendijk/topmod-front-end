@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => createStyles({
   hero: {
     textAlign: 'center',
     flexGrow: 1,
-    backgroundImage: 'url(/assets/images/hero.jpeg)',
+    backgroundImage: 'url(/assets/images/hero.jpg)',
     backgroundPosition: '100% 0',
     [theme.breakpoints.down('sm')]: {
       backgroundPosition: 'center',
