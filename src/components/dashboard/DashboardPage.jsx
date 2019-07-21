@@ -5,7 +5,7 @@ import { makeStyles, createStyles } from '@material-ui/styles';
 
 import Grid from '@material-ui/core/Grid';
 
-import { selectMixerChatMessages } from '../../selectors';
+import { selectMixerChatMessages, selectMixerViewerAverage } from '../../selectors';
 
 const useStyles = makeStyles(theme => createStyles({
   root: {
@@ -18,6 +18,7 @@ function DashboardPage() {
 
   const mixerChat = useSelector(selectMixerChatMessages);
   const modList = useSelector(state => state.mixer.modList.data);
+  const mixerViewerAverage = useSelector(selectMixerViewerAverage);
 
   const renderChatMessage = (chatEvent) => {
     let message = '';
@@ -46,7 +47,7 @@ function DashboardPage() {
           null
         )}
       </Grid>
-      <Grid item>
+      <Grid item md={6}>
         <h4>Mods</h4>
         {modList ? (
           modList.map(mod => (
@@ -55,6 +56,10 @@ function DashboardPage() {
         ) : (
           null
         )}
+      </Grid>
+      <Grid>
+        <h4>Average Viewers (60 days)</h4>
+        <span>{mixerViewerAverage.toFixed(2)}</span>
       </Grid>
     </Grid>
   );

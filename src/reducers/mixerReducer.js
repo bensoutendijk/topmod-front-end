@@ -29,6 +29,12 @@ const initialState = {
     data: [],
     errors: false,
   },
+  viewers: {
+    fetching: false,
+    fetched: false,
+    data: [],
+    errors: false,
+  },
 };
 
 export default function (state = initialState, action) {
@@ -259,6 +265,36 @@ export default function (state = initialState, action) {
       return {
         ...state,
         modList: {
+          fetching: false,
+          fetched: false,
+          data: [],
+          errors: true,
+        },
+      };
+    case 'GET_MIXER_VIEWERS_PENDING':
+      return {
+        ...state,
+        viewers: {
+          fetching: true,
+          fetched: false,
+          data: [],
+          errors: false,
+        },
+      };
+    case 'GET_MIXER_VIEWERS_FULFILLED':
+      return {
+        ...state,
+        viewers: {
+          fetching: false,
+          fetched: true,
+          data: action.payload,
+          errors: false,
+        },
+      };
+    case 'GET_MIXER_VIEWERS_REJECTED':
+      return {
+        ...state,
+        viewers: {
           fetching: false,
           fetched: false,
           data: [],

@@ -58,3 +58,13 @@ export const getMixerModList = () => async (dispatch) => {
     dispatch({ type: 'GET_MIXER_MOD_LIST_REJECTED' });
   }
 };
+
+export const getMixerViewers = (dateFrom, dateTo) => async (dispatch) => {
+  dispatch({ type: 'GET_MIXER_VIEWERS_PENDING' });
+  try {
+    const { data } = await axios.get(`/api/analytics/mixer/viewers?from=${dateFrom}&to=${dateTo}`);
+    dispatch({ type: 'GET_MIXER_VIEWERS_FULFILLED', payload: data });
+  } catch (err) {
+    dispatch({ type: 'GET_MIXER_VIEWERS_REJECTED' });
+  }
+};

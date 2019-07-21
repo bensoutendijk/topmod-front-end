@@ -10,6 +10,7 @@ import {
   getMixerStreams,
   getMixerUser,
   getMixerModList,
+  getMixerViewers,
 } from '../../actions';
 
 import DashboardPage from './DashboardPage';
@@ -32,6 +33,9 @@ function Content() {
 
   const mixerUser = useSelector(state => state.mixer.user);
   const chatClient = useSelector(state => state.mixer.chatClient);
+
+  const dateFrom = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000);
+  const dateTo = new Date();
 
   const connectMixerChat = () => {
     const socket = new WebSocket(chatClient.data.endpoints);
@@ -71,12 +75,16 @@ function Content() {
     const fetchMixerModList = async () => {
       await dispatch(getMixerModList());
     };
+    const fetchMixerViewers = async () => {
+      await dispatch(getMixerViewers(dateFrom.toISOString(), dateTo.toISOString()));
+    };
 
     fetchMixer();
     fetchMixerChatHistory();
     fetchMixerChat();
     fetchMixerStreams();
     fetchMixerModList();
+    fetchMixerViewers();
 
     if (chatClient.fetched) {
       const socket = connectMixerChat();
