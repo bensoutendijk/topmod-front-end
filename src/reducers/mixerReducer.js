@@ -185,10 +185,8 @@ export default function (state = initialState, action) {
       return {
         ...state,
         chatClient: {
+          ...state.chatClient,
           fetching: true,
-          fetched: false,
-          data: {},
-          errors: false,
         },
       };
     case 'GET_MIXER_CHAT_FULFILLED':

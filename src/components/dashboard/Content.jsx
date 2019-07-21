@@ -50,8 +50,8 @@ function Content() {
     });
 
     socket.addEventListener('message', ({ data: json }) => {
-      const data = JSON.parse(json);
-      if (data.event === 'ChatMessage') {
+      const { data, event } = JSON.parse(json);
+      if (event === 'ChatMessage') {
         dispatch(updateMixerChat(data));
       }
     });
@@ -63,38 +63,58 @@ function Content() {
     const fetchMixer = async () => {
       await dispatch(getMixerUser());
     };
+
+    fetchMixer();
+  }, [dispatch]);
+
+  useEffect(() => {
     const fetchMixerChatHistory = async () => {
       await dispatch(getMixerChatHistory());
     };
+
+    fetchMixerChatHistory();
+  }, [dispatch]);
+
+  useEffect(() => {
     const fetchMixerChat = async () => {
       await dispatch(getMixerChat());
     };
+
+    if (chatClient.fetched) {
+      const socket = connectMixerChat();
+      return (() => {
+        socket.close();
+      });
+    }
+
+    fetchMixerChat();
+
+    return (() => {});
+  }, [dispatch, chatClient.fetched]);
+
+  useEffect(() => {
     const fetchMixerStreams = async () => {
       await dispatch(getMixerStreams());
     };
+
+    fetchMixerStreams();
+  }, [dispatch]);
+
+  useEffect(() => {
     const fetchMixerModList = async () => {
       await dispatch(getMixerModList());
     };
+
+    fetchMixerModList();
+  }, [dispatch]);
+
+  useEffect(() => {
     const fetchMixerViewers = async () => {
       await dispatch(getMixerViewers(dateFrom.toISOString(), dateTo.toISOString()));
     };
 
-    fetchMixer();
-    fetchMixerChatHistory();
-    fetchMixerChat();
-    fetchMixerStreams();
-    fetchMixerModList();
     fetchMixerViewers();
-
-    if (chatClient.fetched) {
-      const socket = connectMixerChat();
-      return () => {
-        socket.close();
-      };
-    }
-
-    return () => {};
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className={classes.root}>

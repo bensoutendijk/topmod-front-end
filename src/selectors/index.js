@@ -12,14 +12,11 @@ const getDaysBetween = (dateArray) => {
   return diff / (1000 * 60 * 60 * 24);
 };
 
-export const selectMixerChatMessages = createSelector(
-  state => state.mixer.chat.data,
-  chat => chat.filter(chatEvent => chatEvent.event === 'ChatMessage')
-);
-
 export const selectMixerViewerAverage = createSelector(
   state => state.mixer.viewers.data,
-  data => data.reduce(
-    (a, b) => a + b.authed + b.anon, 0) / getDaysBetween(data.map(({ time }) => time)
+  data => (
+    data.reduce((a, b) => a + b.authed + b.anon, 0)
+  ) / (
+    getDaysBetween(data.map(({ time }) => time))
   ),
 );
