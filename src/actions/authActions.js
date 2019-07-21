@@ -1,6 +1,17 @@
 import axios from 'axios';
 import cookie from 'cookie';
 
+export const createUser = user => async (dispatch) => {
+  dispatch({ type: 'CREATE_USER_PENDING' });
+  try {
+    const { data } = await axios.post('/api/auth/local/', user);
+    dispatch({ type: 'CREATE_USER_FULFILLED', payload: data });
+  } catch (err) {
+    const { data } = err.response;
+    dispatch({ type: 'CREATE_USER_REJECTED', payload: data });
+  }
+};
+
 export const getUser = () => async (dispatch) => {
   dispatch({ type: 'GET_USER_PENDING' });
   try {

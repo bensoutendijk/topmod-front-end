@@ -1,4 +1,6 @@
+
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { ThemeProvider, makeStyles, createStyles } from '@material-ui/styles';
@@ -31,12 +33,12 @@ const theme = createMuiTheme({
       outlinedPrimary: {
         color: '#F2F2F2',
         border: '1px solid #F2F2F2',
-      }
-    }
-  }
+      },
+    },
+  },
 });
 
-const useStyles = makeStyles((theme) => createStyles({
+const useStyles = makeStyles(() => createStyles({
   root: {
     flexGrow: 1,
   },
@@ -64,9 +66,9 @@ const useStyles = makeStyles((theme) => createStyles({
   },
 }));
 
-function Header(props) {
-  const { user } = props;
+function Header() {
   const classes = useStyles();
+  const user = useSelector(state => state.auth.user);
   return (
     <section className={classes.root}>
       <ThemeProvider theme={theme}>
@@ -84,39 +86,41 @@ function Header(props) {
                     null
                   ) : (
                     <Grid item>
-                      <Button 
-                        to="/signup" 
-                        component={Link} 
-                        className={classes.signupButton} 
-                        color="secondary" 
-                        variant="contained">
+                      <Button
+                        to="/signup"
+                        component={Link}
+                        className={classes.signupButton}
+                        color="secondary"
+                        variant="contained"
+                      >
                           Create an account
                       </Button>
                     </Grid>
                   )}
                   {user ? (
                     <Grid item>
-                      <Button 
-                        to="/logout" 
-                        component={Link} 
-                        className={classes.signupButton} 
+                      <Button
+                        to="/logout"
+                        component={Link}
+                        className={classes.signupButton}
                         color="primary"
-                        variant="outlined">
+                        variant="outlined"
+                      >
                           Log Out
                       </Button>
                     </Grid>
                   ) : (
                     <Grid item>
-                      <Button 
-                        to="/login" 
-                        component={Link} 
-                        className={classes.signupButton} 
-                        color="secondary" 
-                        variant="outlined">
+                      <Button
+                        to="/login"
+                        component={Link}
+                        className={classes.signupButton}
+                        color="secondary"
+                        variant="outlined"
+                      >
                           Log In
                       </Button>
-                    </Grid> 
-                    
+                    </Grid>
                   )}
                 </Grid>
               </Grid>

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { loginUser } from '../actions/index';
 import { useDispatch } from 'react-redux';
 
 import { ThemeProvider, makeStyles, createStyles } from '@material-ui/styles';
@@ -10,13 +9,13 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+
+import { createUser } from '../actions';
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: "#000000",
+      main: '#000000',
     },
   },
   overrides: {
@@ -29,13 +28,13 @@ const theme = createMuiTheme({
     MuiTextField: {
       root: {
         width: '80%',
-        maxWidth: '400px'
+        maxWidth: '400px',
       },
     },
   },
 });
 
-const useStyles = makeStyles((theme) => createStyles({
+const useStyles = makeStyles(() => createStyles({
   root: {
     height: '100%',
     flexGrow: 1,
@@ -54,11 +53,11 @@ const useStyles = makeStyles((theme) => createStyles({
     width: '100%',
     objectFit: 'cover',
   },
-  loginButton: {
+  signupButton: {
     width: '100%',
-    maxWidth: '400px'
+    maxWidth: '400px',
   },
-  loginContainer: {
+  signupContainer: {
     textAlign: 'center',
     paddingTop: theme.spacing(4),
     paddingLeft: theme.spacing(2),
@@ -74,63 +73,57 @@ const useStyles = makeStyles((theme) => createStyles({
     paddingLeft: '10%',
   },
   textField: {
-    paddingTop: '12px'
+    paddingTop: '12px',
   },
-  authError: {
-    padding: '0 !important',
-    marginBottom: '-12px',
-    marginTop: '-12px',
-  }
 }));
 
-function LogIn() {
+function SignUp() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [remember, setRemember] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const user = {
       email,
       password,
-      remember,
-    }
-    dispatch(loginUser(user));
-  }
+      passwordConfirmation,
+    };
+    dispatch(createUser(user));
+  };
 
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
         <Grid className={classes.container} container>
           <Grid className={classes.imageContainer} item xs={6}>
-            <img className={classes.image} src="/assets/images/login.jpg" alt=""/>
+            <img className={classes.image} src="/assets/images/signup.jpg" alt="" />
           </Grid>
           <Grid item xs={12} md={6}>
-            <Grid className={classes.loginContainer} container direction="column" alignContent="center" spacing={4}>
+            <Grid className={classes.signupContainer} container direction="column" alignContent="center" spacing={4}>
               <Grid item>
-                <Typography variant="h3">Log In</Typography>
+                <Typography variant="h3">Sign Up</Typography>
               </Grid>
-              <form onSubmit={handleSubmit}> 
+              <form onSubmit={handleSubmit}>
                 <Grid item>
                   <Grid className={classes.inputContainer} container direction="column" alignItems="flex-start">
                     <Grid className={classes.textField} item>
-                    <TextField
-                      autoFocus 
-                      variant="outlined" 
-                      label="Email"
-                      type="email"
-                      name="email"
-                      autoComplete="email"
-                      value={email}
-                      onChange={event => setEmail(event.target.value)}
-                    />
+                      <TextField
+                        autoFocus
+                        variant="outlined"
+                        label="Email"
+                        type="email"
+                        name="email"
+                        autoComplete="email"
+                        value={email}
+                        onChange={event => setEmail(event.target.value)}
+                      />
                     </Grid>
                     <Grid className={classes.textField} item>
-                      <TextField 
-                        variant="outlined" 
+                      <TextField
+                        variant="outlined"
                         label="Password"
                         type="password"
                         name="password"
@@ -138,35 +131,33 @@ function LogIn() {
                         onChange={event => setPassword(event.target.value)}
                       />
                     </Grid>
-                    <Grid className={classes.checkbox} item>
-                      <FormControlLabel 
-                        control={
-                          <Checkbox 
-                            checked={remember}
-                            value={remember}
-                            onChange={() => setRemember(!remember)}
-                          />
-                        }
-                        label="Remember Me"
+                    <Grid className={classes.textField} item>
+                      <TextField
+                        variant="outlined"
+                        label="Confirm Password"
+                        type="password"
+                        name="password-confirmation"
+                        value={passwordConfirmation}
+                        onChange={event => setPasswordConfirmation(event.target.value)}
                       />
                     </Grid>
                   </Grid>
                 </Grid>
+                <br />
                 <Grid item>
-                  <Button 
-                    className={classes.loginButton} 
-                    variant="contained" 
+                  <Button
+                    className={classes.signupButton}
+                    variant="contained"
                     color="secondary"
                     type="submit"
                   >
-                    Log In
+                    Create Account
                   </Button>
                 </Grid>
               </form>
               <Grid item>
-                <Grid container direction="row" justify="space-between">
-                  <Link to="/forgot-password">Forgot Password?</Link>
-                  <Link to="/signup">No account? Sign up!</Link>
+                <Grid container direction="row" justify="flex-end">
+                  <Link to="/login">Already have an account? Log In!</Link>
                 </Grid>
               </Grid>
             </Grid>
@@ -174,7 +165,7 @@ function LogIn() {
         </Grid>
       </div>
     </ThemeProvider>
-  )
+  );
 }
 
-export default LogIn;
+export default SignUp;

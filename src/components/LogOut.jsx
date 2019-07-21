@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { logoutUser } from '../actions/index';
-import { useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux';
 import cookie from 'cookie';
 
 import { makeStyles, createStyles } from '@material-ui/styles';
 
-const useStyles = makeStyles((theme) => createStyles({
+import { logoutUser } from '../actions/index';
+
+const useStyles = makeStyles(() => createStyles({
 
 }));
 
@@ -22,7 +23,7 @@ function LogOut() {
     <div className={classes.root}>
       <h1>Logging Out</h1>
     </div>
-  )
+  );
 }
 
 export default LogOut;

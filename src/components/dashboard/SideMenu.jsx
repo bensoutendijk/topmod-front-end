@@ -8,7 +8,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-const useStyles = makeStyles((theme) => createStyles({
+const useStyles = makeStyles(theme => createStyles({
   root: {
     display: 'flex',
   },
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => createStyles({
   },
   drawerPaper: {
     width: '210px',
-    color: '#020202'
+    color: '#020202',
   },
   toolbar: theme.mixins.toolbar,
 }));
@@ -28,8 +28,8 @@ function SideMenu() {
 
   return (
     <div className={classes.root}>
-      <Drawer 
-        variant="permanent" 
+      <Drawer
+        variant="permanent"
         className={classes.drawer}
         classes={{
           paper: classes.drawerPaper,
@@ -58,9 +58,9 @@ function SideMenu() {
           </ListItem>
         </List>
       </Drawer>
-      
+
     </div>
-  )
+  );
 }
 
 export default SideMenu;

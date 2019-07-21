@@ -30,7 +30,7 @@ export const getMixerChat = () => async (dispatch) => {
   }
 };
 
-export const updateMixerChat = (chatEvent) => async (dispatch) => {
+export const updateMixerChat = chatEvent => async (dispatch) => {
   dispatch({ type: 'UPDATE_MIXER_CHAT_PENDING' });
   try {
     dispatch({ type: 'UPDATE_MIXER_CHAT_FULFILLED', payload: chatEvent });

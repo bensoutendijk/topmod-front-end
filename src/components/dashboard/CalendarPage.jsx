@@ -5,7 +5,7 @@ import { makeStyles, createStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
-const useStyles = makeStyles((theme) => createStyles({
+const useStyles = makeStyles(theme => createStyles({
   root: {
     height: '100%',
     flexGrow: 1,
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => createStyles({
   },
   streamCell: {
     backgroundColor: theme.palette.secondary.light,
-  }
+  },
 }));
 
 function CalendarPage() {
@@ -56,7 +56,7 @@ function CalendarPage() {
   const [year, setYear] = useState(new Date().getFullYear());
   const mixerStreams = useSelector(state => state.mixer.streams);
 
-  const renderCalendar = (date, month, year) => {
+  const renderCalendar = () => {
     const firstDay = new Date(year, month, 1).getDay();
     const numDays = new Date(year, month + 1, 0).getDate();
     let currentMonthDate = 1;
@@ -66,16 +66,16 @@ function CalendarPage() {
     const getStreamsByDate = (stream) => {
       const streamDate = new Date(stream.time);
       return (
-        streamDate.getDate() === currentMonthDate 
-        && streamDate.getMonth() === month 
+        streamDate.getDate() === currentMonthDate
+        && streamDate.getMonth() === month
         && streamDate.getFullYear() === year
       );
-    }
+    };
 
     const calendarCells = [];
-    for (let index = 0; index < 6; index++) {
+    for (let index = 0; index < 6; index += 1) {
       calendarCells.push([]);
-      for (let innerIndex = 0; innerIndex < 7; innerIndex++) {
+      for (let innerIndex = 0; innerIndex < 7; innerIndex += 1) {
         const cellNumber = index * 7 + innerIndex;
         const mixerStream = mixerStreams.data.filter(getStreamsByDate);
         if (cellNumber < firstDay) {
@@ -86,23 +86,23 @@ function CalendarPage() {
                   {previousMonthDate}
                 </div>
               </Paper>
-            </Grid>
+            </Grid>,
           );
-          previousMonthDate++;
-        } 
+          previousMonthDate += 1;
+        }
         if (cellNumber >= firstDay && cellNumber < numDays + firstDay) {
           calendarCells[index].push(
             <Grid key={cellNumber} item className={classes.calendarCell}>
-                <Paper square className={classes.cellPaper}>
-                  <div className={mixerStream.length ? classes.streamCell : null}>
-                    <div className={classes.calendarData}>
-                      {currentMonthDate}
-                    </div>
+              <Paper square className={classes.cellPaper}>
+                <div className={mixerStream.length ? classes.streamCell : null}>
+                  <div className={classes.calendarData}>
+                    {currentMonthDate}
                   </div>
-                </Paper>
-            </Grid>
+                </div>
+              </Paper>
+            </Grid>,
           );
-          currentMonthDate++;
+          currentMonthDate += 1;
         }
         if (cellNumber >= numDays + firstDay) {
           calendarCells[index].push(
@@ -112,23 +112,23 @@ function CalendarPage() {
                   {nextMonthDate}
                 </div>
               </Paper>
-            </Grid>
+            </Grid>,
           );
-          nextMonthDate++;
+          nextMonthDate += 1;
         }
       }
     }
 
     return (
-      calendarCells.map((row, index) => (
-        <Grid key={`calendar-row-${index}`} item className={classes.calendarRow}>
+      calendarCells.map(row => (
+        <Grid item className={classes.calendarRow}>
           <Grid container justify="space-evenly">
             {row}
           </Grid>
         </Grid>
       ))
-    )
-  }
+    );
+  };
 
   const previousMonth = () => {
     setDate(1);
@@ -138,7 +138,7 @@ function CalendarPage() {
     } else {
       setMonth(month - 1);
     }
-  }
+  };
 
   const nextMonth = () => {
     setDate(1);
@@ -148,22 +148,22 @@ function CalendarPage() {
     } else {
       setMonth(month + 1);
     }
-  }
+  };
 
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   return (
     <div className={classes.root}>
       <h4>{`${months[month]} ${year}`}</h4>
       <div>
-        <button onClick={previousMonth}>Prev</button>
-        <button onClick={nextMonth}>Next</button>
+        <button type="button" onClick={previousMonth}>Prev</button>
+        <button type="button" onClick={nextMonth}>Next</button>
       </div>
       <Grid container className={classes.calendarTable} direction="column">
         <Grid item className={classes.calendarRow}>
           <Grid container justify="space-evenly">
-            {daysOfWeek.map((dayOfWeek) => (
+            {daysOfWeek.map(dayOfWeek => (
               <Grid item key={dayOfWeek} className={classes.calendarCell}>
                 <Paper square>
                   <div className={classes.calendarHeader}>
@@ -177,7 +177,7 @@ function CalendarPage() {
         {renderCalendar(date, month, year)}
       </Grid>
     </div>
-  )
+  );
 }
 
 export default CalendarPage;

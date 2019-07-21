@@ -23,7 +23,7 @@ const initialState = {
     data: [],
     errors: false,
   },
-}
+};
 
 export default function (state = initialState, action) {
   switch (action.type) {
@@ -35,7 +35,7 @@ export default function (state = initialState, action) {
           fetched: false,
           data: null,
           errors: false,
-        }
+        },
       };
     case 'GET_MIXER_FULFILLED':
       return {
@@ -45,7 +45,7 @@ export default function (state = initialState, action) {
           fetched: true,
           data: action.payload,
           errors: false,
-        }
+        },
       };
     case 'GET_MIXER_REJECTED':
       return {
@@ -55,7 +55,7 @@ export default function (state = initialState, action) {
           fetched: false,
           data: null,
           errors: true,
-        }
+        },
       };
     case 'CONNECT_MIXER_PENDING':
       return {
@@ -65,7 +65,7 @@ export default function (state = initialState, action) {
           fetched: false,
           data: null,
           errors: false,
-        }
+        },
       };
     case 'CONNECT_MIXER_FULFILLED':
       return {
@@ -75,7 +75,7 @@ export default function (state = initialState, action) {
           fetched: true,
           data: action.payload,
           errors: false,
-        }
+        },
       };
     case 'CONNECT_MIXER_REJECTED':
       return {
@@ -85,7 +85,7 @@ export default function (state = initialState, action) {
           fetched: false,
           data: null,
           errors: true,
-        }
+        },
       };
     case 'DISCONNECT_MIXER_PENDING':
       return {
@@ -95,7 +95,7 @@ export default function (state = initialState, action) {
           fetched: false,
           data: null,
           errors: false,
-        }
+        },
       };
     case 'DISCONNECT_MIXER_FULFILLED':
       return {
@@ -105,7 +105,7 @@ export default function (state = initialState, action) {
           fetched: true,
           data: action.payload,
           errors: false,
-        }
+        },
       };
     case 'DISCONNECT_MIXER_REJECTED':
       return {
@@ -115,7 +115,7 @@ export default function (state = initialState, action) {
           fetched: false,
           data: null,
           errors: true,
-        }
+        },
       };
     case 'GET_MIXER_CHAT_HISTORY_PENDING':
       return {
@@ -125,7 +125,7 @@ export default function (state = initialState, action) {
           fetched: false,
           data: [],
           errors: false,
-        }
+        },
       };
     case 'GET_MIXER_CHAT_HISTORY_FULFILLED':
       return {
@@ -135,7 +135,7 @@ export default function (state = initialState, action) {
           fetched: true,
           data: action.payload,
           errors: false,
-        }
+        },
       };
     case 'GET_MIXER_CHAT_HISTORY_REJECTED':
       return {
@@ -145,14 +145,14 @@ export default function (state = initialState, action) {
           fetched: false,
           data: [],
           errors: true,
-        }
+        },
       };
     case 'UPDATE_MIXER_CHAT_PENDING':
       return {
         ...state,
         chat: {
-          ...state.chat
-        }
+          ...state.chat,
+        },
       };
     case 'UPDATE_MIXER_CHAT_FULFILLED':
       return {
@@ -160,14 +160,14 @@ export default function (state = initialState, action) {
         chat: {
           ...state.chat,
           data: [...state.chat.data, action.payload],
-        }
+        },
       };
     case 'UPDATE_MIXER_CHAT_REJECTED':
       return {
         ...state,
         chat: {
-          ...state.chat
-        }
+          ...state.chat,
+        },
       };
     case 'GET_MIXER_CHAT_PENDING':
       return {
@@ -177,7 +177,7 @@ export default function (state = initialState, action) {
           fetched: false,
           data: {},
           errors: false,
-        }
+        },
       };
     case 'GET_MIXER_CHAT_FULFILLED':
       return {
@@ -187,7 +187,7 @@ export default function (state = initialState, action) {
           fetched: true,
           data: action.payload,
           errors: false,
-        }
+        },
       };
     case 'GET_MIXER_CHAT_REJECTED':
       return {
@@ -197,7 +197,7 @@ export default function (state = initialState, action) {
           fetched: false,
           data: {},
           errors: true,
-        }
+        },
       };
     case 'GET_MIXER_STREAMS_PENDING':
       return {
@@ -207,7 +207,7 @@ export default function (state = initialState, action) {
           fetched: false,
           data: [],
           errors: false,
-        }
+        },
       };
     case 'GET_MIXER_STREAMS_FULFILLED':
       return {
@@ -217,7 +217,7 @@ export default function (state = initialState, action) {
           fetched: true,
           data: action.payload,
           errors: false,
-        }
+        },
       };
     case 'GET_MIXER_STREAMS_REJECTED':
       return {
@@ -227,7 +227,7 @@ export default function (state = initialState, action) {
           fetched: false,
           data: [],
           errors: true,
-        }
+        },
       };
     default:
       return state;

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -6,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles } from '@material-ui/styles';
 import { Button } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => createStyles({
+const useStyles = makeStyles(theme => createStyles({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -53,8 +54,8 @@ const useStyles = makeStyles((theme) => createStyles({
     height: '100%',
   },
   featuresItem: {
-    width: '250px'
-  }
+    width: '250px',
+  },
 }));
 
 function Hero() {
@@ -71,7 +72,7 @@ function Hero() {
             <Typography className={classes.heroCaption} color="textPrimary" variant="h6">Keep track of your stream's mods</Typography>
           </Grid>
           <Grid item md={12}>
-          <Button className={classes.heroButton} component={Link} to="/signup" color="secondary" variant="contained">Create an account</Button>
+            <Button className={classes.heroButton} component={Link} to="/signup" color="secondary" variant="contained">Create an account</Button>
           </Grid>
         </Grid>
       </section>
@@ -79,7 +80,7 @@ function Hero() {
         <Grid className={classes.featuresList} container justify="space-around" alignContent="center">
           <Grid className={classes.featuresItem} item>
             <Grid container direction="column" spacing={4}>
-              <Grid item><i className="far fa-comments fa-4x"></i></Grid>
+              <Grid item><i className="far fa-comments fa-4x" /></Grid>
               <Grid item>
                 <Typography variant="h6">Get smart with your mods</Typography>
               </Grid>
@@ -92,7 +93,7 @@ function Hero() {
           </Grid>
           <Grid className={classes.featuresItem} item>
             <Grid container direction="column" spacing={4}>
-              <Grid item><i className="fas fa-hashtag fa-4x"></i></Grid>
+              <Grid item><i className="fas fa-hashtag fa-4x" /></Grid>
               <Grid item>
                 <Typography variant="h6">Manage Your Social Media</Typography>
               </Grid>
@@ -105,7 +106,7 @@ function Hero() {
           </Grid>
           <Grid className={classes.featuresItem} item>
             <Grid container direction="column" spacing={4}>
-              <Grid item><i className="far fa-chart-bar fa-4x"></i></Grid>
+              <Grid item><i className="far fa-chart-bar fa-4x" /></Grid>
               <Grid item>
                 <Typography variant="h6">Report. Report. Report.</Typography>
               </Grid>
@@ -119,7 +120,7 @@ function Hero() {
         </Grid>
       </section>
     </div>
-  )
+  );
 }
 
 export default Hero;
