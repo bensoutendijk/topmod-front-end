@@ -32,7 +32,7 @@ function Content() {
   const mixerUser = useSelector(state => state.mixer.user);
   const chatClient = useSelector(state => state.mixer.chatClient);
 
-  const connectMixerChat = async () => {
+  const connectMixerChat = () => {
     const socket = new WebSocket(chatClient.data.endpoints);
 
     socket.addEventListener('open', () => {
@@ -68,6 +68,11 @@ function Content() {
       await dispatch(getMixerStreams());
     };
 
+    fetchMixer();
+    fetchMixerChatHistory();
+    fetchMixerChat();
+    fetchStreams();
+
     if (chatClient.fetched) {
       const socket = connectMixerChat();
       return () => {
@@ -75,14 +80,8 @@ function Content() {
       };
     }
 
-    fetchMixer();
-    fetchMixerChatHistory();
-    fetchMixerChat();
-    fetchStreams();
-
     return () => {};
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, chatClient.fetched]);
+  }, []);
 
   return (
     <div className={classes.root}>

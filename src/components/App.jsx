@@ -96,6 +96,21 @@ function App() {
               }
             />
             <Route
+              path="/account"
+              render={
+                props => (
+                  user ? (
+                    <React.Fragment>
+                      <SideMenu {...props} />
+                      <Content />
+                    </React.Fragment>
+                  ) : (
+                    <Redirect to="/" />
+                  )
+                )
+              }
+            />
+            <Route
               exact
               path="/login"
               render={
