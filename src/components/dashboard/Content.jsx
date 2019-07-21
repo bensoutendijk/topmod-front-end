@@ -9,6 +9,7 @@ import {
   updateMixerChat,
   getMixerStreams,
   getMixerUser,
+  getMixerModList,
 } from '../../actions';
 
 import DashboardPage from './DashboardPage';
@@ -64,14 +65,18 @@ function Content() {
     const fetchMixerChat = async () => {
       await dispatch(getMixerChat());
     };
-    const fetchStreams = async () => {
+    const fetchMixerStreams = async () => {
       await dispatch(getMixerStreams());
+    };
+    const fetchMixerModList = async () => {
+      await dispatch(getMixerModList());
     };
 
     fetchMixer();
     fetchMixerChatHistory();
     fetchMixerChat();
-    fetchStreams();
+    fetchMixerStreams();
+    fetchMixerModList();
 
     if (chatClient.fetched) {
       const socket = connectMixerChat();

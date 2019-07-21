@@ -23,6 +23,12 @@ const initialState = {
     data: [],
     errors: false,
   },
+  modList: {
+    fetching: false,
+    fetched: false,
+    data: [],
+    errors: false,
+  },
 };
 
 export default function (state = initialState, action) {
@@ -223,6 +229,36 @@ export default function (state = initialState, action) {
       return {
         ...state,
         streams: {
+          fetching: false,
+          fetched: false,
+          data: [],
+          errors: true,
+        },
+      };
+    case 'GET_MIXER_MOD_LIST_PENDING':
+      return {
+        ...state,
+        modList: {
+          fetching: true,
+          fetched: false,
+          data: [],
+          errors: false,
+        },
+      };
+    case 'GET_MIXER_MOD_LIST_FULFILLED':
+      return {
+        ...state,
+        modList: {
+          fetching: false,
+          fetched: true,
+          data: action.payload,
+          errors: false,
+        },
+      };
+    case 'GET_MIXER_MOD_LIST_REJECTED':
+      return {
+        ...state,
+        modList: {
           fetching: false,
           fetched: false,
           data: [],
