@@ -34,8 +34,8 @@ function Content() {
   const mixerUser = useSelector(state => state.mixer.user);
   const chatClient = useSelector(state => state.mixer.chatClient);
 
-  const dateFrom = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000);
-  const dateTo = new Date();
+  const { dateFrom } = useSelector(state => state.filters.dateRange);
+  const { dateTo } = useSelector(state => state.filters.dateRange);
 
   const connectMixerChat = () => {
     const socket = new WebSocket(chatClient.data.endpoints);
