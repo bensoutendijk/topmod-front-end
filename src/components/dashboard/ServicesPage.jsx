@@ -11,12 +11,12 @@ const useStyles = makeStyles(theme => createStyles({
 
 function ServicesPage() {
   const classes = useStyles();
-  const mixer = useSelector(state => state.mixer.user);
+  const mixer = useSelector(state => state.mixer);
 
   return (
     <div className={classes.root}>
       <h1>Services</h1>
-      {mixer ? (
+      {mixer.user.fetched ? (
         <React.Fragment>
           <p>Mixer Connected</p>
           <a href="/api/auth/mixer/login">Reconnect Mixer</a>

@@ -36,6 +36,18 @@ export default function (state = {}, action) {
       return {
         fetching: false, fetched: false, user: null, ...action.payload,
       };
+    case 'CREATE_USER_PENDING':
+      return {
+        fetching: true, fetched: false, user: null, errors: false,
+      };
+    case 'CREATE_USER_FULFILLED':
+      return {
+        fetching: false, fetched: false, ...action.payload, errors: false,
+      };
+    case 'CREATE_USER_REJECTED':
+      return {
+        fetching: false, fetched: false, user: null, ...action.payload,
+      };
     default:
       return state;
   }
