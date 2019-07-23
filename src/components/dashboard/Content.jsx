@@ -80,7 +80,7 @@ function Content() {
       await dispatch(getMixerChat());
     };
 
-    if (chatClient.fetched) {
+    if (mixerUser.fetched && chatClient.fetched) {
       const socket = connectMixerChat();
       return (() => {
         socket.close();
@@ -90,7 +90,7 @@ function Content() {
     fetchMixerChat();
 
     return (() => {});
-  }, [dispatch, chatClient.fetched]);
+  }, [dispatch, mixerUser.fetched, chatClient.fetched]);
 
   useEffect(() => {
     const fetchMixerStreams = async () => {

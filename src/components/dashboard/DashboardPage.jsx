@@ -28,6 +28,24 @@ function DashboardPage() {
   const { dateFrom } = useSelector(state => state.filters.dateRange);
   const { dateTo } = useSelector(state => state.filters.dateRange);
 
+  const handleChooseDateTo = () => {
+    const dateToCalendar = document.getElementById('dateToCalendar');
+    if (dateToCalendar.style.display === 'none') {
+      dateToCalendar.style.display = 'block';
+    } else {
+      dateToCalendar.style.display = 'none';
+    }
+  };
+
+  const handleChooseDateFrom = () => {
+    const dateFromCalendar = document.getElementById('dateFromCalendar');
+    if (dateFromCalendar.style.display === 'none') {
+      dateFromCalendar.style.display = 'block';
+    } else {
+      dateFromCalendar.style.display = 'none';
+    }
+  };
+
   const renderCalendar = (year, month) => {
     const firstDay = new Date(year, month, 1).getDay();
     const numDays = new Date(year, month + 1, 0).getDate();
@@ -133,18 +151,25 @@ function DashboardPage() {
         <h4>
           {'Average Viewers'}
         </h4>
-        <span style={{ display: 'block' }}>
-          <button type="button">
-            {dateFrom.toDateString()}
-          </button>
-          <button type="button">
-            {dateTo.toDateString()}
-          </button>
-        </span>
         <span>{mixerViewerAverage.toFixed(2)}</span>
-      </Grid>
-      <Grid>
-        
+        <div style={{ display: 'flex' }}>
+          <div>
+            <button type="button" onClick={handleChooseDateFrom}>
+              {dateFrom.toDateString()}
+            </button>
+            <div id="dateFromCalendar" style={{ position: 'absolute', display: 'none' }}>
+              {renderCalendar(dateFrom.getFullYear(), dateFrom.getMonth())}
+            </div>
+          </div>
+          <div>
+            <button type="button" onClick={handleChooseDateTo}>
+              {dateTo.toDateString()}
+            </button>
+            <div id="dateToCalendar" style={{ position: 'absolute', display: 'none' }}>
+              {renderCalendar(dateTo.getFullYear(), dateTo.getMonth())}
+            </div>
+          </div>
+        </div>
       </Grid>
     </Grid>
   );

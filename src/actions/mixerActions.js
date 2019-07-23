@@ -23,7 +23,7 @@ export const getMixerChatHistory = () => async (dispatch) => {
 export const getMixerChat = () => async (dispatch) => {
   dispatch({ type: 'GET_MIXER_CHAT_PENDING' });
   try {
-    const { data } = await axios.get('/api/chat/mixer/');
+    const { data } = await axios.get('/api/chat/mixer');
     await dispatch({ type: 'GET_MIXER_CHAT_FULFILLED', payload: data });
   } catch (err) {
     dispatch({ type: 'GET_MIXER_CHAT_REJECTED' });
@@ -63,6 +63,9 @@ export const getMixerViewers = (dateFrom, dateTo) => async (dispatch) => {
   dispatch({ type: 'GET_MIXER_VIEWERS_PENDING' });
   try {
     const { data } = await axios.get(`/api/analytics/mixer/viewers?from=${dateFrom}&to=${dateTo}`);
+    if (data.statusCode === 403) {
+      throw new Error('Mixer Action Error');
+    }
     dispatch({ type: 'GET_MIXER_VIEWERS_FULFILLED', payload: data });
   } catch (err) {
     dispatch({ type: 'GET_MIXER_VIEWERS_REJECTED' });
