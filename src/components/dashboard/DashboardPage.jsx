@@ -1,12 +1,13 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { makeStyles, createStyles } from '@material-ui/styles';
 
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 
+import { updateDateFrom, updateDateTo, getMixerViewers } from '../../actions';
 import { selectMixerViewerAverage } from '../../selectors';
+import Calendar from './Calendar';
 
 const useStyles = makeStyles(theme => createStyles({
   root: {
@@ -20,6 +21,7 @@ const useStyles = makeStyles(theme => createStyles({
 
 function DashboardPage() {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const mixerChat = useSelector(state => state.mixer.chat.data);
   const modList = useSelector(state => state.mixer.modList.data);
@@ -28,7 +30,17 @@ function DashboardPage() {
   const { dateFrom } = useSelector(state => state.filters.dateRange);
   const { dateTo } = useSelector(state => state.filters.dateRange);
 
-  const handleChooseDateTo = () => {
+  const handleCalendarFromClick = date => async (event) => {
+    await dispatch(updateDateFrom(date));
+    dispatch(getMixerViewers());
+  };
+
+  const handleCalendarToClick = date => async (event) => {
+    await dispatch(updateDateTo(date));
+    dispatch(getMixerViewers());
+  };
+
+  const handleOpenDateTo = () => {
     const dateToCalendar = document.getElementById('dateToCalendar');
     if (dateToCalendar.style.display === 'none') {
       dateToCalendar.style.display = 'block';
@@ -37,75 +49,13 @@ function DashboardPage() {
     }
   };
 
-  const handleChooseDateFrom = () => {
+  const handleOpenDateFrom = () => {
     const dateFromCalendar = document.getElementById('dateFromCalendar');
     if (dateFromCalendar.style.display === 'none') {
       dateFromCalendar.style.display = 'block';
     } else {
       dateFromCalendar.style.display = 'none';
     }
-  };
-
-  const renderCalendar = (year, month) => {
-    const firstDay = new Date(year, month, 1).getDay();
-    const numDays = new Date(year, month + 1, 0).getDate();
-    let currentMonthDate = 1;
-    let previousMonthDate = new Date(year, month, -firstDay + 1).getDate();
-    let nextMonthDate = new Date(year, month + 1, 1).getDate();
-
-    const calendarCells = [];
-    for (let index = 0; index < 6; index += 1) {
-      calendarCells.push([]);
-      for (let innerIndex = 0; innerIndex < 7; innerIndex += 1) {
-        const cellNumber = index * 7 + innerIndex;
-        if (cellNumber < firstDay) {
-          calendarCells[index].push(
-            <Grid key={cellNumber} item className={classes.calendarCell}>
-              <Paper square className={classes.prevMonthDate}>
-                <div className={classes.calendarData}>
-                  {previousMonthDate}
-                </div>
-              </Paper>
-            </Grid>,
-          );
-          previousMonthDate += 1;
-        }
-        if (cellNumber >= firstDay && cellNumber < numDays + firstDay) {
-          calendarCells[index].push(
-            <Grid key={cellNumber} item className={classes.calendarCell}>
-              <Paper square className={classes.cellPaper}>
-                <div className={classes.calendarData}>
-                  {currentMonthDate}
-                </div>
-              </Paper>
-            </Grid>,
-          );
-          currentMonthDate += 1;
-        }
-        if (cellNumber >= numDays + firstDay) {
-          calendarCells[index].push(
-            <Grid key={cellNumber} item className={classes.calendarCell}>
-              <Paper square className={classes.nextMonthDate}>
-                <div className={classes.calendarData}>
-                  {nextMonthDate}
-                </div>
-              </Paper>
-            </Grid>,
-          );
-          nextMonthDate += 1;
-        }
-      }
-    }
-
-    return (
-      calendarCells.map(row => (
-        <Grid item className={classes.calendarRow}>
-          <Grid container justify="space-evenly">
-            {row}
-          </Grid>
-        </Grid>
-      ))
-    );
   };
 
   const renderChatMessage = (chatEvent) => {
@@ -154,19 +104,19 @@ function DashboardPage() {
         <span>{mixerViewerAverage.toFixed(2)}</span>
         <div style={{ display: 'flex' }}>
           <div>
-            <button type="button" onClick={handleChooseDateFrom}>
+            <button type="button" onClick={handleOpenDateFrom}>
               {dateFrom.toDateString()}
             </button>
             <div id="dateFromCalendar" style={{ position: 'absolute', display: 'none' }}>
-              {renderCalendar(dateFrom.getFullYear(), dateFrom.getMonth())}
+              <Calendar date={dateFrom} handleClick={handleCalendarFromClick} />
             </div>
           </div>
           <div>
-            <button type="button" onClick={handleChooseDateTo}>
+            <button type="button" onClick={handleOpenDateTo}>
               {dateTo.toDateString()}
             </button>
             <div id="dateToCalendar" style={{ position: 'absolute', display: 'none' }}>
-              {renderCalendar(dateTo.getFullYear(), dateTo.getMonth())}
+              <Calendar date={dateTo} handleClick={handleCalendarToClick} />
             </div>
           </div>
         </div>

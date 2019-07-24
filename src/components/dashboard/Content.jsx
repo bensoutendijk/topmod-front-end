@@ -34,9 +34,6 @@ function Content() {
   const mixerUser = useSelector(state => state.mixer.user);
   const chatClient = useSelector(state => state.mixer.chatClient);
 
-  const { dateFrom } = useSelector(state => state.filters.dateRange);
-  const { dateTo } = useSelector(state => state.filters.dateRange);
-
   const connectMixerChat = () => {
     const socket = new WebSocket(chatClient.data.endpoints);
 
@@ -110,7 +107,7 @@ function Content() {
 
   useEffect(() => {
     const fetchMixerViewers = async () => {
-      await dispatch(getMixerViewers(dateFrom.toISOString(), dateTo.toISOString()));
+      await dispatch(getMixerViewers());
     };
 
     fetchMixerViewers();
