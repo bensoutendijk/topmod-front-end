@@ -1,6 +1,6 @@
 const initialState = {
   dateRange: {
-    dateFrom: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+    dateFrom: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000),
     dateTo: new Date(),
   },
 };

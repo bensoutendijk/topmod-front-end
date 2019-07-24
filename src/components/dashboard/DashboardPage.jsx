@@ -7,9 +7,10 @@ import { makeStyles, createStyles } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
 
 import { updateDateFrom, updateDateTo, getMixerViewers } from '../../actions';
-import { selectMixerViewerAverage } from '../../selectors';
+import { selectMixerViewerAverage, selectMixerViewersOverTime } from '../../selectors';
 import Calendar from './Calendar';
 import MixerChat from './Mixer/MixerChat';
+import MixerViewershipChart from './MixerViewershipChart';
 
 const useStyles = makeStyles(theme => createStyles({
   root: {
@@ -23,6 +24,7 @@ function DashboardPage() {
 
   const modList = useSelector(state => state.mixer.modList.data);
   const mixerViewerAverage = useSelector(selectMixerViewerAverage);
+  const mixerViewersByDay = useSelector(selectMixerViewersOverTime);
 
   const { dateFrom } = useSelector(state => state.filters.dateRange);
   const { dateTo } = useSelector(state => state.filters.dateRange);
@@ -57,6 +59,10 @@ function DashboardPage() {
 
   return (
     <Grid className={classes.root} container>
+      <Grid className={classes.chart} item md={6}>
+        <MixerViewershipChart data={mixerViewersByDay} />
+      </Grid>
+      <Grid item md={6} />
       <Grid item md={4}>
         <h4>Chat</h4>
         <MixerChat />
