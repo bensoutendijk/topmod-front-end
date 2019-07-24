@@ -1,3 +1,4 @@
+import uuid from 'uuid';
 import React from 'react';
 
 import { makeStyles, createStyles } from '@material-ui/styles';
@@ -75,7 +76,11 @@ function Calendar(props) {
       }
 
       calendarRows[index].push(
-        <ButtonBase className={classes.calendarCell} onClick={handleClick(new Date(cellYear, cellMonth, cellDate))}>
+        <ButtonBase
+          key={uuid.v4()}
+          className={classes.calendarCell}
+          onClick={handleClick(new Date(cellYear, cellMonth, cellDate))}
+        >
           <div className={cellDateClasses}>
             <span className={classes.calendarData}>
               {cellDate}
@@ -94,7 +99,7 @@ function Calendar(props) {
         </div>
       </div>
       {calendarRows.map(row => (
-        <div className={classes.calendarRow}>
+        <div key={uuid.v4()} className={classes.calendarRow}>
           {row}
         </div>
       ))}

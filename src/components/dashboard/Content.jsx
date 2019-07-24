@@ -1,22 +1,12 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Route } from 'react-router-dom';
 import { makeStyles, createStyles } from '@material-ui/styles';
 
-import {
-  getMixerChatHistory,
-  getMixerChat,
-  updateMixerChat,
-  getMixerStreams,
-  getMixerUser,
-  getMixerModList,
-  getMixerViewers,
-} from '../../actions';
-
+import Mixer from './Mixer/Mixer';
 import DashboardPage from './DashboardPage';
 import ServicesPage from './ServicesPage';
 import CalendarPage from './CalendarPage';
-
 
 const useStyles = makeStyles(theme => createStyles({
   root: {
@@ -29,92 +19,14 @@ const useStyles = makeStyles(theme => createStyles({
 
 function Content() {
   const classes = useStyles();
-  const dispatch = useDispatch();
-
-  const mixerUser = useSelector(state => state.mixer.user);
-  const chatClient = useSelector(state => state.mixer.chatClient);
-
-  const connectMixerChat = () => {
-    const socket = new WebSocket(chatClient.data.endpoints);
-
-    socket.addEventListener('open', () => {
-      const auth = {
-        type: 'method',
-        method: 'auth',
-        arguments: [mixerUser.data.channelid, mixerUser.data.userid, chatClient.data.authkey],
-      };
-      socket.send(JSON.stringify(auth));
-    });
-
-    socket.addEventListener('message', ({ data: json }) => {
-      const { data, event } = JSON.parse(json);
-      if (event === 'ChatMessage') {
-        dispatch(updateMixerChat(data));
-      }
-    });
-
-    return socket;
-  };
-
-  useEffect(() => {
-    const fetchMixer = async () => {
-      await dispatch(getMixerUser());
-    };
-
-    fetchMixer();
-  }, [dispatch]);
-
-  useEffect(() => {
-    const fetchMixerChatHistory = async () => {
-      await dispatch(getMixerChatHistory());
-    };
-
-    fetchMixerChatHistory();
-  }, [dispatch]);
-
-  useEffect(() => {
-    const fetchMixerChat = async () => {
-      await dispatch(getMixerChat());
-    };
-
-    if (mixerUser.fetched && chatClient.fetched) {
-      const socket = connectMixerChat();
-      return (() => {
-        socket.close();
-      });
-    }
-
-    fetchMixerChat();
-
-    return (() => {});
-  }, [dispatch, mixerUser.fetched, chatClient.fetched]);
-
-  useEffect(() => {
-    const fetchMixerStreams = async () => {
-      await dispatch(getMixerStreams());
-    };
-
-    fetchMixerStreams();
-  }, [dispatch]);
-
-  useEffect(() => {
-    const fetchMixerModList = async () => {
-      await dispatch(getMixerModList());
-    };
-
-    fetchMixerModList();
-  }, [dispatch]);
-
-  useEffect(() => {
-    const fetchMixerViewers = async () => {
-      await dispatch(getMixerViewers());
-    };
-
-    fetchMixerViewers();
-  }, [dispatch]);
-
+  const { user } = useSelector(state => state.auth);
   return (
     <div className={classes.root}>
+      { user.services.includes('mixer') ? (
+        <Mixer />
+      ) : (
+        null
+      )}
       <Route
         exact
         path="/dashboard"
