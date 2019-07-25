@@ -68,20 +68,20 @@ function App() {
     fetchUser();
   }, [dispatch]);
 
-  const user = useSelector(state => state.auth.user);
+  const auth = useSelector(state => state.auth);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className={classes.root}>
-        <Header user={user} />
+        <Header user={auth} />
         <div className={classes.content}>
           <Switch>
             <Route
               path="/dashboard"
               render={
                 props => (
-                  user ? (
+                  auth.fetched ? (
                     <React.Fragment>
                       <SideMenu {...props} />
                       <Content />
@@ -96,7 +96,7 @@ function App() {
               path="/account"
               render={
                 props => (
-                  user ? (
+                  auth.fetched ? (
                     <React.Fragment>
                       <SideMenu {...props} />
                       <Content />
@@ -112,7 +112,7 @@ function App() {
               path="/login"
               render={
                 props => (
-                  user ? (
+                  auth.fetched ? (
                     <Redirect to="/" />
                   ) : (
                     <LogIn {...props} />
@@ -125,7 +125,7 @@ function App() {
               path="/logout"
               render={
                 props => (
-                  user ? (
+                  auth.fetched ? (
                     <LogOut {...props} />
                   ) : (
                     <Redirect to="/" />
@@ -138,7 +138,7 @@ function App() {
               path="/signup"
               render={
                 props => (
-                  user ? (
+                  auth.fetched ? (
                     <Redirect to="/" />
                   ) : (
                     <SignUp {...props} />
@@ -151,7 +151,7 @@ function App() {
               path="/"
               render={
                 () => (
-                  user ? (
+                  auth.fetched ? (
                     <Redirect to="/dashboard" />
                   ) : (
                     <SplashPage />
