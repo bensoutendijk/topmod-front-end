@@ -57,7 +57,7 @@ function StreamView(props) {
     return null;
   }
 
-  const average = numbers => numbers.reduce((a, b) => a + b) / numbers.length;
+  const average = numbers => numbers.reduce((a, b) => a + b, 0) / numbers.length;
   const getHours = seconds => Math.floor(seconds / (60 * 60));
   const getMinutes = seconds => Math.floor(seconds / 60);
   const convertTwoDigits = n => (n > 9 ? `${n}` : `0${n}`);
@@ -65,6 +65,7 @@ function StreamView(props) {
   const streamTitle = stream.game.name;
   const dateSubheader = `${moment(time).format('MM-DD-YYYY')} - ${getHours(duration)}hr ${convertTwoDigits(getMinutes(duration) - getHours(duration) * 60)} min`;
   const viewerAverage = average(stream.viewership.map(a => a.anon + a.authed));
+  const followersGained = stream.followers.reduce((a, b) => a + b.delta, 0);
 
   return (
     <div className={classes.root} key={stream.id}>
@@ -104,6 +105,7 @@ function StreamView(props) {
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
+            <Typography paragraph>{`Followers Gained: ${followersGained}`}</Typography>
             <Typography paragraph>{`Start Time: ${moment(time).format('h:mm A')}`}</Typography>
             <Typography paragraph>{`End Time: ${moment(time).add(duration, 'second').format('h:mm A')}`}</Typography>
           </CardContent>
