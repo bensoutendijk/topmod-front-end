@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => createStyles({
     maxHeight: '50px',
   },
   card: {
-    maxWidth: 345,
+    width: 345,
   },
   media: {
     height: 0,
@@ -44,6 +44,7 @@ const useStyles = makeStyles(theme => createStyles({
 function StreamView(props) {
   const classes = useStyles();
   const { stream } = props;
+  const { time, duration } = stream;
 
   const [expanded, setExpanded] = useState(false);
 
@@ -56,14 +57,14 @@ function StreamView(props) {
     return null;
   }
 
-  const { time, duration } = stream;
-
+  const average = numbers => numbers.reduce((a, b) => a + b) / numbers.length;
   const getHours = seconds => Math.floor(seconds / (60 * 60));
   const getMinutes = seconds => Math.floor(seconds / 60);
   const convertTwoDigits = n => (n > 9 ? `${n}` : `0${n}`);
 
   const streamTitle = stream.game.name;
   const dateSubheader = `${moment(time).format('MM-DD-YYYY')} - ${getHours(duration)}hr ${convertTwoDigits(getMinutes(duration) - getHours(duration) * 60)} min`;
+  const viewerAverage = average(stream.viewership.map(a => a.anon + a.authed));
 
   return (
     <div className={classes.root} key={stream.id}>
@@ -84,6 +85,7 @@ function StreamView(props) {
           title={streamTitle}
           subheader={dateSubheader}
         />
+        <Typography style={{ textAlign: 'center' }}>{`Viewer Average: ${viewerAverage.toFixed(2)}`}</Typography>
         <StreamViewershipChart
           uuid={stream.id}
           data={stream.viewership}

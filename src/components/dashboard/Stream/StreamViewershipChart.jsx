@@ -50,6 +50,9 @@ const StreamViewershipChart = (props) => {
             },
           }],
         },
+        legend: {
+          display: false,
+        },
         tooltips: {
           mode: 'index',
           intersect: false,
