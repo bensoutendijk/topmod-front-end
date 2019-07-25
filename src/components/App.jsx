@@ -54,6 +54,7 @@ const useStyles = makeStyles(() => createStyles({
   },
   content: {
   },
+  toolbar: theme.mixins.toolbar,
 }));
 
 function App() {
@@ -76,6 +77,7 @@ function App() {
       <div className={classes.root}>
         <Header user={auth} />
         <div className={classes.content}>
+          <div className={classes.toolbar} />
           <Switch>
             <Route
               path="/dashboard"

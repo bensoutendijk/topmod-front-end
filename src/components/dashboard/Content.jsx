@@ -14,7 +14,6 @@ const useStyles = makeStyles(theme => createStyles({
     marginLeft: '210px',
     width: 'calc(100% - 210px)',
   },
-  toolbar: theme.mixins.toolbar,
 }));
 
 function Content() {
@@ -24,7 +23,6 @@ function Content() {
 
   return (
     <div className={classes.root}>
-      <div className={classes.toolbar} />
       { user.services.includes('mixer') ? (
         <Mixer />
       ) : (
