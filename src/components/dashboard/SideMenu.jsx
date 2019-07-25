@@ -40,8 +40,8 @@ function SideMenu() {
           <ListItem button component={Link} to="/dashboard">
             <ListItemText primary="Dashboard" />
           </ListItem>
-          <ListItem button component={Link} to="/dashboard/reports">
-            <ListItemText primary="Reports" />
+          <ListItem button component={Link} to="/dashboard/streams">
+            <ListItemText primary="Streams" />
           </ListItem>
           <ListItem button component={Link} to="/dashboard/calendar">
             <ListItemText primary="Calendar" />

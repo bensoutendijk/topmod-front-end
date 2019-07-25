@@ -10,7 +10,6 @@ import { updateDateFrom, updateDateTo, getMixerViewers } from '../../actions';
 import { selectMixerViewerAverage, selectMixerViewersOverTime } from '../../selectors';
 import Calendar from './Calendar';
 import MixerChat from './Mixer/MixerChat';
-import MixerViewershipChart from './MixerViewershipChart';
 
 const useStyles = makeStyles(theme => createStyles({
   root: {
@@ -59,10 +58,6 @@ function DashboardPage() {
 
   return (
     <Grid className={classes.root} container>
-      <Grid className={classes.chart} item md={6}>
-        <MixerViewershipChart data={mixerViewersByDay} />
-      </Grid>
-      <Grid item md={6} />
       <Grid item md={4}>
         <h4>Chat</h4>
         <MixerChat />

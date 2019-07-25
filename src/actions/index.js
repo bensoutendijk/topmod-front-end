@@ -1,3 +1,3 @@
 export * from './authActions';
-export * from './mixerActions';
+export * from './mixer';
 export * from './filtersActions';

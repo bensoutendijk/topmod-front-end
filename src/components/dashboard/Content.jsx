@@ -7,6 +7,7 @@ import Mixer from './Mixer/Mixer';
 import DashboardPage from './DashboardPage';
 import ServicesPage from './ServicesPage';
 import CalendarPage from './CalendarPage';
+import StreamList from './Stream/StreamList';
 
 const useStyles = makeStyles(theme => createStyles({
   root: {
@@ -20,6 +21,8 @@ const useStyles = makeStyles(theme => createStyles({
 function Content() {
   const classes = useStyles();
   const { user } = useSelector(state => state.auth);
+  const { streams } = useSelector(state => state.mixer);
+
   return (
     <div className={classes.root}>
       { user.services.includes('mixer') ? (
@@ -37,10 +40,10 @@ function Content() {
         }
       />
       <Route
-        path="/dashboard/services"
+        path="/dashboard/streams"
         render={
           props => (
-            <ServicesPage {...props} />
+            <StreamList {...props} streams={streams} />
           )
         }
       />
@@ -49,6 +52,14 @@ function Content() {
         render={
           props => (
             <CalendarPage {...props} />
+          )
+        }
+      />
+      <Route
+        path="/dashboard/services"
+        render={
+          props => (
+            <ServicesPage {...props} />
           )
         }
       />
