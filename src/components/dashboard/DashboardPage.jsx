@@ -14,6 +14,8 @@ const useStyles = makeStyles(theme => createStyles({
   root: {
     color: theme.palette.primary.main,
     paddingTop: theme.spacing(2),
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
   },
   dashboardColumn: {
     height: '80vh',
