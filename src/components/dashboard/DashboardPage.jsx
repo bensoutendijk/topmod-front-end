@@ -36,10 +36,6 @@ function DashboardPage() {
   const messagesEndRef = useRef(null);
   const chatColumnRef = useRef(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-  };
-
   useEffect(() => {
     const chatColumn = chatColumnRef.current;
 
@@ -56,6 +52,10 @@ function DashboardPage() {
   }, []);
 
   useEffect(() => {
+    const scrollToBottom = () => {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    };
+
     if (!scrolled) {
       scrollToBottom();
     }
