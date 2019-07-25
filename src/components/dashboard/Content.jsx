@@ -43,7 +43,7 @@ function Content() {
         path="/dashboard/streams"
         render={
           props => (
-            <StreamList {...props} streams={streams} />
+            <StreamList {...props} streams={streams.data} />
           )
         }
       />

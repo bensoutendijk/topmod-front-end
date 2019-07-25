@@ -31,6 +31,7 @@ function DashboardPage() {
         </Grid>
       </Grid>
       <Grid item md={4}>
+        <h4 style={{ textAlign: 'center' }}>Chat</h4>
         {mixerChat.fetched ? (
           <MixerChat chat={mixerChat.data} />
         ) : (
@@ -38,6 +39,7 @@ function DashboardPage() {
         )}
       </Grid>
       <Grid item md={4}>
+        <h4 style={{ textAlign: 'center' }}>Recent Streams</h4>
         {mixerStreams.fetched ? (
           <StreamList streams={mixerStreams.data.slice(-3)} />
         ) : (
@@ -45,6 +47,7 @@ function DashboardPage() {
         )}
       </Grid>
       <Grid item md={4}>
+        <h4 style={{ textAlign: 'center' }}>Moderators</h4>
         {mixerModList.fetched ? (
           <MixerModList modList={mixerModList.data} />
         ) : (

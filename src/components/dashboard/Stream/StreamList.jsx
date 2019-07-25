@@ -11,6 +11,7 @@ const useStyles = makeStyles(theme => createStyles({
   streamList: {
     display: 'flex',
     flexDirection: 'column-reverse',
+    alignItems: 'center',
   },
   stream: {
     display: 'flex',
