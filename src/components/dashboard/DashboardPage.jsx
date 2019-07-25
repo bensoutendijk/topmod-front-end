@@ -31,6 +31,9 @@ function DashboardPage() {
   const mixerStreams = useSelector(state => state.mixer.streams);
   const mixerModList = useSelector(state => state.mixer.modList);
 
+  const onlineMods = mixerModList.data.filter(mod => mod.active);
+  const offlineMods = mixerModList.data.filter(mod => !mod.active);
+
   const [scrolled, setScrolled] = useState(false);
 
   const messagesEndRef = useRef(null);
@@ -93,7 +96,12 @@ function DashboardPage() {
         <h4 style={{ textAlign: 'center' }}>Moderators</h4>
         <div className={classes.dashboardColumn}>
           {mixerModList.fetched ? (
-            <MixerModList modList={mixerModList.data} />
+            <>
+              <h5>Online</h5>
+              <MixerModList online modList={onlineMods} />
+              <h5>Offline</h5>
+              <MixerModList offline modList={offlineMods} />
+            </>
           ) : (
             null
           )}
