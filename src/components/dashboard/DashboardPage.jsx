@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 import { makeStyles, createStyles } from '@material-ui/styles';
@@ -13,6 +13,12 @@ import StreamList from './Stream/StreamList';
 const useStyles = makeStyles(theme => createStyles({
   root: {
     color: theme.palette.primary.main,
+    paddingTop: theme.spacing(2),
+  },
+  dashboardColumn: {
+    height: '80vh',
+    overflowY: 'auto',
+    overflowX: 'hidden',
   },
 }));
 
@@ -23,6 +29,36 @@ function DashboardPage() {
   const mixerStreams = useSelector(state => state.mixer.streams);
   const mixerModList = useSelector(state => state.mixer.modList);
 
+  const [scrolled, setScrolled] = useState(false);
+
+  const messagesEndRef = useRef(null);
+  const chatColumnRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    const chatColumn = chatColumnRef.current;
+
+    const handleScroll = () => {
+      if (chatColumn.scrollTop + chatColumn.offsetHeight === chatColumn.scrollHeight) {
+        setScrolled(false);
+      } else {
+        setScrolled(true);
+      }
+    };
+
+    chatColumn.addEventListener('scroll', handleScroll);
+    return () => chatColumn.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!scrolled) {
+      scrollToBottom();
+    }
+  }, [mixerChat.data, scrolled]);
+
   return (
     <Grid className={classes.root} container justify="space-around">
       <Grid item md={12}>
@@ -32,27 +68,34 @@ function DashboardPage() {
       </Grid>
       <Grid item md={4}>
         <h4 style={{ textAlign: 'center' }}>Chat</h4>
-        {mixerChat.fetched ? (
-          <MixerChat chat={mixerChat.data} />
-        ) : (
-          null
-        )}
+        <div className={classes.dashboardColumn} ref={chatColumnRef}>
+          {mixerChat.fetched ? (
+            <MixerChat chat={mixerChat.data} />
+          ) : (
+            null
+          )}
+          <div ref={messagesEndRef} />
+        </div>
       </Grid>
       <Grid item md={4}>
         <h4 style={{ textAlign: 'center' }}>Recent Streams</h4>
-        {mixerStreams.fetched ? (
-          <StreamList streams={mixerStreams.data.slice(-3)} />
-        ) : (
-          null
-        )}
+        <div className={classes.dashboardColumn}>
+          {mixerStreams.fetched ? (
+            <StreamList streams={mixerStreams.data.slice(-3)} />
+          ) : (
+            null
+          )}
+        </div>
       </Grid>
       <Grid item md={4}>
         <h4 style={{ textAlign: 'center' }}>Moderators</h4>
-        {mixerModList.fetched ? (
-          <MixerModList modList={mixerModList.data} />
-        ) : (
-          null
-        )}
+        <div className={classes.dashboardColumn}>
+          {mixerModList.fetched ? (
+            <MixerModList modList={mixerModList.data} />
+          ) : (
+            null
+          )}
+        </div>
       </Grid>
     </Grid>
   );

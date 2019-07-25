@@ -51,11 +51,8 @@ const theme = createMuiTheme({
 
 const useStyles = makeStyles(() => createStyles({
   root: {
-    height: '100%',
   },
   content: {
-    height: '100%',
-    marginTop: '64px',
   },
 }));
 
