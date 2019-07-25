@@ -84,8 +84,6 @@ const StreamViewershipChart = (props) => {
     <canvas
       id={`MixerViewershipChart-${uuid}`}
       ref={chartRef}
-      width="800"
-      height="200"
     />
   );
 };

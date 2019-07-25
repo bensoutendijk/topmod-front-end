@@ -1,7 +1,6 @@
-import uuid from 'uuid';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { makeStyles, createStyles } from '@material-ui/styles';
+import MixerChatMessage from './MixerChatMessage';
 
 const useStyles = makeStyles(() => createStyles({
   root: {
@@ -13,32 +12,16 @@ const useStyles = makeStyles(() => createStyles({
   },
 }));
 
-function MixerChat() {
+function MixerChat(props) {
   const classes = useStyles();
-
-  const mixerChat = useSelector(state => state.mixer.chat.data);
-
-  const renderChatMessage = (chatEvent) => {
-    let message = '';
-    const messageArray = chatEvent.message.message;
-    const username = chatEvent.user_name;
-    messageArray.forEach((chatMessage) => {
-      message += chatMessage.text;
-    });
-    return (
-      <React.Fragment>
-        <span>{`${username}: `}</span>
-        <span>{message}</span>
-      </React.Fragment>
-    );
-  };
+  const { chat } = props;
 
   return (
     <div className={classes.root}>
       <div className={classes.chatLog}>
-        {mixerChat ? (
-          mixerChat.map(chatEvent => (
-            <p key={uuid.v4()}>{renderChatMessage(chatEvent)}</p>
+        {chat ? (
+          chat.map(chatEvent => (
+            <MixerChatMessage key={chatEvent.id} chatEvent={chatEvent} />
           ))
         ) : (
           null

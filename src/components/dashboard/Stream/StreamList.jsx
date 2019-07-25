@@ -29,9 +29,8 @@ function StreamList(props) {
 
   return (
     <div className={classes.root}>
-      <h1>Streams</h1>
       <div className={classes.streamList}>
-        {streams.data.map(stream => <StreamView key={stream.id} stream={stream} />)}
+        {streams.map(stream => <StreamView key={stream.id} stream={stream} />)}
       </div>
     </div>
   );
