@@ -15,7 +15,6 @@ import LogOut from './LogOut';
 import Content from './dashboard/Content';
 
 import { getUser } from '../actions';
-import { RootState } from '../reducers';
 
 const theme = createMuiTheme({
   palette: {
@@ -67,13 +66,13 @@ function App() {
     fetchUser();
   }, [dispatch]);
 
-  const auth = useSelector((state: RootState) => state.auth);
+  const auth = useSelector(state => state.auth);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className={classes.root}>
-        <Header user={auth} />
+        <Header auth={auth} />
         <div className={classes.content}>
           <div className={classes.toolbar} />
           <Switch>

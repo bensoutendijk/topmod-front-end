@@ -65,13 +65,9 @@ const useStyles = makeStyles(() => createStyles({
   },
 }));
 
-export interface Props {
-  user: ILocalUser;
-}
-
-export default function Header(props: Props) {
+export default function Header(props) {
   const classes = useStyles();
-  const { user } = props;
+  const { auth } = props;
   return (
     <section className={classes.root}>
       <ThemeProvider theme={theme}>
@@ -85,7 +81,7 @@ export default function Header(props: Props) {
               </Grid>
               <Grid item>
                 <Grid container spacing={2}>
-                  { user ? (
+                  { auth.fetched ? (
                     null
                   ) : (
                     <Grid item>
@@ -100,7 +96,7 @@ export default function Header(props: Props) {
                       </Button>
                     </Grid>
                   )}
-                  {user ? (
+                  {auth.fetched ? (
                     <Grid item>
                       <Button
                         to="/logout"
