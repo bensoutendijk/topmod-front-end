@@ -42,7 +42,7 @@ export default function (state = {}, action) {
       };
     case 'CREATE_USER_FULFILLED':
       return {
-        fetching: false, fetched: false, ...action.payload, errors: false,
+        fetching: false, fetched: true, ...action.payload, errors: false,
       };
     case 'CREATE_USER_REJECTED':
       return {
