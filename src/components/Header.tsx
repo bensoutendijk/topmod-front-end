@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -66,9 +65,13 @@ const useStyles = makeStyles(() => createStyles({
   },
 }));
 
-function Header() {
+export interface Props {
+  user: ILocalUser;
+}
+
+export default function Header(props: Props) {
   const classes = useStyles();
-  const user = useSelector(state => state.auth.user);
+  const { user } = props;
   return (
     <section className={classes.root}>
       <ThemeProvider theme={theme}>
@@ -131,5 +134,3 @@ function Header() {
     </section>
   );
 }
-
-export default Header;
