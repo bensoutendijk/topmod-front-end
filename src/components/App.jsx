@@ -66,13 +66,13 @@ function App() {
     fetchUser();
   }, [dispatch]);
 
-  const auth = useSelector(state => state.auth);
+  const localUser = useSelector(state => state.localUser);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className={classes.root}>
-        <Header auth={auth} />
+        <Header localUser={localUser} />
         <div className={classes.content}>
           <div className={classes.toolbar} />
           <Switch>
@@ -80,7 +80,7 @@ function App() {
               path="/dashboard"
               render={
                 props => (
-                  auth.fetched ? (
+                  localUser.fetched ? (
                     <React.Fragment>
                       <SideMenu {...props} />
                       <Content />
@@ -95,7 +95,7 @@ function App() {
               path="/account"
               render={
                 props => (
-                  auth.fetched ? (
+                  localUser.fetched ? (
                     <React.Fragment>
                       <SideMenu {...props} />
                       <Content />
@@ -111,7 +111,7 @@ function App() {
               path="/login"
               render={
                 props => (
-                  auth.fetched ? (
+                  localUser.fetched ? (
                     <Redirect to="/" />
                   ) : (
                     <LogIn {...props} />
@@ -124,7 +124,7 @@ function App() {
               path="/logout"
               render={
                 props => (
-                  auth.fetched ? (
+                  localUser.fetched ? (
                     <LogOut {...props} />
                   ) : (
                     <Redirect to="/" />
@@ -137,7 +137,7 @@ function App() {
               path="/signup"
               render={
                 props => (
-                  auth.fetched ? (
+                  localUser.fetched ? (
                     <Redirect to="/" />
                   ) : (
                     <SignUp {...props} />
@@ -150,7 +150,7 @@ function App() {
               path="/"
               render={
                 () => (
-                  auth.fetched ? (
+                  localUser.fetched ? (
                     <Redirect to="/dashboard" />
                   ) : (
                     <SplashPage />

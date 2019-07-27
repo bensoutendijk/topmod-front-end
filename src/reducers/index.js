@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import authReducer from './authReducer';
+import localUserReducer from './localUserReducer';
 import mixerReducer from './mixerReducer';
 import filtersReducer from './filtersReducer';
 
 export default combineReducers({
-  auth: authReducer,
+  localUser: localUserReducer,
   mixer: mixerReducer,
   filters: filtersReducer,
 });
