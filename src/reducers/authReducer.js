@@ -1,52 +1,71 @@
-export default function (state = {}, action) {
+const initialState = {
+  fetching: false,
+  fetched: false,
+  user: undefined,
+  errors: undefined,
+};
+
+export default function (state = initialState, action) {
   switch (action.type) {
     case 'GET_USER_PENDING':
       return {
-        fetching: true, fetched: false, user: null, errors: false,
+        ...state,
+        fetching: true,
       };
     case 'GET_USER_FULFILLED':
       return {
-        fetching: false, fetched: true, ...action.payload, errors: false,
+        ...state,
+        fetching: false,
+        fetched: true,
+        user: action.payload,
       };
     case 'GET_USER_REJECTED':
       return {
-        fetching: false, fetched: false, user: null, errors: true,
+        ...state,
+        fetching: false,
+        errors: action.payload,
       };
     case 'LOGIN_USER_PENDING':
       return {
-        fetching: true, fetched: false, user: null, errors: false,
+        ...state,
+        fetching: true,
       };
     case 'LOGIN_USER_FULFILLED':
       return {
-        fetching: false, fetched: true, ...action.payload, errors: false,
+        ...state,
+        fetching: false,
+        fetched: true,
+        user: action.payload,
       };
     case 'LOGIN_USER_REJECTED':
       return {
-        fetching: false, fetched: false, user: null, ...action.payload,
-      };
-    case 'LOGOUT_USER_PENDING':
-      return {
-        fetching: true, fetched: false, user: null, errors: false,
-      };
-    case 'LOGOUT_USER_FULFILLED':
-      return {
-        fetching: false, fetched: false, ...action.payload, errors: false,
-      };
-    case 'LOGOUT_USER_REJECTED':
-      return {
-        fetching: false, fetched: false, user: null, ...action.payload,
+        ...state,
+        fetching: false,
+        errors: action.payload,
       };
     case 'CREATE_USER_PENDING':
       return {
-        fetching: true, fetched: false, user: null, errors: false,
+        ...state,
+        fetching: true,
       };
     case 'CREATE_USER_FULFILLED':
       return {
-        fetching: false, fetched: true, ...action.payload, errors: false,
+        ...state,
+        fetching: false,
+        fetched: true,
+        user: action.payload,
       };
     case 'CREATE_USER_REJECTED':
       return {
-        fetching: false, fetched: false, user: null, ...action.payload,
+        ...state,
+        fetching: false,
+        errors: action.payload,
+      };
+    case 'LOGOUT_USER':
+      return {
+        ...state,
+        fetched: false,
+        user: undefined,
       };
     default:
       return state;
