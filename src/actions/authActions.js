@@ -18,7 +18,7 @@ export const getUser = () => async (dispatch) => {
     const { data } = await axios.get('/api/auth/local/current');
     dispatch({ type: 'GET_USER_FULFILLED', payload: data });
   } catch (err) {
-    dispatch({ type: 'GET_USER_REJECTED' });
+    dispatch({ type: 'GET_USER_REJECTED', payload: err.response.data });
   }
 };
 
@@ -34,11 +34,6 @@ export const loginUser = user => async (dispatch) => {
 };
 
 export const logoutUser = () => async (dispatch) => {
-  dispatch({ type: 'LOGOUT_USER_PENDING' });
-  try {
-    document.cookie = cookie.serialize('token2', null);
-    dispatch({ type: 'LOGOUT_USER_FULFILLED', payload: null });
-  } catch (err) {
-    dispatch({ type: 'LOGOUT_USER_REJECTED' });
-  }
+  document.cookie = cookie.serialize('token2', null);
+  dispatch({ type: 'LOGOUT_USER', payload: null });
 };
