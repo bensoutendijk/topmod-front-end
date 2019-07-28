@@ -1,7 +1,5 @@
 import {
   LocalUserActionTypes,
-  ILocalUser,
-  ILocalUserErrors,
   CREATE_LOCAL_USER_PENDING,
   CREATE_LOCAL_USER_FULFILLED,
   CREATE_LOCAL_USER_REJECTED,
@@ -12,7 +10,9 @@ import {
   LOGIN_LOCAL_USER_FULFILLED,
   LOGIN_LOCAL_USER_REJECTED,
   LOGOUT_LOCAL_USER,
-} from "./types";
+  ILocalUser,
+  ILocalUserErrors,
+} from './types';
 
 export function createLocalUser(): LocalUserActionTypes {
   return {

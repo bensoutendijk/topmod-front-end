@@ -19,6 +19,12 @@ export interface ILocalUser {
   services: [LocalUserService]
 }
 
+export interface ILocalUserCredentials {
+  email: string
+  password: string
+  passwordConfirmation?: string
+}
+
 export interface ILocalUserErrors {
   user?: 'not authorized' | 'not authenticated'
 }
