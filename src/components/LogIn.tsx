@@ -92,7 +92,7 @@ function LogIn() {
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
     const user = {
       email,
