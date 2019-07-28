@@ -4,10 +4,12 @@ import cookie from 'cookie';
 
 import { makeStyles, createStyles } from '@material-ui/styles';
 
-import { thunkLogoutLocalUser } from '../store/localUser/thunks';
+import { logoutLocalUser } from '../store/localUser/actions';
 
 const useStyles = makeStyles(() => createStyles({
-
+  root: {
+    textAlign: 'center',
+  },
 }));
 
 function LogOut() {
@@ -15,8 +17,8 @@ function LogOut() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    document.cookie = cookie.serialize('token2', null);
-    dispatch(thunkLogoutLocalUser());
+    document.cookie = cookie.serialize('token2', '');
+    dispatch(logoutLocalUser());
   }, [dispatch]);
 
   return (
