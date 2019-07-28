@@ -8,9 +8,9 @@ import {
   GET_MIXER_CHAT_HISTORY_FULFILLED,
   GET_MIXER_CHAT_HISTORY_REJECTED,
   UPDATE_MIXER_CHAT,
-  GET_MIXER_MOD_LIST_PENDING,
-  GET_MIXER_MOD_LIST_FULFILLED,
-  GET_MIXER_MOD_LIST_REJECTED,
+  GET_MIXER_CHAT_MODS_PENDING,
+  GET_MIXER_CHAT_MODS_FULFILLED,
+  GET_MIXER_CHAT_MODS_REJECTED,
   GET_MIXER_VIEWERS_PENDING,
   GET_MIXER_VIEWERS_FULFILLED,
   GET_MIXER_VIEWERS_REJECTED,
@@ -56,7 +56,7 @@ const initialState: MixerState = {
   },
 };
 
-export default function (
+export function mixerReducer(
   state = initialState,
   action: MixerActionTypes
 ): MixerState {
@@ -174,7 +174,7 @@ export default function (
           fetched: false,
         },
       };
-    case GET_MIXER_MOD_LIST_PENDING:
+    case GET_MIXER_CHAT_MODS_PENDING:
       return {
         ...state,
         chatMods: {
@@ -182,7 +182,7 @@ export default function (
           fetching: true,
         },
       };
-    case GET_MIXER_MOD_LIST_FULFILLED:
+    case GET_MIXER_CHAT_MODS_FULFILLED:
       return {
         ...state,
         chatMods: {
@@ -192,7 +192,7 @@ export default function (
           data: action.payload,
         },
       };
-    case GET_MIXER_MOD_LIST_REJECTED:
+    case GET_MIXER_CHAT_MODS_REJECTED:
       return {
         ...state,
         chatMods: {

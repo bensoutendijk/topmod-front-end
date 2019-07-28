@@ -21,7 +21,7 @@ import {
 } from './actions';
 
 
-export const thunkGetMixerUser = (): ThunkAction<void, AppState, null, MixerActionTypes> => async (dispatch) => {
+export const fetchMixerUser = (): ThunkAction<void, AppState, null, MixerActionTypes> => async (dispatch) => {
   dispatch(getMixerUser());
   try {
     const { data } = await axios.get('/api/auth/mixer/current');
@@ -32,7 +32,7 @@ export const thunkGetMixerUser = (): ThunkAction<void, AppState, null, MixerActi
   }
 };
 
-export const thunkGetMixerViewers = (): ThunkAction<void, AppState, null, MixerActionTypes> => async (dispatch) => {
+export const fetchMixerViewers = (): ThunkAction<void, AppState, null, MixerActionTypes> => async (dispatch) => {
   dispatch(getMixerViewers());
   try {
     const { data } = await axios.get('/api/analytics/chat/viewers');
@@ -42,7 +42,7 @@ export const thunkGetMixerViewers = (): ThunkAction<void, AppState, null, MixerA
   }
 };
 
-export const thunkGetMixerChatMods = (): ThunkAction<void, AppState, null, MixerActionTypes> => async (dispatch) => {
+export const fetchMixerChatMods = (): ThunkAction<void, AppState, null, MixerActionTypes> => async (dispatch) => {
   dispatch(getMixerChatMods());
   try {
     const { data } = await axios.get('/api/analytics/mixer/users/mod');
@@ -52,7 +52,7 @@ export const thunkGetMixerChatMods = (): ThunkAction<void, AppState, null, Mixer
   }
 };
 
-export const thunkGetMixerChatHistory = (): ThunkAction<void, AppState, null, MixerActionTypes> => async (dispatch) => {
+export const fetchMixerChatHistory = (): ThunkAction<void, AppState, null, MixerActionTypes> => async (dispatch) => {
   dispatch(getMixerChatHistory());
   try {
     const { data } = await axios.get('/api/chat/mixer/history');
@@ -62,7 +62,7 @@ export const thunkGetMixerChatHistory = (): ThunkAction<void, AppState, null, Mi
   }
 };
 
-export const thunkGetMixerChatClient = (): ThunkAction<void, AppState, null, MixerActionTypes> => async (dispatch) => {
+export const fetchMixerChatClient = (): ThunkAction<void, AppState, null, MixerActionTypes> => async (dispatch) => {
   dispatch(getMixerChatClient());
   try {
     const { data } = await axios.get('/api/chat/mixer');

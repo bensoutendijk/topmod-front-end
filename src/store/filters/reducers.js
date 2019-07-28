@@ -5,7 +5,7 @@ const initialState = {
   },
 };
 
-export default function (state = initialState, action) {
+export function filtersReducer(state = initialState, action) {
   switch (action.type) {
     case 'UPDATE_DATE_FROM':
       return {

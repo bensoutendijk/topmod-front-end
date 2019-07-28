@@ -4,9 +4,11 @@ import reduxThunk from 'redux-thunk';
 import { composeWithDevTools } from "redux-devtools-extension";
 
 import { localUserReducer } from './localUser/reducers';
+import { mixerReducer } from './mixer/reducers';
 
 const rootReducer = combineReducers({
   localUser: localUserReducer,
+  mixer: mixerReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  getMixerStreams,
-  getMixerUser,
-  getMixerModList,
-  getMixerViewers,
-  getMixerChatHistory,
-  getMixerChat,
-  updateMixerChat,
-} from '../../../actions';
+  fetchMixerUser,
+  fetchMixerViewers,
+  fetchMixerChatClient,
+  fetchMixerChatHistory,
+  fetchMixerChatMods,
+} from '../../../store/mixer/thunks';
+
+import { updateMixerChat } from '../../../store/mixer/actions';
 
 function Mixer() {
   const dispatch = useDispatch();
@@ -18,50 +18,30 @@ function Mixer() {
   const chatClient = useSelector(state => state.mixer.chatClient);
 
   useEffect(() => {
-    const fetchMixer = async () => {
-      await dispatch(getMixerUser());
-    };
+    dispatch(fetchMixerUser());
+  }, [dispatch]);
 
-    fetchMixer();
+  // useEffect(() => {
+  //   const fetchMixerStreams = async () => {
+  //     await dispatch(fetchMixerStreams());
+  //   };
+
+  //   fetchMixerStreams();
+  // }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchMixerChatMods());
   }, [dispatch]);
 
   useEffect(() => {
-    const fetchMixerStreams = async () => {
-      await dispatch(getMixerStreams());
-    };
-
-    fetchMixerStreams();
+    dispatch(fetchMixerViewers());
   }, [dispatch]);
 
   useEffect(() => {
-    const fetchMixerModList = async () => {
-      await dispatch(getMixerModList());
-    };
-
-    fetchMixerModList();
+    dispatch(fetchMixerChatHistory());
   }, [dispatch]);
 
   useEffect(() => {
-    const fetchMixerViewers = async () => {
-      await dispatch(getMixerViewers());
-    };
-
-    fetchMixerViewers();
-  }, [dispatch]);
-
-  useEffect(() => {
-    const fetchMixerChatHistory = async () => {
-      await dispatch(getMixerChatHistory());
-    };
-
-    fetchMixerChatHistory();
-  }, [dispatch]);
-
-  useEffect(() => {
-    const fetchMixerChat = async () => {
-      await dispatch(getMixerChat());
-    };
-
     const connectMixerChat = () => {
       const socket = new WebSocket(chatClient.data.endpoints);
 
@@ -85,7 +65,7 @@ function Mixer() {
     };
 
     if (mixerUser.fetched) {
-      fetchMixerChat();
+      dispatch(fetchMixerChatClient());
       if (chatClient.fetched) {
         const socket = connectMixerChat();
         return (() => {
