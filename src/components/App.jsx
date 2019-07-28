@@ -14,7 +14,7 @@ import SignUp from './SignUp';
 import LogOut from './LogOut';
 import Content from './dashboard/Content';
 
-import { getUser } from '../actions';
+import { thunkGetLocalUser } from '../store/localUser/thunks';
 
 const theme = createMuiTheme({
   palette: {
@@ -60,7 +60,7 @@ function App() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      await dispatch(getUser());
+      await dispatch(thunkGetLocalUser());
     };
 
     fetchUser();

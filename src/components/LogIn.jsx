@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-import { loginUser } from '../actions/index';
+import { thunkLoginLocalUser } from '../store/localUser/thunks';
 
 const theme = createMuiTheme({
   palette: {
@@ -99,7 +99,7 @@ function LogIn() {
       password,
       remember,
     };
-    dispatch(loginUser(user));
+    dispatch(thunkLoginLocalUser(user));
   };
 
   return (
