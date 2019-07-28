@@ -14,7 +14,9 @@ import SignUp from './SignUp';
 import LogOut from './LogOut';
 import Content from './dashboard/Content';
 
+import { AppState } from '../store';
 import { thunkGetLocalUser } from '../store/localUser/thunks';
+import { LocalUserState } from '../store/localUser/types';
 
 const theme = createMuiTheme({
   palette: {
@@ -66,7 +68,7 @@ function App() {
     fetchUser();
   }, [dispatch]);
 
-  const localUser = useSelector(state => state.localUser);
+  const localUser: LocalUserState = useSelector((state: AppState) => state.localUser);
 
   return (
     <ThemeProvider theme={theme}>
@@ -82,7 +84,7 @@ function App() {
                 props => (
                   localUser.fetched ? (
                     <React.Fragment>
-                      <SideMenu {...props} />
+                      <SideMenu />
                       <Content />
                     </React.Fragment>
                   ) : (
@@ -97,7 +99,7 @@ function App() {
                 props => (
                   localUser.fetched ? (
                     <React.Fragment>
-                      <SideMenu {...props} />
+                      <SideMenu />
                       <Content />
                     </React.Fragment>
                   ) : (
@@ -114,7 +116,7 @@ function App() {
                   localUser.fetched ? (
                     <Redirect to="/" />
                   ) : (
-                    <LogIn {...props} />
+                    <LogIn />
                   )
                 )
               }
@@ -125,7 +127,7 @@ function App() {
               render={
                 props => (
                   localUser.fetched ? (
-                    <LogOut {...props} />
+                    <LogOut />
                   ) : (
                     <Redirect to="/" />
                   )
@@ -140,7 +142,7 @@ function App() {
                   localUser.fetched ? (
                     <Redirect to="/" />
                   ) : (
-                    <SignUp {...props} />
+                    <SignUp />
                   )
                 )
               }
