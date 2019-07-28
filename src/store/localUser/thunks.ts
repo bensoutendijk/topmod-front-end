@@ -1,8 +1,7 @@
 import axios from 'axios';
-import cookie from 'cookie';
 import { ThunkAction } from 'redux-thunk';
 import { AppState } from '..';
-import { ILocalUser, LocalUserActionTypes } from './types';
+import { ILocalUser, LocalUserActionTypes, ILocalUserCredentials } from './types';
 import {
   createLocalUser,
   createLocalUserSuccess,
@@ -13,7 +12,6 @@ import {
   loginLocalUser,
   loginLocalUserSuccess,
   loginLocalUserFailure,
-  logoutLocalUser
 } from './actions';
 
 export const thunkCreateLocalUser = (
@@ -41,19 +39,14 @@ export const thunkGetLocalUser = (): ThunkAction<void, AppState, null, LocalUser
 };
 
 export const thunkLoginLocalUser = (
-  localUser: ILocalUser
+  localUserCredentials: ILocalUserCredentials
 ): ThunkAction<void, AppState, null, LocalUserActionTypes> => async (dispatch) => {
   dispatch(loginLocalUser());
   try {
-    const { data } = await axios.post('/api/auth/local/login', localUser);
+    const { data } = await axios.post('/api/auth/local/login', localUserCredentials);
     dispatch(loginLocalUserSuccess(data));
   } catch (err) {
     const { data } = err.response;
     dispatch(loginLocalUserFailure(data));
   }
-};
-
-export const thunkLogoutLocalUser = (): ThunkAction<void, AppState, null, LocalUserActionTypes> => async (dispatch) => {
-  document.cookie = cookie.serialize('token2', '');
-  dispatch(logoutLocalUser());
 };
