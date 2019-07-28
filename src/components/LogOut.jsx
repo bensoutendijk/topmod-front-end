@@ -4,7 +4,7 @@ import cookie from 'cookie';
 
 import { makeStyles, createStyles } from '@material-ui/styles';
 
-import { logoutUser } from '../actions/index';
+import { thunkLogoutLocalUser } from '../store/localUser/thunks';
 
 const useStyles = makeStyles(() => createStyles({
 
@@ -16,7 +16,7 @@ function LogOut() {
 
   useEffect(() => {
     document.cookie = cookie.serialize('token2', null);
-    dispatch(logoutUser());
+    dispatch(thunkLogoutLocalUser());
   }, [dispatch]);
 
   return (

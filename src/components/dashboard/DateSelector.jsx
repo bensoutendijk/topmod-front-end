@@ -5,7 +5,7 @@ import { makeStyles, createStyles } from '@material-ui/styles';
 
 import Calendar from './Calendar';
 
-import { updateDateFrom, updateDateTo } from '../../actions';
+import { updateDateFrom, updateDateTo } from '../../store/filters/actions';
 
 const useStyles = makeStyles(() => createStyles({
   root: {

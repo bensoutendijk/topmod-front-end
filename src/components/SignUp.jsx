@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-import { createUser } from '../actions';
+import { thunkCreateLocalUser } from '../store/localUser/thunks';
 
 const theme = createMuiTheme({
   palette: {
@@ -91,7 +91,7 @@ function SignUp() {
       password,
       passwordConfirmation,
     };
-    dispatch(createUser(user));
+    dispatch(thunkCreateLocalUser(user));
   };
 
   return (

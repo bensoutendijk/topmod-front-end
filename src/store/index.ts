@@ -5,10 +5,12 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
 import { localUserReducer } from './localUser/reducers';
 import { mixerReducer } from './mixer/reducers';
+import { filtersReducer } from './filters/reducers';
 
 const rootReducer = combineReducers({
   localUser: localUserReducer,
-  mixer: mixerReducer
+  mixer: mixerReducer,
+  filters: filtersReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;
