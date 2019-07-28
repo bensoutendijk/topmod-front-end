@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => createStyles({
 
 function Content() {
   const classes = useStyles();
-  const { user } = useSelector(state => state.auth);
+  const { user } = useSelector(state => state.localUser);
   const { streams } = useSelector(state => state.mixer);
 
   return (
