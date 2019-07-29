@@ -5,14 +5,11 @@ import { ThemeProvider, makeStyles, createStyles } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import SideMenu from './dashboard/SideMenu';
 import Header from './Header';
-import SplashPage from './SplashPage';
 import PageNotFound from './PageNotFound';
 import LogIn from './LogIn';
 import SignUp from './SignUp';
 import LogOut from './LogOut';
-import Content from './dashboard/Content';
 
 import { AppState } from '../store';
 import { thunkGetLocalUser } from '../store/auth/thunks';
@@ -64,15 +61,30 @@ function App() {
     fetchUser();
   }, [dispatch]);
 
-  const localUser: LocalUserState = useSelector((state: AppState) => state.auth);
+  const auth: LocalUserState = useSelector((state: AppState) => state.auth);
+
+  if (auth.fetched) {
+    return (
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Header />
+        <div className={classes.toolbar} />
+        <Switch>
+          <Route component={PageNotFound} />
+        </Switch>
+      </ThemeProvider>
+    )
+  }
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Header localUser={localUser} />
+      <Header />
       <div className={classes.toolbar} />
       <Switch>
-        <Route component={PageNotFound} />
+        <Route path="/login" component={LogIn} />
+        <Route path="/signup" component={SignUp} />
+        <Redirect to="/login" />
       </Switch>
     </ThemeProvider>
   );

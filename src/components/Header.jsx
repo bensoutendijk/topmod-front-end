@@ -8,6 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import { useSelector } from 'react-redux';
 
 
 const theme = createMuiTheme({
@@ -64,9 +65,9 @@ const useStyles = makeStyles(() => createStyles({
   },
 }));
 
-export default function Header(props) {
+export default function Header() {
   const classes = useStyles();
-  const { localUser } = props;
+  const auth = useSelector(state => state.auth);
   return (
     <section className={classes.root}>
       <ThemeProvider theme={theme}>
@@ -80,7 +81,7 @@ export default function Header(props) {
               </Grid>
               <Grid item>
                 <Grid container spacing={2}>
-                  { localUser.fetched ? (
+                  { auth.fetched ? (
                     null
                   ) : (
                     <Grid item>
@@ -95,7 +96,7 @@ export default function Header(props) {
                       </Button>
                     </Grid>
                   )}
-                  {localUser.fetched ? (
+                  {auth.fetched ? (
                     <Grid item>
                       <Button
                         to="/logout"

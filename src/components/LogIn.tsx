@@ -51,7 +51,7 @@ const useStyles = makeStyles(() => createStyles({
     },
   },
   image: {
-    height: '100%',
+    height: '100vh',
     width: '100%',
     objectFit: 'cover',
   },
