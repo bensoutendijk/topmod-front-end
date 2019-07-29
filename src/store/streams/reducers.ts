@@ -21,7 +21,7 @@ const initialState: LocalUserState = {
   errors: undefined,
 };
 
-export function localUserReducer(
+export function streamsReducer(
   state = initialState,
   action: LocalUserActionTypes
 ): LocalUserState {

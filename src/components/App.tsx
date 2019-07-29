@@ -15,8 +15,8 @@ import LogOut from './LogOut';
 import Content from './dashboard/Content';
 
 import { AppState } from '../store';
-import { thunkGetLocalUser } from '../store/localUser/thunks';
-import { LocalUserState } from '../store/localUser/types';
+import { thunkGetLocalUser } from '../store/auth/thunks';
+import { LocalUserState } from '../store/auth/types';
 
 const theme = createMuiTheme({
   palette: {
@@ -49,10 +49,6 @@ const theme = createMuiTheme({
 });
 
 const useStyles = makeStyles(() => createStyles({
-  root: {
-  },
-  content: {
-  },
   toolbar: theme.mixins.toolbar,
 }));
 
@@ -68,102 +64,16 @@ function App() {
     fetchUser();
   }, [dispatch]);
 
-  const localUser: LocalUserState = useSelector((state: AppState) => state.localUser);
+  const localUser: LocalUserState = useSelector((state: AppState) => state.auth);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <div className={classes.root}>
-        <Header localUser={localUser} />
-        <div className={classes.content}>
-          <div className={classes.toolbar} />
-          <Switch>
-            <Route
-              path="/dashboard"
-              render={
-                props => (
-                  localUser.fetched ? (
-                    <React.Fragment>
-                      <SideMenu />
-                      <Content />
-                    </React.Fragment>
-                  ) : (
-                    <Redirect to="/" />
-                  )
-                )
-              }
-            />
-            <Route
-              path="/account"
-              render={
-                props => (
-                  localUser.fetched ? (
-                    <React.Fragment>
-                      <SideMenu />
-                      <Content />
-                    </React.Fragment>
-                  ) : (
-                    <Redirect to="/" />
-                  )
-                )
-              }
-            />
-            <Route
-              exact
-              path="/login"
-              render={
-                props => (
-                  localUser.fetched ? (
-                    <Redirect to="/" />
-                  ) : (
-                    <LogIn />
-                  )
-                )
-              }
-            />
-            <Route
-              exact
-              path="/logout"
-              render={
-                props => (
-                  localUser.fetched ? (
-                    <LogOut />
-                  ) : (
-                    <Redirect to="/" />
-                  )
-                )
-              }
-            />
-            <Route
-              exact
-              path="/signup"
-              render={
-                props => (
-                  localUser.fetched ? (
-                    <Redirect to="/" />
-                  ) : (
-                    <SignUp />
-                  )
-                )
-              }
-            />
-            <Route
-              exact
-              path="/"
-              render={
-                () => (
-                  localUser.fetched ? (
-                    <Redirect to="/dashboard" />
-                  ) : (
-                    <SplashPage />
-                  )
-                )
-              }
-            />
-            <Route component={PageNotFound} />
-          </Switch>
-        </div>
-      </div>
+      <Header localUser={localUser} />
+      <div className={classes.toolbar} />
+      <Switch>
+        <Route component={PageNotFound} />
+      </Switch>
     </ThemeProvider>
   );
 }

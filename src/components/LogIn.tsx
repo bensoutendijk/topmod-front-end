@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-import { thunkLoginLocalUser } from '../store/localUser/thunks';
+import { thunkLoginLocalUser } from '../store/auth/thunks';
 
 const theme = createMuiTheme({
   palette: {

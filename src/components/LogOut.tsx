@@ -4,7 +4,7 @@ import cookie from 'cookie';
 
 import { makeStyles, createStyles } from '@material-ui/styles';
 
-import { logoutLocalUser } from '../store/localUser/actions';
+import { logoutLocalUser } from '../store/auth/actions';
 
 const useStyles = makeStyles(() => createStyles({
   root: {
