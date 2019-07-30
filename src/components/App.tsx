@@ -16,6 +16,7 @@ import { AppState } from '../store';
 import { SystemState } from '../store/system/types';
 import { AuthState } from '../store/auth/types';
 import { fetchUser } from '../store/auth/actions';
+import { updateLoaded } from '../store/system/actions';
 
 const theme = createMuiTheme({
   palette: {
@@ -50,11 +51,19 @@ const theme = createMuiTheme({
 function App() {
   const dispatch = useDispatch();
 
+  const fetched = useSelector((state: AppState) => state.fetched);
   const auth: AuthState = useSelector((state: AppState) => state.auth);
   const system: SystemState = useSelector((state: AppState) => state.system);
 
   useEffect(() => {
     dispatch(fetchUser());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const keys: string[] = Object.keys(fetched);
+    const isLoaded: boolean = keys.reduce((a: boolean, b: string) => (a && fetched[b]), false);
+    console.log(keys);
+    dispatch(updateLoaded(isLoaded));
   }, [dispatch]);
 
   if (system.isLoaded) {

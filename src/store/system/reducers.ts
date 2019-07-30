@@ -1,7 +1,7 @@
 import { SystemState, SystemActionTypes, UPDATE_LOADED } from "./types";
 
 const initialState: SystemState = {
-  isLoaded: true
+  isLoaded: false
 };
 
 export function systemReducer(
