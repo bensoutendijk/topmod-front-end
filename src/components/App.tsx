@@ -1,19 +1,21 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { ThemeProvider, makeStyles, createStyles } from '@material-ui/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import Header from './Header';
 import PageNotFound from './PageNotFound';
+import Header from './Header';
 import LogIn from './LogIn';
 import SignUp from './SignUp';
+import Services from './Services';
 import LogOut from './LogOut';
 
 import { AppState } from '../store';
-import { thunkGetLocalUser } from '../store/auth/thunks';
-import { LocalUserState } from '../store/auth/types';
+import { SystemState } from '../store/system/types';
+import { AuthState } from '../store/auth/types';
+import { fetchUser } from '../store/auth/actions';
 
 const theme = createMuiTheme({
   palette: {
@@ -45,49 +47,38 @@ const theme = createMuiTheme({
   },
 });
 
-const useStyles = makeStyles(() => createStyles({
-  toolbar: theme.mixins.toolbar,
-}));
-
 function App() {
-  const classes = useStyles();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      await dispatch(thunkGetLocalUser());
-    };
+  const auth: AuthState = useSelector((state: AppState) => state.auth);
+  const system: SystemState = useSelector((state: AppState) => state.system);
 
-    fetchUser();
+  useEffect(() => {
+    dispatch(fetchUser());
   }, [dispatch]);
 
-  const auth: LocalUserState = useSelector((state: AppState) => state.auth);
-
-  if (auth.fetched) {
+  if (system.isLoaded) {
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
-        <div className={classes.toolbar} />
-        <Switch>
-          <Route component={PageNotFound} />
-        </Switch>
+          {auth.fetched ? (
+            <Switch>
+              <Route path="/services" component={Services} />
+              <Route path="/logout" component={LogOut} />
+              <Route component={PageNotFound} />
+            </Switch>
+          ) : (
+            <Switch>
+              <Route exact path="/login" component={LogIn} />
+              <Route exact path="/signup" component={SignUp} />
+              <Redirect to="/login" />
+            </Switch>
+          )}
       </ThemeProvider>
     )
   }
-
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Header />
-      <div className={classes.toolbar} />
-      <Switch>
-        <Route path="/login" component={LogIn} />
-        <Route path="/signup" component={SignUp} />
-        <Redirect to="/login" />
-      </Switch>
-    </ThemeProvider>
-  );
+  return null;
 }
 
 export default App;

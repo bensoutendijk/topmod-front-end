@@ -4,7 +4,6 @@ import reduxThunk from 'redux-thunk';
 import { composeWithDevTools } from "redux-devtools-extension";
 
 import { authReducer } from './auth/reducers';
-import { mixerReducer } from './mixer/reducers';
 import { systemReducer } from './system/reducers';
 import { usersReducer } from './users/reducers';
 import { servicesReducer } from './services/reducers';

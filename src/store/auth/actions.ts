@@ -1,81 +1,67 @@
-import {
-  LocalUserActionTypes,
-  CREATE_LOCAL_USER_PENDING,
-  CREATE_LOCAL_USER_FULFILLED,
-  CREATE_LOCAL_USER_REJECTED,
-  GET_LOCAL_USER_PENDING,
-  GET_LOCAL_USER_FULFILLED,
-  GET_LOCAL_USER_REJECTED,
-  LOGIN_LOCAL_USER_PENDING,
-  LOGIN_LOCAL_USER_FULFILLED,
-  LOGIN_LOCAL_USER_REJECTED,
-  LOGOUT_LOCAL_USER,
+import axios from 'axios';
+
+import { 
   ILocalUser,
-  ILocalUserErrors,
+  AuthError,
+  IAuthCredentials,
+  AuthActionTypes,
+  RECIEVE_AUTH,
+  REQUEST_AUTH,
+  REJECT_AUTH,
 } from './types';
 
-export function createLocalUser(): LocalUserActionTypes {
+import { ThunkAction } from 'redux-thunk';
+import { AppState } from '..';
+
+export const requestAuth = (): AuthActionTypes => {
   return {
-    type: CREATE_LOCAL_USER_PENDING
+    type: REQUEST_AUTH
   }
 }
 
-export function createLocalUserSuccess(localUser: ILocalUser): LocalUserActionTypes {
+export const recieveAuth = (payload: ILocalUser): AuthActionTypes => {
   return {
-    type: CREATE_LOCAL_USER_FULFILLED,
-    payload: localUser
+    type: RECIEVE_AUTH,
+    payload
   }
 }
 
-export function createLocalUserFailure(errors: ILocalUserErrors): LocalUserActionTypes {
+export const rejectAuth = (payload: AuthError): AuthActionTypes => {
   return {
-    type: CREATE_LOCAL_USER_REJECTED,
-    payload: errors
+    type: REJECT_AUTH,
+    payload
   }
 }
 
-export function getLocalUser(): LocalUserActionTypes {
-  return {
-    type: GET_LOCAL_USER_PENDING
+export const fetchUser = (): ThunkAction<void, AppState, null, AuthActionTypes> => async (dispatch) => {
+  dispatch(requestAuth());
+  try {
+    const { data } = await axios.get('/api/auth/local/current');
+    dispatch(recieveAuth(data))
+  } catch (error) {
+    const { data } = error.response;
+    dispatch(rejectAuth(data));
   }
 }
 
-export function getLocalUserSuccess(localUser: ILocalUser): LocalUserActionTypes {
-  return {
-    type: GET_LOCAL_USER_FULFILLED,
-    payload: localUser
+export const loginUser = (credentials: IAuthCredentials): ThunkAction<void, AppState, null, AuthActionTypes> => async (dispatch) => {
+  dispatch(requestAuth());
+  try {
+    const { data } = await axios.post('/api/auth/local/login', credentials);
+    dispatch(recieveAuth(data))
+  } catch (error) {
+    const { data } = error.response;
+    dispatch(rejectAuth(data));
   }
 }
 
-export function getLocalUserFailure(errors: ILocalUserErrors): LocalUserActionTypes {
-  return {
-    type: GET_LOCAL_USER_REJECTED,
-    payload: errors
-  }
-}
-
-export function loginLocalUser(): LocalUserActionTypes {
-  return {
-    type: LOGIN_LOCAL_USER_PENDING
-  }
-}
-
-export function loginLocalUserSuccess(localUser: ILocalUser): LocalUserActionTypes {
-  return {
-    type: LOGIN_LOCAL_USER_FULFILLED,
-    payload: localUser
-  }
-}
-
-export function loginLocalUserFailure(errors: ILocalUserErrors): LocalUserActionTypes {
-  return {
-    type: LOGIN_LOCAL_USER_REJECTED,
-    payload: errors
-  }
-}
-
-export function logoutLocalUser(): LocalUserActionTypes {
-  return {
-    type: LOGOUT_LOCAL_USER
+export const createUser = (credentials: IAuthCredentials): ThunkAction<void, AppState, null, AuthActionTypes> => async (dispatch) => {
+  dispatch(requestAuth());
+  try {
+    const { data } = await axios.post('/api/auth/local/', credentials);
+    dispatch(recieveAuth(data))
+  } catch (error) {
+    const { data } = error.response;
+    dispatch(rejectAuth(data));
   }
 }

@@ -9,8 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-
-import { thunkCreateLocalUser } from '../store/auth/thunks';
+import { createUser } from '../store/auth/actions';
 
 const theme = createMuiTheme({
   palette: {
@@ -84,14 +83,14 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
     const user = {
       email,
       password,
       passwordConfirmation,
     };
-    dispatch(thunkCreateLocalUser(user));
+    dispatch(createUser(user))
   };
 
   return (
