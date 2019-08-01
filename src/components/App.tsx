@@ -1,32 +1,22 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 
-import PageNotFound from './PageNotFound';
 import Header from './Header';
-import LogIn from './LogIn';
-import SignUp from './SignUp';
-import Services from './Services';
-import LogOut from './LogOut';
+import Main from './Main';
 
-import { AppState } from '../store';
-import { SystemState } from '../store/system/types';
-import { AuthState } from '../store/auth/types';
 import { fetchUser } from '../store/auth/actions';
-import { updateLoaded } from '../store/system/actions';
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#28282a',
+      main: '#FF5F5F',
       contrastText: '#F2F2F2',
     },
     secondary: {
-      light: '#F2E0D0',
-      main: '#F25757',
+      main: '#252A2B',
+      light: '#B1B1B1',
       contrastText: '#F2F2F2',
     },
     text: {
@@ -51,43 +41,28 @@ const theme = createMuiTheme({
 function App() {
   const dispatch = useDispatch();
 
-  const fetched = useSelector((state: AppState) => state.fetched);
-  const auth: AuthState = useSelector((state: AppState) => state.auth);
-  const system: SystemState = useSelector((state: AppState) => state.system);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchUser());
+    const getAuth = async () => {
+      await dispatch(fetchUser());
+    }
+
+    getAuth().then(() => {
+      setIsLoaded(true);
+    });
   }, [dispatch]);
 
-  useEffect(() => {
-    const keys: string[] = Object.keys(fetched);
-    const isLoaded: boolean = keys.reduce((a: boolean, b: string) => (a && fetched[b]), false);
-    console.log(keys);
-    dispatch(updateLoaded(isLoaded));
-  }, [dispatch]);
-
-  if (system.isLoaded) {
-    return (
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Header />
-          {auth.fetched ? (
-            <Switch>
-              <Route path="/services" component={Services} />
-              <Route path="/logout" component={LogOut} />
-              <Route component={PageNotFound} />
-            </Switch>
-          ) : (
-            <Switch>
-              <Route exact path="/login" component={LogIn} />
-              <Route exact path="/signup" component={SignUp} />
-              <Redirect to="/login" />
-            </Switch>
-          )}
-      </ThemeProvider>
-    )
+  if(!isLoaded) {
+    return null;
   }
-  return null;
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Header />
+      <Main />
+    </ThemeProvider>
+  )
 }
 
 export default App;

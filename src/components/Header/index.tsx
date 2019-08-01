@@ -1,9 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
-import { makeStyles, createStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
+import { Link, NavLink } from 'react-router-dom';
+import { Theme, makeStyles, createStyles, ButtonBase } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -11,13 +8,18 @@ import Grid from '@material-ui/core/Grid';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
 
-
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
     flexGrow: 1,
   },
+  container: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    maxWidth: '1200px',
+    position  : 'relative',
+    width: 'auto',
+  },
   title: {
-    paddingLeft: theme.spacing(2),
     textDecoration: 'none',
     color: theme.palette.primary.contrastText,
   },
@@ -26,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     [theme.breakpoints.down('sm')]: {
       justifyContent: 'center',
     },
+    zIndex: 1,
   },
   authButton: {
     [theme.breakpoints.down('sm')]: {
@@ -35,9 +38,17 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   logoutButtonLabel: {
     color: theme.palette.primary.contrastText,
   },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
+  navButton: {
+    textDecoration: 'none',
+    color: 'grey'
   },
+  navButtonBase: {
+    padding: theme.spacing(1),
+    borderRadius: theme.spacing(1)
+  },
+  navButtonActive: {
+    color: theme.palette.primary.contrastText
+  }
 }));
 
 export default function Header() {
@@ -45,14 +56,16 @@ export default function Header() {
   const auth = useSelector((state: AppState) => state.auth);
 
   return (
-    <section className={classes.root}>
-      <AppBar className={classes.appBar} position="static">
-        <Toolbar>
+    <header className={classes.root}>
+      <div className={classes.container}>
+        <Toolbar disableGutters>
           <Grid container className={classes.toolbar}>
             <Grid item>
-              <Typography className={classes.title} variant="h6">
-                topmod
-              </Typography>
+              <Link className={classes.navButton} to="/">
+                <Typography className={classes.title} variant="h6">
+                  topmod
+                </Typography>
+              </Link>
             </Grid>
             <Grid item>
               <Grid container spacing={2}>
@@ -64,7 +77,7 @@ export default function Header() {
                       to="/signup"
                       component={Link}
                       className={classes.authButton}
-                      color="secondary"
+                      color="primary"
                       variant="contained"
                     >
                         Create an account
@@ -77,7 +90,7 @@ export default function Header() {
                       to="/logout"
                       component={Link}
                       className={classes.authButton}
-                      color="secondary"
+                      color="primary"
                       variant="outlined"
                     >
                         Log Out
@@ -89,7 +102,7 @@ export default function Header() {
                       to="/login"
                       component={Link}
                       className={classes.authButton}
-                      color="secondary"
+                      color="primary"
                       variant="outlined"
                     >
                         Log In
@@ -100,16 +113,26 @@ export default function Header() {
             </Grid>
           </Grid>
         </Toolbar>
-      </AppBar>
-      {auth.fetched ? (
-        <Toolbar>
-          <Grid container className={classes.toolbar}>
-
-          </Grid>
-        </Toolbar>
-      ) : (
-        null
-      )}
-    </section>
+        {auth.fetched ? (
+          <Toolbar className="navigation" disableGutters>
+            <Grid container className={classes.toolbar}>
+              <Grid item>
+                <NavLink
+                  to="/services"
+                  className={classes.navButton}
+                  activeClassName={classes.navButtonActive}
+                >
+                    <ButtonBase className={classes.navButtonBase}>
+                      <Typography variant="h6">Services</Typography>
+                    </ButtonBase>
+                </NavLink>
+              </Grid>
+            </Grid>
+          </Toolbar>
+        ) : (
+          null
+        )}
+      </div>
+    </header>
   );
 }
