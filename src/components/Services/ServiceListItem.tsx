@@ -4,8 +4,6 @@ import { useSelector } from 'react-redux';
 
 import { Grid, makeStyles, createStyles, Theme, Typography, ButtonBase } from '@material-ui/core';
 
-import ServiceLogo from './ServiceLogo';
-
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
     "&:hover": {
@@ -27,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     width: '100%'
   },
   serviceLogo: {
-    minHeight: '50px',
+    maxWidth: '50px',
     minWidth: '50px',
     padding: theme.spacing(2),
     borderRadius: theme.spacing(1),
@@ -43,9 +41,7 @@ const ServiceListItem: React.FC<ServiceListItemProps> = (props) => {
     <div className={classes.root}>
       <ButtonBase className={classes.serviceButton}>
         <Grid className={classes.service} item>
-          <div className={classes.serviceLogo}>
-            <ServiceLogo provider={service.provider} />
-          </div>
+          <img alt={service.provider} className={classes.serviceLogo} src={`/assets/images/${service.provider}Logo.png`} />
           <Typography variant="h6">{service.data.username}</Typography>
         </Grid> 
       </ButtonBase>

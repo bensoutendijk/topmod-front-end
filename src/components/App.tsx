@@ -7,7 +7,6 @@ import Header from './Header';
 import Main from './Main';
 
 import { fetchAuth } from '../store/auth/actions';
-import { fetchUsers } from '../store/users/actions';
 
 const theme = createMuiTheme({
   palette: {
@@ -49,12 +48,7 @@ function App() {
       await dispatch(fetchAuth());
     }
 
-    const getUsers = async () => {
-      await dispatch(fetchUsers());
-    }
-
     getAuth()
-    .then(() => getUsers())
     .then(() => setIsLoaded(true));
     
   }, [dispatch]);

@@ -1,11 +1,12 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../store';
 
 import { Grid, makeStyles, createStyles, Theme, InputBase, Button, Typography, ButtonBase } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/SearchOutlined'
 
 import ServiceListItem from './ServiceListItem';
+import { fetchUsers } from '../../store/users/actions';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -44,7 +45,23 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 const Services: React.FC = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const users = useSelector((state: AppState) => state.users);
+
+  useEffect(() => {
+    const getUsers = async () => {
+      await dispatch(fetchUsers());
+    }
+    getUsers()
+    .then(() => setIsLoaded(true));
+  }, [dispatch]);
+
+  if (!isLoaded) {
+    return null;
+  }
 
   return (
     <div className={classes.root}>
