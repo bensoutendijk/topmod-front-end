@@ -7,6 +7,7 @@ export type UserId = string;
 export interface IUser {
   _id: UserId;
   data: IMixerData;
+  provider: string;
 }
 
 export interface IMixerData {

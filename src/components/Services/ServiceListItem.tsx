@@ -44,7 +44,7 @@ const ServiceListItem: React.FC<ServiceListItemProps> = (props) => {
       <ButtonBase className={classes.serviceButton}>
         <Grid className={classes.service} item>
           <div className={classes.serviceLogo}>
-            <ServiceLogo provider={"mixer"} />
+            <ServiceLogo provider={service.provider} />
           </div>
           <Typography variant="h6">{service.data.username}</Typography>
         </Grid> 
