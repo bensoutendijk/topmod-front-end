@@ -34,7 +34,6 @@ export const fetchUsers = (): ThunkAction<void, AppState, null, UserActionTypes>
     const { data } = await axios.get('/api/auth/users');
     dispatch(recieveUsers(data))
   } catch (error) {
-    const { data } = error.response;
     dispatch(rejectUsers());
   }
 }

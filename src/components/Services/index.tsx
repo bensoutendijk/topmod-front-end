@@ -1,7 +1,11 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../store';
+
 import { Grid, makeStyles, createStyles, Theme, InputBase, Button, Typography, ButtonBase } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/SearchOutlined'
+
+import ServiceListItem from './ServiceListItem';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -39,12 +43,8 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 }));
 
 const Services: React.FC = () => {
-  const dispatch = useDispatch();
   const classes = useStyles();
-
-  useEffect(() => {
-    
-  },[dispatch])
+  const users = useSelector((state: AppState) => state.users);
 
   return (
     <div className={classes.root}>
@@ -72,32 +72,40 @@ const Services: React.FC = () => {
           </Grid>
         </Grid>
         <Grid item>
+          {users.allIds.length ? (
+            <Grid container direction="column">
+              {users.allIds.map(id => (
+                <ServiceListItem key={id} userId={id} />
+              ))}
+            </Grid>
+          ) : (
           <Grid container direction="column">
-            <ButtonBase className={classes.serviceButtonBase}>
-              <Grid className={classes.service} item alignItems="center">
-                <img className={classes.serviceImage} src="/assets/images/twitchLogo.png" />
+            <ButtonBase disabled className={classes.serviceButtonBase}>
+              <Grid className={classes.service} item>
+                <img alt="twitch" className={classes.serviceImage} src="/assets/images/twitchLogo.png" />
                 <Typography variant="h6">Connect Twitch</Typography>
               </Grid> 
             </ButtonBase>
             <ButtonBase href="/api/auth/mixer/login" className={classes.serviceButtonBase}>
-              <Grid className={classes.service} item alignItems="center">
-                <img className={classes.serviceImage} src="/assets/images/mixerMerge.svg" />
+              <Grid className={classes.service} item>
+                <img alt="mixer" className={classes.serviceImage} src="/assets/images/mixerMerge.svg" />
                 <Typography variant="h6">Connect Mixer</Typography>
               </Grid>
             </ButtonBase>
-            <ButtonBase className={classes.serviceButtonBase}>
-              <Grid className={classes.service} item alignItems="center">
-                <img className={classes.serviceImage} src="/assets/images/instagramLogo.png" />
+            <ButtonBase disabled className={classes.serviceButtonBase}>
+              <Grid className={classes.service} item>
+                <img alt="instagram" className={classes.serviceImage} src="/assets/images/instagramLogo.png" />
                 <Typography variant="h6">Connect Instagram</Typography>
               </Grid>
             </ButtonBase>
-            <ButtonBase className={classes.serviceButtonBase}>
-              <Grid className={classes.service} item alignItems="center">
-                <img className={classes.serviceImage} src="/assets/images/twitterLogo.png" />
+            <ButtonBase disabled className={classes.serviceButtonBase}>
+              <Grid className={classes.service} item>
+                <img alt="twitter" className={classes.serviceImage} src="/assets/images/twitterLogo.png" />
                 <Typography variant="h6">Connect Twitter</Typography>
               </Grid>  
             </ButtonBase>
           </Grid>
+          )}
         </Grid>
       </Grid>
     </div>

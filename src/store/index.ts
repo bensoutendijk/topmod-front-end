@@ -5,9 +5,9 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
 import { authReducer } from './auth/reducers';
 import { usersReducer } from './users/reducers';
-import { postsReducer } from './posts/reducers';
-import { streamsReducer } from './streams/reducers';
-import { datesReducer } from './dates/reducers';
+// import { postsReducer } from './posts/reducers';
+// import { streamsReducer } from './streams/reducers';
+// import { datesReducer } from './dates/reducers';
 
 
 const rootReducer = combineReducers({

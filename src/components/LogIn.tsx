@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { ThemeProvider, makeStyles, createStyles } from '@material-ui/styles';
+import { makeStyles, createStyles } from '@material-ui/styles';
 import { Theme } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 

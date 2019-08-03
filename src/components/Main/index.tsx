@@ -47,6 +47,7 @@ const Main: React.FC = () => {
               <Route path="/services" component={Services} />
               <Route path="/logout" component={LogOut} />
               <Redirect to="/services" />
+              <Route component={PageNotFound} />
             </Switch>
           ) : (
             <Switch>

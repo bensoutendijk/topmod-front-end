@@ -6,13 +6,21 @@ export type UserId = string;
 
 export interface IUser {
   _id: UserId;
-  data: {};
+  data: IMixerData;
+}
+
+export interface IMixerData {
+  username: string;
+  userid: number;
+  channelid: number;
 }
 
 export interface UserState {
   fetched: boolean
   fetching: boolean
-  byId: {}
+  byId: {
+    [key: string]: IUser
+  }
   allIds: UserId[]
 }
 
