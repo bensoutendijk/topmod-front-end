@@ -1,13 +1,12 @@
-export const ADD_USER = 'ADD_USER';
-export const UPDATE_USER = 'UPDATE_USER';
-export const REMOVE_USER = 'REMOVE_USER';
+export const REQEUST_USERS = 'REQEUST_USERS';
+export const RECIEVE_USERS = 'RECIEVE_USERS';
+export const REJECT_USERS = 'REJECT_USERS';
 
 export type UserId = string;
 
 export interface IUser {
   _id: UserId;
-  serviceId: string;
-  username: string;
+  data: {};
 }
 
 export interface UserState {
@@ -17,23 +16,21 @@ export interface UserState {
   allIds: UserId[]
 }
 
-interface AddUserAction {
-  type: typeof ADD_USER
-  payload: IUser
+interface RequestUsers {
+  type: typeof REQEUST_USERS
 }
 
-interface UpdateUserAction {
-  type: typeof UPDATE_USER
-  payload: IUser
+interface RecieveUsers {
+  type: typeof RECIEVE_USERS
+  payload: IUser[]
 }
 
-interface RemoveUserAction {
-  type: typeof REMOVE_USER
-  payload: UserId
+interface RejectUsers {
+  type: typeof REJECT_USERS
 }
 
 export type UserActionTypes = (
-  AddUserAction |
-  UpdateUserAction |
-  RemoveUserAction 
+  RequestUsers |
+  RecieveUsers |
+  RejectUsers 
 )

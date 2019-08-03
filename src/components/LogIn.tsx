@@ -11,7 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { loginUser } from '../store/auth/actions';
+import { loginAuth } from '../store/auth/actions';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -77,7 +77,7 @@ function LogIn() {
       password,
       remember,
     };
-    dispatch(loginUser(user));
+    dispatch(loginAuth(user));
   };
 
   return (

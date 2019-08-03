@@ -6,7 +6,8 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import Header from './Header';
 import Main from './Main';
 
-import { fetchUser } from '../store/auth/actions';
+import { fetchAuth } from '../store/auth/actions';
+import { fetchUsers } from '../store/users/actions';
 
 const theme = createMuiTheme({
   palette: {
@@ -45,12 +46,17 @@ function App() {
 
   useEffect(() => {
     const getAuth = async () => {
-      await dispatch(fetchUser());
+      await dispatch(fetchAuth());
     }
 
-    getAuth().then(() => {
-      setIsLoaded(true);
-    });
+    const getUsers = async () => {
+      await dispatch(fetchUsers());
+    }
+
+    getAuth()
+    .then(() => getUsers())
+    .then(() => setIsLoaded(true));
+    
   }, [dispatch]);
 
   if(!isLoaded) {

@@ -1,9 +1,10 @@
 import {
   UserState,
   UserActionTypes,
-  ADD_USER,
-  UPDATE_USER,
-  REMOVE_USER
+  REQEUST_USERS,
+  REJECT_USERS,
+  RECIEVE_USERS,
+  IUser
 } from "./types";
 
 
@@ -19,41 +20,31 @@ export function usersReducer(
   action: UserActionTypes
 ): UserState {
   switch (action.type) {
-    case ADD_USER:
+    case REQEUST_USERS:
       return {
         ...state,
         fetching: true,
+      };
+    case RECIEVE_USERS:
+      return {
+        ...state,
+        fetching: false,
+        fetched: true,
         byId: {
-          ...state.byId,
-          [action.payload._id]: action.payload
+          ...action.payload.reduce((obj, item) => {
+            Object.assign(obj, { [item._id]: item });
+            return obj;
+          }, {})
         },
         allIds: [
-          ...state.allIds,
-          action.payload._id
+          ...action.payload.map((user: IUser) => user._id)
         ]
       };
-    case UPDATE_USER:
+    case REJECT_USERS:
       return {
         ...state,
-        fetching: true,
-        byId: {
-          ...state.byId,
-          [action.payload._id]: action.payload
-        },
-        allIds: [
-          ...state.allIds,
-          action.payload._id
-        ]
-      };
-    case REMOVE_USER:
-      return {
-        ...state,
-        fetching: true,
-        byId: {
-          ...state.byId,
-          [action.payload]: undefined
-        },
-        allIds: state.allIds.filter(element => element !== action.payload)
+        fetching: false,
+        fetched: false,
       };
     default:
       return state;

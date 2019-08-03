@@ -1,29 +1,40 @@
+import axios from 'axios';
 import {
   UserActionTypes,
   IUser,
-  UserId,
-  ADD_USER,
-  UPDATE_USER,
-  REMOVE_USER,
+  REQEUST_USERS,
+  RECIEVE_USERS,
+  REJECT_USERS,
 } from './types';
+import { ThunkAction } from 'redux-thunk';
+import { AppState } from '..';
 
-export function addUser(user: IUser): UserActionTypes {
+export function requestUsers(): UserActionTypes {
   return {
-    type: ADD_USER,
-    payload: user
+    type: REQEUST_USERS,
   }
 }
 
-export function updateUser(user: IUser): UserActionTypes {
+export function recieveUsers(users: IUser[]): UserActionTypes {
   return {
-    type: UPDATE_USER,
-    payload: user
+    type: RECIEVE_USERS,
+    payload: users
   }
 }
 
-export function removeUser(userId: UserId): UserActionTypes {
+export function rejectUsers(): UserActionTypes {
   return {
-    type: REMOVE_USER,
-    payload: userId
+    type: REJECT_USERS,
+  }
+}
+
+export const fetchUsers = (): ThunkAction<void, AppState, null, UserActionTypes> => async (dispatch) => {
+  dispatch(requestUsers());
+  try {
+    const { data } = await axios.get('/api/auth/users');
+    dispatch(recieveUsers(data))
+  } catch (error) {
+    const { data } = error.response;
+    dispatch(rejectUsers());
   }
 }

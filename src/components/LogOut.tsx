@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import cookie from 'cookie';
 
 import { makeStyles, createStyles } from '@material-ui/styles';
-import { fetchUser } from '../store/auth/actions';
+import { fetchAuth } from '../store/auth/actions';
 
 const useStyles = makeStyles(() => createStyles({
   root: {
@@ -17,7 +17,7 @@ function LogOut() {
 
   useEffect(() => {
     document.cookie = cookie.serialize('token2', '');
-    dispatch(fetchUser());
+    dispatch(fetchAuth());
   }, [dispatch]);
 
   return (

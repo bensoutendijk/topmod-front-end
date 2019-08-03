@@ -33,7 +33,7 @@ export const rejectAuth = (payload: AuthError): AuthActionTypes => {
   }
 }
 
-export const fetchUser = (): ThunkAction<void, AppState, null, AuthActionTypes> => async (dispatch) => {
+export const fetchAuth = (): ThunkAction<void, AppState, null, AuthActionTypes> => async (dispatch) => {
   dispatch(requestAuth());
   try {
     const { data } = await axios.get('/api/auth/local/current');
@@ -44,7 +44,7 @@ export const fetchUser = (): ThunkAction<void, AppState, null, AuthActionTypes> 
   }
 }
 
-export const loginUser = (credentials: IAuthCredentials): ThunkAction<void, AppState, null, AuthActionTypes> => async (dispatch) => {
+export const loginAuth = (credentials: IAuthCredentials): ThunkAction<void, AppState, null, AuthActionTypes> => async (dispatch) => {
   dispatch(requestAuth());
   try {
     const { data } = await axios.post('/api/auth/local/login', credentials);
@@ -55,7 +55,7 @@ export const loginUser = (credentials: IAuthCredentials): ThunkAction<void, AppS
   }
 }
 
-export const createUser = (credentials: IAuthCredentials): ThunkAction<void, AppState, null, AuthActionTypes> => async (dispatch) => {
+export const createAuth = (credentials: IAuthCredentials): ThunkAction<void, AppState, null, AuthActionTypes> => async (dispatch) => {
   dispatch(requestAuth());
   try {
     const { data } = await axios.post('/api/auth/local/', credentials);
