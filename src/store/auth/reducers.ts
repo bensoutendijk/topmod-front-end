@@ -33,6 +33,7 @@ export function authReducer(
       return {
         ...state,
         fetching: false,
+        fetched: false,
       }
     default:
       return state;

@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../store';
 
-import { Grid, makeStyles, createStyles, Theme, InputBase, Button, Typography, ButtonBase } from '@material-ui/core';
+import { Grid, makeStyles, createStyles, Theme, InputBase, Button, Typography } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/SearchOutlined'
 
 import ServiceListItem from './ServiceListItem';
 import { fetchUsers } from '../../store/users/actions';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -59,10 +60,6 @@ const Services: React.FC = () => {
     .then(() => setIsLoaded(true));
   }, [dispatch]);
 
-  if (!isLoaded) {
-    return null;
-  }
-
   return (
     <div className={classes.root}>
       <Grid container direction="column">
@@ -82,6 +79,8 @@ const Services: React.FC = () => {
               <Button
                 color="secondary"
                 variant="contained"
+                component={Link}
+                to="/services/new"
               >
                 Add New Service
               </Button>
@@ -96,32 +95,9 @@ const Services: React.FC = () => {
               ))}
             </Grid>
           ) : (
-          <Grid container direction="column">
-            <ButtonBase disabled className={classes.serviceButtonBase}>
-              <Grid className={classes.service} item>
-                <img alt="twitch" className={classes.serviceImage} src="/assets/images/twitchLogo.png" />
-                <Typography variant="h6">Connect Twitch</Typography>
-              </Grid> 
-            </ButtonBase>
-            <ButtonBase href="/api/auth/mixer/login" className={classes.serviceButtonBase}>
-              <Grid className={classes.service} item>
-                <img alt="mixer" className={classes.serviceImage} src="/assets/images/mixerMerge.svg" />
-                <Typography variant="h6">Connect Mixer</Typography>
-              </Grid>
-            </ButtonBase>
-            <ButtonBase disabled className={classes.serviceButtonBase}>
-              <Grid className={classes.service} item>
-                <img alt="instagram" className={classes.serviceImage} src="/assets/images/instagramLogo.png" />
-                <Typography variant="h6">Connect Instagram</Typography>
-              </Grid>
-            </ButtonBase>
-            <ButtonBase disabled className={classes.serviceButtonBase}>
-              <Grid className={classes.service} item>
-                <img alt="twitter" className={classes.serviceImage} src="/assets/images/twitterLogo.png" />
-                <Typography variant="h6">Connect Twitter</Typography>
-              </Grid>  
-            </ButtonBase>
-          </Grid>
+            <Grid container direction="column">
+              <Typography color="textSecondary" variant="h4">You haven't connected any services yet</Typography>
+            </Grid>
           )}
         </Grid>
       </Grid>

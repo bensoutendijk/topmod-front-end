@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => createStyles({
   },
 }));
 
-function LogOut() {
+const LogOut: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 

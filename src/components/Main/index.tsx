@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router';
 import Services from '../Services';
+import ServiceNew from '../Services/ServiceNew';
 import LogOut from '../LogOut';
 import PageNotFound from '../PageNotFound';
 import LogIn from '../LogIn';
@@ -9,6 +10,7 @@ import { AuthState } from '../../store/auth/types';
 import { AppState } from '../../store';
 import { useSelector } from 'react-redux';
 import { makeStyles, createStyles, Theme, Paper } from '@material-ui/core';
+import ServiceView from '../Services/ServiceView';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -44,8 +46,10 @@ const Main: React.FC = () => {
         <Paper>
           {auth.fetched ? (
             <Switch>
-              <Route path="/services" component={Services} />
-              <Route path="/logout" component={LogOut} />
+              <Route exact path="/services" component={Services} />
+              <Route exact path="/services/new" component={ServiceNew} />
+              <Route path="/services/:userId" component={ServiceView} />
+              <Route exact path="/logout" component={LogOut} />
               <Redirect to="/services" />
               <Route component={PageNotFound} />
             </Switch>

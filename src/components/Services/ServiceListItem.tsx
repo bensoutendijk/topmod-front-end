@@ -3,6 +3,7 @@ import { AppState } from '../../store';
 import { useSelector } from 'react-redux';
 
 import { Grid, makeStyles, createStyles, Theme, Typography, ButtonBase } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -18,6 +19,8 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   },
   service: {
     display: 'flex',
+    flexGrow: 1,
+    alignItems: 'center',
     padding: theme.spacing(2),
     
   },
@@ -39,7 +42,7 @@ const ServiceListItem: React.FC<ServiceListItemProps> = (props) => {
 
   return (
     <div className={classes.root}>
-      <ButtonBase className={classes.serviceButton}>
+      <ButtonBase className={classes.serviceButton} component={Link} to={`/services/${service._id}`}>
         <Grid className={classes.service} item>
           <img alt={service.provider} className={classes.serviceLogo} src={`/assets/images/${service.provider}Logo.png`} />
           <Typography variant="h6">{service.data.username}</Typography>
