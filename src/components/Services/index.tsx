@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Grid, TextField, InputAdornment, makeStyles, createStyles, Theme, InputBase, Button, Typography, ButtonBase } from '@material-ui/core';
+import { Grid, makeStyles, createStyles, Theme, InputBase, Button, Typography, ButtonBase } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/SearchOutlined'
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -43,7 +43,7 @@ const Services: React.FC = () => {
   const classes = useStyles();
 
   useEffect(() => {
-
+    
   },[dispatch])
 
   return (
@@ -79,7 +79,7 @@ const Services: React.FC = () => {
                 <Typography variant="h6">Connect Twitch</Typography>
               </Grid> 
             </ButtonBase>
-            <ButtonBase className={classes.serviceButtonBase}>
+            <ButtonBase href="/api/auth/mixer/login" className={classes.serviceButtonBase}>
               <Grid className={classes.service} item alignItems="center">
                 <img className={classes.serviceImage} src="/assets/images/mixerMerge.svg" />
                 <Typography variant="h6">Connect Mixer</Typography>
