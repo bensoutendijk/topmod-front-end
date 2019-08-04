@@ -37,3 +37,13 @@ export const fetchUsers = (): ThunkAction<void, AppState, null, UserActionTypes>
     dispatch(rejectUsers());
   }
 }
+
+export const fetchUser = (userId: string): ThunkAction<void, AppState, null, UserActionTypes> => async (dispatch) => {
+  dispatch(requestUsers());
+  try {
+    const { data } = await axios.get(`/api/auth/users/${userId}`);
+    dispatch(recieveUsers(data))
+  } catch (error) {
+    dispatch(rejectUsers());
+  }
+}

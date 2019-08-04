@@ -1,7 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { Grid, makeStyles, createStyles, Theme, Typography, ButtonBase, Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -9,10 +9,6 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   },
   header: {
     padding: theme.spacing(4)
-  },
-  searchBar: {
-    border: '2px solid #e2e2e2',
-    borderRadius: theme.spacing(1),
   },
   service: {
     display: 'flex',
@@ -43,7 +39,7 @@ const ServiceNew: React.FC = () => {
   const classes = useStyles({});
 
   return (
-    <div>
+    <div className={classes.root}>
       <Grid container direction="column">
         <Grid item>
           <Grid className={classes.header} container justify="space-between">

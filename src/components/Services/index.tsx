@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../store';
 
@@ -48,16 +48,13 @@ const Services: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const [isLoaded, setIsLoaded] = useState(false);
-
   const users = useSelector((state: AppState) => state.users);
 
   useEffect(() => {
     const getUsers = async () => {
       await dispatch(fetchUsers());
     }
-    getUsers()
-    .then(() => setIsLoaded(true));
+    getUsers();
   }, [dispatch]);
 
   return (

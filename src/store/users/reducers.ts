@@ -31,13 +31,17 @@ export function usersReducer(
         fetching: false,
         fetched: true,
         byId: {
+          ...state.byId,
           ...action.payload.reduce((obj, item) => {
             Object.assign(obj, { [item._id]: item });
             return obj;
           }, {})
         },
         allIds: [
-          ...action.payload.map((user: IUser) => user._id)
+          ...state.allIds,
+          ...action.payload
+          .map((user: IUser) => user._id)
+          .filter((id: string) => !state.allIds.includes(id))
         ]
       };
     case REJECT_USERS:
