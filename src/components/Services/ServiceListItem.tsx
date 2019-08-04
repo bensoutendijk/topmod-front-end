@@ -42,7 +42,7 @@ const ServiceListItem: React.FC<ServiceListItemProps> = (props) => {
 
   return (
     <div className={classes.root}>
-      <ButtonBase className={classes.serviceButton} component={Link} to={`/services/${service._id}`}>
+      <ButtonBase className={classes.serviceButton} component={Link} to={`/services/${service.provider}/${service.data.username.toLowerCase()}`}>
         <Grid className={classes.service} item>
           <img alt={service.provider} className={classes.serviceLogo} src={`/assets/images/${service.provider}Logo.png`} />
           <Typography variant="h6">{service.data.username}</Typography>

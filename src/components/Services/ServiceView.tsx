@@ -6,6 +6,8 @@ import { Grid, makeStyles, createStyles, Theme, Typography, Button } from '@mate
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../store';
 import { fetchUser } from '../../store/users/actions';
+import { selectUserByUsername } from '../../selectors';
+import { IUser } from '../../store/users/types';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -21,18 +23,18 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   }
 }));
 
-const ServiceView: React.FC<RouteComponentProps<{userId: string}>> = (props) => {
-  const { match: { params: { userId } } } = props
-  const service = useSelector((state: AppState) => state.users.byId[userId]);
+const ServiceView: React.FC<ServiceViewProps> = (props) => {
+  const { match: { params: { provider, username } } } = props
+  const service: IUser = useSelector(selectUserByUsername(provider, username))[0];
   const classes = useStyles({});
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const getUser = async (userId: string) => {
-      await dispatch(fetchUser(userId));
+    const getUser = async (provider: string, username: string) => {
+      await dispatch(fetchUser(provider, username));
     }
 
-    getUser(userId);
+    getUser(provider, username);
   }, [dispatch])
 
   if (!service) {
@@ -55,7 +57,7 @@ const ServiceView: React.FC<RouteComponentProps<{userId: string}>> = (props) => 
               </Button>
             </Grid>
             <Grid item>
-              <Typography>{service.data.userid}</Typography>
+              <Typography>{service.data.username} - {service.provider}</Typography>
             </Grid>
             <Grid item>
             </Grid>
@@ -69,6 +71,10 @@ const ServiceView: React.FC<RouteComponentProps<{userId: string}>> = (props) => 
       </Grid>
     </div>
   )
+}
+
+interface ServiceViewProps extends RouteComponentProps<{provider: string; username: string}> {
+  
 }
 
 export default ServiceView;
