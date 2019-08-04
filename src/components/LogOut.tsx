@@ -4,6 +4,7 @@ import cookie from 'cookie';
 
 import { makeStyles, createStyles } from '@material-ui/styles';
 import { fetchAuth } from '../store/auth/actions';
+import { Paper } from '@material-ui/core';
 
 const useStyles = makeStyles(() => createStyles({
   root: {
@@ -22,7 +23,9 @@ const LogOut: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <h1>Logging Out</h1>
+      <Paper>
+        <h1>Logging Out</h1>
+      </Paper>
     </div>
   );
 }
