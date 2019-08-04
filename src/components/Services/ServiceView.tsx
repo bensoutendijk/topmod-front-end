@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
+import moment from 'moment';
 
-import { Grid, makeStyles, createStyles, Theme, Typography, Button, Paper, Link as MuiLink } from '@material-ui/core';
+import { Grid, makeStyles, createStyles, Theme, Typography, Button, Paper, Link as MuiLink, ListItem, List } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchUser } from '../../store/users/actions';
-import { selectUserByUsername } from '../../selectors';
-import { IUser } from '../../store/users/types';
+import { fetchService } from '../../store/services/actions';
+import { selectUserByUsername, selectRecentStreams } from '../../selectors';
+import { IService } from '../../store/services/types';
 
 import ServicePreview from './ServicePreview';
+import { fetchStreams } from '../../store/streams/actions';
+import { IStream } from '../../store/streams/types';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -21,26 +24,37 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     maxHeight: '50px',
     padding: theme.spacing(2),
     borderRadius: theme.spacing(1),
+  },
+  recentStreamsCard: {
+    display: 'flex',
+    padding: theme.spacing(4)
   }
 }));
 
 const ServiceView: React.FC<ServiceViewProps> = (props) => {
   const { match: { params: { provider, username } } } = props
-  const service: IUser = useSelector(selectUserByUsername(provider, username))[0];
+  const service: IService = useSelector(selectUserByUsername(provider, username))[0];
+  const streams: IStream[] = useSelector(selectRecentStreams());
   const classes = useStyles({});
   const dispatch = useDispatch();
 
+  const average = (numbers: number[]) => numbers.reduce((a, b) => a + b, 0) / numbers.length;
+  const getHours = (seconds: number) => Math.floor(seconds / (60 * 60));
+  const getMinutes = (seconds: number) => Math.floor(seconds / 60);
+  const convertTwoDigits = (n: number) => (n > 9 ? `${n}` : `0${n}`);
+
   useEffect(() => {
     const getUser = async (provider: string, username: string) => {
-      await dispatch(fetchUser(provider, username));
+      await dispatch(fetchService(provider, username));
     }
 
-    getUser(provider, username);
-  }, [dispatch, provider, username]);
+    const getStreams = async (provider: string, username: string) => {
+      await dispatch(fetchStreams(provider, username));
+    }
 
-  if (!service) {
-    return null;
-  }
+    getUser(provider, username)
+    .then(() => getStreams(provider, username));
+  }, [dispatch, provider, username]);
 
   return (
     <div className={classes.root}>
@@ -55,22 +69,38 @@ const ServiceView: React.FC<ServiceViewProps> = (props) => {
                       <Grid item md={8}>
                         <Grid container direction="column" spacing={2}>
                           <Grid item>
-                            <Typography variant="h6">{service.data.username}</Typography>
+                            {service ? (
+                              <Typography variant="h6">{service.data.username}</Typography>
+                            ) : (
+                              <Typography variant="h6">...</Typography>
+                            )}
                           </Grid>
                           <Grid item>
-                            <Typography>
-                              <MuiLink target="_blank" href={`https://mixer.com/${service.data.username}`} >
-                                {`https://mixer.com/${service.data.username}`}
-                              </MuiLink>
-                            </Typography>
+                              {service ? (
+                                <Typography>
+                                    <MuiLink target="_blank" href={`https://mixer.com/${service.data.username}`} >
+                                      {`https://mixer.com/${service.data.username}`}
+                                    </MuiLink>
+                                </Typography>
+                              ): (
+                                <Typography>...</Typography>
+                              )}
                           </Grid>
                           <Grid item>
-                            <Typography color="textSecondary">{'Last streamed on {{streams[0].date}}'}</Typography>
+                            {streams.length ? (
+                              <Typography color="textSecondary">{`Last streamed on ${moment(streams[streams.length - 1].time).format('MMM Do @ hh:mmA')}`}</Typography>
+                            ) : (
+                              <Typography color="textSecondary">...</Typography>
+                            )}
                           </Grid>
                         </Grid>
                       </Grid>
                       <Grid item md={4}>
-                        <ServicePreview serviceId={service._id} />
+                        {service ? (
+                          <ServicePreview serviceId={service._id} />
+                        ): (
+                          null
+                        )}
                       </Grid>
                     </Grid>
                   </Grid>
@@ -92,8 +122,19 @@ const ServiceView: React.FC<ServiceViewProps> = (props) => {
         <Grid item>
           <Grid container spacing={4}>
             <Grid item md={6}>
-              <Paper>
-
+              <Paper className={classes.recentStreamsCard}>
+                <Grid container direction="column">
+                  <Typography variant="h6">Recent Streams</Typography>
+                  <List>
+                  {streams.length ? (
+                    streams.map((stream: IStream) => (
+                      <ListItem>{`${moment(stream.time).format('MM-DD-YYYY')} - ${getHours(stream.duration)}hr ${convertTwoDigits(getMinutes(stream.duration) - getHours(stream.duration) * 60)} min`}</ListItem>
+                    ))
+                  ) : (
+                    null
+                  )}
+                  </List>
+                </Grid>
               </Paper>
             </Grid>
             <Grid item md={6}>

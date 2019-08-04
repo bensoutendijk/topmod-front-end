@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 const ServiceListItem: React.FC<ServiceListItemProps> = (props) => {
   const { userId } = props;
   const classes = useStyles({});
-  const service = useSelector((state: AppState) => state.users.byId[userId])
+  const service = useSelector((state: AppState) => state.services.byId[userId])
 
   return (
     <div className={classes.root}>

@@ -7,7 +7,7 @@ import MixerEmbed from '../Mixer/MixerEmbed';
 
 const ServicePreview: React.FC<ServicePreviewProps> = (props) => {
   const { serviceId } = props;
-  const service = useSelector((state: AppState) => state.users.byId[serviceId]);
+  const service = useSelector((state: AppState) => state.services.byId[serviceId]);
   
   switch (service.provider) {
     case 'mixer':

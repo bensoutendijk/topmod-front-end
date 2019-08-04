@@ -6,7 +6,7 @@ import { Grid, makeStyles, createStyles, Theme, InputBase, Button, Typography, P
 import SearchIcon from '@material-ui/icons/SearchOutlined'
 
 import ServiceListItem from './ServiceListItem';
-import { fetchUsers } from '../../store/users/actions';
+import { fetchServices } from '../../store/services/actions';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -48,11 +48,11 @@ const Services: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const users = useSelector((state: AppState) => state.users);
+  const users = useSelector((state: AppState) => state.services);
 
   useEffect(() => {
     const getUsers = async () => {
-      await dispatch(fetchUsers());
+      await dispatch(fetchServices());
     }
     getUsers();
   }, [dispatch]);

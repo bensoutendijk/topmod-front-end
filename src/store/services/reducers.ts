@@ -1,31 +1,31 @@
 import {
-  UserState,
-  UserActionTypes,
-  REQEUST_USERS,
-  REJECT_USERS,
-  RECIEVE_USERS,
-  IUser
+  ServicesState,
+  ServicesActionTypes,
+  REQUEST_SERVICES,
+  REJECT_SERVICES,
+  RECIEVE_SERVICES,
+  IService
 } from "./types";
 
 
-const initialState: UserState = {
+const initialState: ServicesState = {
   fetching: false,
   fetched: false,
   byId: {},
   allIds: []
 };
 
-export function usersReducer(
+export function servicesReducer(
   state = initialState,
-  action: UserActionTypes
-): UserState {
+  action: ServicesActionTypes
+): ServicesState {
   switch (action.type) {
-    case REQEUST_USERS:
+    case REQUEST_SERVICES:
       return {
         ...state,
         fetching: true,
       };
-    case RECIEVE_USERS:
+    case RECIEVE_SERVICES:
       return {
         ...state,
         fetching: false,
@@ -40,11 +40,11 @@ export function usersReducer(
         allIds: [
           ...state.allIds,
           ...action.payload
-          .map((user: IUser) => user._id)
+          .map((user: IService) => user._id)
           .filter((id: string) => !state.allIds.includes(id))
         ]
       };
-    case REJECT_USERS:
+    case REJECT_SERVICES:
       return {
         ...state,
         fetching: false,

@@ -17,7 +17,7 @@ const LogOut: React.FC = () => {
 
   useEffect(() => {
     document.cookie = cookie.serialize('token2', '');
-    dispatch(fetchAuth());
+    setTimeout(() => dispatch(fetchAuth()), 500);
   }, [dispatch]);
 
   return (

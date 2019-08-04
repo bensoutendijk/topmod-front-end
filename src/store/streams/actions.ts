@@ -1,81 +1,49 @@
+import axios from 'axios';
 import {
-  LocalUserActionTypes,
-  CREATE_LOCAL_USER_PENDING,
-  CREATE_LOCAL_USER_FULFILLED,
-  CREATE_LOCAL_USER_REJECTED,
-  GET_LOCAL_USER_PENDING,
-  GET_LOCAL_USER_FULFILLED,
-  GET_LOCAL_USER_REJECTED,
-  LOGIN_LOCAL_USER_PENDING,
-  LOGIN_LOCAL_USER_FULFILLED,
-  LOGIN_LOCAL_USER_REJECTED,
-  LOGOUT_LOCAL_USER,
-  ILocalUser,
-  ILocalUserErrors,
+  StreamsActionTypes,
+  IStream,
+  REQEUST_STREAMS,
+  RECIEVE_STREAMS,
+  REJECT_STREAMS,
 } from './types';
+import { ThunkAction } from 'redux-thunk';
+import { AppState } from '..';
 
-export function createLocalUser(): LocalUserActionTypes {
+export function requestStreams(): StreamsActionTypes {
   return {
-    type: CREATE_LOCAL_USER_PENDING
+    type: REQEUST_STREAMS,
   }
 }
 
-export function createLocalUserSuccess(localUser: ILocalUser): LocalUserActionTypes {
+export function recieveStreams(users: IStream[]): StreamsActionTypes {
   return {
-    type: CREATE_LOCAL_USER_FULFILLED,
-    payload: localUser
+    type: RECIEVE_STREAMS,
+    payload: users
   }
 }
 
-export function createLocalUserFailure(errors: ILocalUserErrors): LocalUserActionTypes {
+export function rejectStreams(): StreamsActionTypes {
   return {
-    type: CREATE_LOCAL_USER_REJECTED,
-    payload: errors
+    type: REJECT_STREAMS,
   }
 }
 
-export function getLocalUser(): LocalUserActionTypes {
-  return {
-    type: GET_LOCAL_USER_PENDING
+export const fetchStreams = (provider: string, username: string): ThunkAction<void, AppState, null, StreamsActionTypes> => async (dispatch) => {
+  dispatch(requestStreams());
+  try {
+    const { data } = await axios.get(`/api/services/${provider}/${username}/streams`);
+    dispatch(recieveStreams(data))
+  } catch (error) {
+    dispatch(rejectStreams());
   }
 }
 
-export function getLocalUserSuccess(localUser: ILocalUser): LocalUserActionTypes {
-  return {
-    type: GET_LOCAL_USER_FULFILLED,
-    payload: localUser
-  }
-}
-
-export function getLocalUserFailure(errors: ILocalUserErrors): LocalUserActionTypes {
-  return {
-    type: GET_LOCAL_USER_REJECTED,
-    payload: errors
-  }
-}
-
-export function loginLocalUser(): LocalUserActionTypes {
-  return {
-    type: LOGIN_LOCAL_USER_PENDING
-  }
-}
-
-export function loginLocalUserSuccess(localUser: ILocalUser): LocalUserActionTypes {
-  return {
-    type: LOGIN_LOCAL_USER_FULFILLED,
-    payload: localUser
-  }
-}
-
-export function loginLocalUserFailure(errors: ILocalUserErrors): LocalUserActionTypes {
-  return {
-    type: LOGIN_LOCAL_USER_REJECTED,
-    payload: errors
-  }
-}
-
-export function logoutLocalUser(): LocalUserActionTypes {
-  return {
-    type: LOGOUT_LOCAL_USER
+export const fetchStream = (streamId: string): ThunkAction<void, AppState, null, StreamsActionTypes> => async (dispatch) => {
+  dispatch(requestStreams());
+  try {
+    const { data } = await axios.get(`/api/streams/${streamId}`);
+    dispatch(recieveStreams(data))
+  } catch (error) {
+    dispatch(rejectStreams());
   }
 }

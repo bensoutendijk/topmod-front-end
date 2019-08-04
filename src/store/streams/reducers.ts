@@ -1,90 +1,54 @@
 import {
-  LocalUserState,
-  LocalUserActionTypes,
-  GET_LOCAL_USER_PENDING,
-  GET_LOCAL_USER_FULFILLED,
-  GET_LOCAL_USER_REJECTED,
-  LOGIN_LOCAL_USER_PENDING,
-  LOGIN_LOCAL_USER_FULFILLED,
-  LOGIN_LOCAL_USER_REJECTED,
-  CREATE_LOCAL_USER_PENDING,
-  CREATE_LOCAL_USER_FULFILLED,
-  CREATE_LOCAL_USER_REJECTED,
-  LOGOUT_LOCAL_USER,
+  StreamsState,
+  StreamsActionTypes,
+  REQEUST_STREAMS,
+  RECIEVE_STREAMS,
+  REJECT_STREAMS,
+  IStream
 } from "./types";
 
 
-const initialState: LocalUserState = {
+const initialState: StreamsState = {
   fetching: false,
   fetched: false,
-  user: undefined,
-  errors: undefined,
+  byId: {},
+  allIds: []
 };
 
 export function streamsReducer(
   state = initialState,
-  action: LocalUserActionTypes
-): LocalUserState {
+  action: StreamsActionTypes
+): StreamsState {
   switch (action.type) {
-    case GET_LOCAL_USER_PENDING:
+    case REQEUST_STREAMS:
       return {
         ...state,
         fetching: true,
       };
-    case GET_LOCAL_USER_FULFILLED:
+    case RECIEVE_STREAMS:
       return {
         ...state,
         fetching: false,
         fetched: true,
-        user: action.payload,
+        byId: {
+          ...state.byId,
+          ...action.payload.reduce((obj, item) => {
+            Object.assign(obj, { [item._id]: item });
+            return obj;
+          }, {})
+        },
+        allIds: [
+          ...state.allIds,
+          ...action.payload
+          .map((user: IStream) => user._id)
+          .filter((id: string) => !state.allIds.includes(id))
+        ]
       };
-    case GET_LOCAL_USER_REJECTED:
+    case REJECT_STREAMS:
       return {
         ...state,
         fetching: false,
-        errors: action.payload,
-      };
-    case LOGIN_LOCAL_USER_PENDING:
-      return {
-        ...state,
-        fetching: true,
-      };
-    case LOGIN_LOCAL_USER_FULFILLED:
-      return {
-        ...state,
-        fetching: false,
-        fetched: true,
-        user: action.payload,
-      };
-    case LOGIN_LOCAL_USER_REJECTED:
-      return {
-        ...state,
-        fetching: false,
-        errors: action.payload,
-      };
-    case CREATE_LOCAL_USER_PENDING:
-      return {
-        ...state,
-        fetching: true,
-      };
-    case CREATE_LOCAL_USER_FULFILLED:
-      return {
-        ...state,
-        fetching: false,
-        fetched: true,
-        user: action.payload,
-      };
-    case CREATE_LOCAL_USER_REJECTED:
-      return {
-        ...state,
-        fetching: false,
-        errors: action.payload,
-      };
-    case LOGOUT_LOCAL_USER:
-      return {
-        ...state,
         fetched: false,
-        user: undefined,
       };
     default:
       return state;

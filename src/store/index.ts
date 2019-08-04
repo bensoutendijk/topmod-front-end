@@ -4,18 +4,18 @@ import reduxThunk from 'redux-thunk';
 import { composeWithDevTools } from "redux-devtools-extension";
 
 import { authReducer } from './auth/reducers';
-import { usersReducer } from './users/reducers';
+import { servicesReducer } from './services/reducers';
 // import { postsReducer } from './posts/reducers';
-// import { streamsReducer } from './streams/reducers';
+import { streamsReducer } from './streams/reducers';
 // import { datesReducer } from './dates/reducers';
 
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  users: usersReducer,
+  services: servicesReducer,
   // services: servicesReducer,
   // posts: postsReducer,
-  // streams: streamsReducer,
+  streams: streamsReducer,
   // date: datesReducer,
 });
 
