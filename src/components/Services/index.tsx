@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../store';
 
-import { Grid, makeStyles, createStyles, Theme, InputBase, Button, Typography } from '@material-ui/core';
+import { Grid, makeStyles, createStyles, Theme, InputBase, Button, Typography, Paper } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/SearchOutlined'
 
 import ServiceListItem from './ServiceListItem';
@@ -59,45 +59,47 @@ const Services: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <Grid container direction="column">
-        <Grid item>
-          <Grid className={classes.header} container justify="space-between">
-            <Grid item>
-              <Grid className={classes.searchBar} container spacing={1} alignItems="flex-end">
-                <Grid item>
-                  <SearchIcon />
-                </Grid>
-                <Grid item>
-                  <InputBase id="input-with-icon-grid" placeholder="Search" />
+      <Paper>
+        <Grid container direction="column">
+          <Grid item>
+            <Grid className={classes.header} container justify="space-between">
+              <Grid item>
+                <Grid className={classes.searchBar} container spacing={1} alignItems="flex-end">
+                  <Grid item>
+                    <SearchIcon />
+                  </Grid>
+                  <Grid item>
+                    <InputBase id="input-with-icon-grid" placeholder="Search" />
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-            <Grid item>
-              <Button
-                color="secondary"
-                variant="contained"
-                component={Link}
-                to="/services/new"
-              >
-                Add New Service
-              </Button>
+              <Grid item>
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  component={Link}
+                  to="/services/new"
+                >
+                  Add New Service
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
+          <Grid item>
+            {users.allIds.length ? (
+              <Grid container direction="column">
+                {users.allIds.map(id => (
+                  <ServiceListItem key={id} userId={id} />
+                ))}
+              </Grid>
+            ) : (
+              <Grid container direction="column">
+                <Typography color="textSecondary" variant="h4">You haven't connected any services yet</Typography>
+              </Grid>
+            )}
+          </Grid>
         </Grid>
-        <Grid item>
-          {users.allIds.length ? (
-            <Grid container direction="column">
-              {users.allIds.map(id => (
-                <ServiceListItem key={id} userId={id} />
-              ))}
-            </Grid>
-          ) : (
-            <Grid container direction="column">
-              <Typography color="textSecondary" variant="h4">You haven't connected any services yet</Typography>
-            </Grid>
-          )}
-        </Grid>
-      </Grid>
+      </Paper>
     </div>
   )
 }
