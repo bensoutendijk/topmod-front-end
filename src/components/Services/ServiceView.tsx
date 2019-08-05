@@ -38,7 +38,7 @@ const ServiceView: React.FC<ServiceViewProps> = (props) => {
   const classes = useStyles({});
   const dispatch = useDispatch();
 
-  const average = (numbers: number[]) => numbers.reduce((a, b) => a + b, 0) / numbers.length;
+  // const average = (numbers: number[]) => numbers.reduce((a, b) => a + b, 0) / numbers.length;
   const getHours = (seconds: number) => Math.floor(seconds / (60 * 60));
   const getMinutes = (seconds: number) => Math.floor(seconds / 60);
   const convertTwoDigits = (n: number) => (n > 9 ? `${n}` : `0${n}`);
