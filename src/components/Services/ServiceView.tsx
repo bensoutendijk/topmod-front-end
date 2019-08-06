@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 
 import { Grid, makeStyles, createStyles, Theme, Typography, Button, Paper, Link as MuiLink, ListItem, List } from '@material-ui/core';
-import { useSelector, useDispatch } from 'react-redux';
+import RecordingIcon from '@material-ui/icons/FiberSmartRecord';
 import { fetchService } from '../../store/services/actions';
+import { fetchStreams } from '../../store/streams/actions';
 import { selectUserByUsername, selectRecentStreams } from '../../selectors';
 import { IService } from '../../store/services/types';
+import { IStream } from '../../store/streams/types';
 
 import ServicePreview from './ServicePreview';
-import { fetchStreams } from '../../store/streams/actions';
-import { IStream } from '../../store/streams/types';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -28,6 +29,9 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   recentStreamsCard: {
     display: 'flex',
     padding: theme.spacing(4)
+  },
+  streamDateTypography: {
+    display: 'flex',
   }
 }));
 
@@ -42,6 +46,13 @@ const ServiceView: React.FC<ServiceViewProps> = (props) => {
   const getHours = (seconds: number) => Math.floor(seconds / (60 * 60));
   const getMinutes = (seconds: number) => Math.floor(seconds / 60);
   const convertTwoDigits = (n: number) => (n > 9 ? `${n}` : `0${n}`);
+
+  const displayStreamDate = (stream: IStream) => {
+    return moment(stream.time).format('MM-DD-YYYY')
+  }
+  const displayStreamTime = (stream: IStream) => {
+    return `${getHours(stream.duration)}hr ${convertTwoDigits(getMinutes(stream.duration) - getHours(stream.duration) * 60)} min`
+  }
 
   useEffect(() => {
     const getUser = async (provider: string, username: string) => {
@@ -88,7 +99,9 @@ const ServiceView: React.FC<ServiceViewProps> = (props) => {
                           </Grid>
                           <Grid item>
                             {streams.length ? (
-                              <Typography color="textSecondary">{`Last streamed on ${moment(streams[streams.length - 1].time).format('MMM Do @ hh:mmA')}`}</Typography>
+                              <Typography color="textSecondary">
+                                {`Last streamed on ${moment(streams[streams.length - 1].time).format('MMM Do @ hh:mmA')}`}
+                              </Typography>
                             ) : (
                               <Typography color="textSecondary">...</Typography>
                             )}
@@ -125,15 +138,34 @@ const ServiceView: React.FC<ServiceViewProps> = (props) => {
               <Paper className={classes.recentStreamsCard}>
                 <Grid container direction="column">
                   <Typography variant="h6">Recent Streams</Typography>
-                  <List>
-                  {streams.length ? (
-                    streams.map((stream: IStream) => (
-                      <ListItem>{`${moment(stream.time).format('MM-DD-YYYY')} - ${getHours(stream.duration)}hr ${convertTwoDigits(getMinutes(stream.duration) - getHours(stream.duration) * 60)} min`}</ListItem>
-                    ))
-                  ) : (
-                    null
-                  )}
-                  </List>
+                  <Grid item>
+                    <Grid container direction="column-reverse">
+                    {streams.length ? (
+                      streams.map((stream: IStream) => (
+                        <Grid item>
+                          <Typography className={classes.streamDateTypography}>
+                            {
+                              `${displayStreamDate(stream)} - ${
+                                stream.online ? (
+                                    'Live Now'
+                                  ) : (
+                                    displayStreamTime(stream)
+                                )
+                              }`
+                            }
+                            {stream.online ? (
+                              <RecordingIcon color="primary" />
+                            ) : (
+                              null
+                            )}
+                          </Typography>
+                        </Grid>
+                      ))
+                    ) : (
+                      null
+                    )}
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Paper>
             </Grid>
