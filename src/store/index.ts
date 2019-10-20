@@ -13,7 +13,6 @@ import { streamsReducer } from './streams/reducers';
 const rootReducer = combineReducers({
   auth: authReducer,
   services: servicesReducer,
-  // services: servicesReducer,
   // posts: postsReducer,
   streams: streamsReducer,
   // date: datesReducer,
